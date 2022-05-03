@@ -2,6 +2,7 @@
 #include<math.h>
 #include<string.h>
 #include<stdio.h>
+#include"date.h"
 
 int compareTo(DataType type,void* object1, void* object2){
     if(type == Char){
@@ -38,6 +39,10 @@ int compareTo(DataType type,void* object1, void* object2){
         if(obj1 < obj2)return -1;
         else if(obj1 > obj2)return 1;
         else return 0;
+    }else if(type == DateType){
+        Date* date1 = (Date*)object1;
+        Date* date2 = (Date*)object2;
+        return getDateDay(date1) == getDateDay(date2) && getDateMonth(date1) == getDateMonth(date2) && getDateYear(date1) == getDateYear(date2);
     }
     else{
         printf("exception : unknown data type\n");

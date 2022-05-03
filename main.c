@@ -2,11 +2,15 @@
 #include<stdlib.h>
 #include<string.h>
 #include<math.h>
+
 #include"linkedList.h"
 #include"dataType.h"
+#include"debug.h"
+#include"date.h"
 
 int main(){
 
-
+    LinkedList* list = newLinkedList(Int);
+    
     return 0;
 }
