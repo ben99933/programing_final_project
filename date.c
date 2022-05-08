@@ -4,11 +4,6 @@
 
 
 static boolean checkDate(Date* date);
-struct Date{
-    int year;
-    int month;
-    int day;
-};
 Date* newDate(int year, int month, int day){
     Date* date = malloc(sizeof(Date));
     date->day = day;

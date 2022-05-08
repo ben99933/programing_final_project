@@ -1,11 +1,10 @@
 #include"dataType.h"
+#include"date.h"
 
 #ifndef LINKEDLIST_H
     #define LINKEDLIST_H
-    struct LinkedListNode;
-    struct LinkedList;
     
-    typedef struct LinkedListNode LinkedListNode;
+    struct LinkedList;
     typedef struct LinkedList LinkedList;
     
     /*建構一個LinkedList 並且把它初始化
@@ -24,8 +23,18 @@
      * 找不到該點 返回false
      */
     boolean linkedList_remove(LinkedList* list,void*value);
-    boolean isEmptyList(LinkedList* list);
+    boolean linkedList_removeIndex(LinkedList* list,const int index);
+    boolean isEmptyList(const LinkedList* list);
     //void *linkedList_getValue(const LinkedList* list,const int index);
-    int linkedList_getValueInt(const LinkedList* list, const int index);
-    int linkedList_lengeth(LinkedList* list);
+    int linkedList_lengeth(const LinkedList* list);
+
+    char linkedList_getValueChar(LinkedList* list, const int index);
+    char* linkedList_getValueString(LinkedList* list, const int index);
+    int linkedList_getValueInt(LinkedList* list, const int index);
+    long long linkedList_getValueLong(LinkedList* list,const int index);
+    float linkedList_getValueFloat(LinkedList* list,const int index);
+    double linkedList_getValueDouble(LinkedList* list, const int index);
+    boolean linkedList_getValueBool(LinkedList* list, const int index);
+    Date* linkedList_getValueDate(LinkedList* list, const int index);
+
 #endif
