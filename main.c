@@ -11,7 +11,5 @@
 
 int main(){
 
-    BST* tree = newBinarySearchTree(Int);
-    
     return 0;
 }
