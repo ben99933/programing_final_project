@@ -1,11 +1,10 @@
 #include"dataType.h"
+#include"date.h"
 
 #ifndef LINKEDLIST_H
     #define LINKEDLIST_H
-    struct LinkedListNode;
-    struct LinkedList;
     
-    typedef struct LinkedListNode LinkedListNode;
+    struct LinkedList;
     typedef struct LinkedList LinkedList;
     
     /*建構一個LinkedList 並且把它初始化
@@ -15,13 +14,8 @@
     LinkedList* newLinkedList(const DataType type);
 
     void linkedList_add(LinkedList* list, void* value);
-    
-    /*
-     * 在index之後插入一個value(Node已經封裝起來 不能用到)
-     * 如果插入成功 返回true
-     * 反之 回傳false
-     */
-    boolean linkedList_insert(LinkedList* list, int index, void* value);
+
+    void linkedList_insert(LinkedList* list, int index, void* value);
     
     /*
      * 移除"第一個"遇到的相同VALUE的節點
@@ -29,5 +23,18 @@
      * 找不到該點 返回false
      */
     boolean linkedList_remove(LinkedList* list,void*value);
-    int linkedList_lengeth(LinkedList* list);
+    boolean linkedList_removeIndex(LinkedList* list,const int index);
+    boolean isEmptyList(const LinkedList* list);
+    //void *linkedList_getValue(const LinkedList* list,const int index);
+    int linkedList_lengeth(const LinkedList* list);
+    
+    char linkedList_getValueChar(LinkedList* list, const int index);
+    char* linkedList_getValueString(LinkedList* list, const int index);
+    int linkedList_getValueInt(LinkedList* list, const int index);
+    long long linkedList_getValueLong(LinkedList* list,const int index);
+    float linkedList_getValueFloat(LinkedList* list,const int index);
+    double linkedList_getValueDouble(LinkedList* list, const int index);
+    boolean linkedList_getValueBool(LinkedList* list, const int index);
+    Date* linkedList_getValueDate(LinkedList* list, const int index);
+
 #endif
