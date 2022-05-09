@@ -2,6 +2,7 @@
 #include"dataType.h"
 #include<stdlib.h>
 #include"debug.h"
+#include<stdio.h>
 
 struct Node{
     struct Node* left;
@@ -72,5 +73,36 @@ void tree_add(BST* tree, void* value){
         }
     }
     tree->size+=1;
+}
+static void preOrderFunc(Node* node){
+    if(node == NULL)return;
+    printf("%d\n",*(int*)node->value);//do something
+    
+    preOrderFunc(node->left);
+    preOrderFunc(node->right);
+}
+static void inOrderFunc(Node* node){
+    if(node == NULL)return;
+    preOrderFunc(node->left);
+
+    printf("%d\n",*(int*)node->value);//do something
+
+    preOrderFunc(node->right);
+}
+static void postOrderFunc(Node* node){
+    if(node == NULL)return;
+    preOrderFunc(node->left);
+    preOrderFunc(node->right);
+
+    printf("%d\n",*(int*)node->value);//do something
+}
+void preOrder(BST* tree){
+    preOrderFunc(tree->root);
+}
+void inOrder(BST* tree){
+    inOrderFunc(tree->root);
+}
+void postOrder(BST* tree){
+    postOrderFunc(tree->root);
 }
 

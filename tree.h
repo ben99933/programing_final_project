@@ -10,4 +10,7 @@
     int tree_lengeth(const BST* tree);
     void tree_add(BST* tree, void* value);
     LinkedList* toList(const BST* tree);
+    void preOrder(BST* tree);
+    void inOrder(BST* tree);
+    void postOrder(BST* tree);
 #endif

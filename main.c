@@ -7,11 +7,11 @@
 #include"dataType.h"
 #include"debug.h"
 #include"date.h"
+#include"tree.h"
 
 int main(){
 
-    LinkedList* list = newLinkedList(Int);
+    BST* tree = newBinarySearchTree(Int);
     
-
     return 0;
 }
