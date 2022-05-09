@@ -27,7 +27,7 @@
     boolean isEmptyList(const LinkedList* list);
     //void *linkedList_getValue(const LinkedList* list,const int index);
     int linkedList_lengeth(const LinkedList* list);
-
+    
     char linkedList_getValueChar(LinkedList* list, const int index);
     char* linkedList_getValueString(LinkedList* list, const int index);
     int linkedList_getValueInt(LinkedList* list, const int index);

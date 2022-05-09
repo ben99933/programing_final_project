@@ -9,6 +9,9 @@
 #include"date.h"
 
 int main(){
+
+    LinkedList* list = newLinkedList(Int);
     
+
     return 0;
 }

@@ -150,7 +150,6 @@ boolean linkedList_removeValue(LinkedList* list,void*value){
         if(isDebugMode())errorMsg("list is empty",__FILE__,__LINE__);
         return False;
     }
-
     LinkedListNode* focus = list->head;
     while(focus){
         if(isEqualValue(list->type,focus->value,value)){
@@ -163,7 +162,6 @@ boolean linkedList_removeValue(LinkedList* list,void*value){
 }
 boolean linkedList_removeIndex(LinkedList* list,const int index){
     if(indexOutOfBoundry(list,index))return False;
-
     LinkedListNode* node = getNodeAt(list,index);
     removeNode(list,node);
     return True;
