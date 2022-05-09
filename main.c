@@ -15,5 +15,7 @@ int main(){
     printf("size=%d\n",linkedList_lengeth(list));
     linkedList_removeIndex(list,0);
     printf("size=%d\n",linkedList_lengeth(list));
+    linkedList_removeIndex(list,0);
+    printf("size=%d\n",linkedList_lengeth(list));
     return 0;
 }

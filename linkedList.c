@@ -10,17 +10,7 @@ struct LinkedListNode{
     struct LinkedListNode* next;
     struct LinkedListNode* previous;
     DataType type;
-    union 
-    {
-        char charValue;
-        char* stringValue;
-        int intValue;
-        long long longValue;
-        float floatValue;
-        double doubleValue;
-        boolean boolValue;
-        Date* dateValue;
-    }value;
+    void* value;
 };
 typedef struct LinkedListNode LinkedListNode;
 struct LinkedList{
@@ -29,17 +19,18 @@ struct LinkedList{
     DataType type;
     int size;
 };
-/***
+
 static LinkedListNode* newNode(DataType type,void *value){
     LinkedListNode* node = malloc(sizeof(LinkedListNode));
     node->next = NULL;
     node->previous = NULL;
-    node->value = value;
     node->type = type;
+    node->value = value;
     return node;
-}***/
+}
 
 //===========================new Node()==========================================
+/***
 static LinkedListNode* newNode_Char(DataType type, char value){
     LinkedListNode* node = malloc(sizeof(LinkedListNode));
     node->next = NULL;
@@ -106,7 +97,7 @@ static LinkedListNode* newNode_Date(DataType type, Date* value){
     node->type = type;
     node->value.dateValue = value;
     return node;
-}
+}***/
 //===============================================================================
 LinkedList* newLinkedList(DataType type){
     LinkedList* list = malloc(sizeof(LinkedList));
@@ -136,11 +127,7 @@ static LinkedListNode* getNodeAt(LinkedList* list, const int index){
 
 static void removeNode(LinkedList* list, LinkedListNode* node){
     
-    if(list->type == String){
-        free(node->value.stringValue);
-    }else if(list->type == DateType){
-        free(node->value.dateValue);
-    }
+    free(node->value);
     
     if(list->size==1){
         list->head = NULL;
@@ -158,12 +145,26 @@ static void removeNode(LinkedList* list, LinkedListNode* node){
     free(node);
     list->size-=1;
 }
-boolean linkedList_remove(LinkedList* list,void*value);
+boolean linkedList_removeValue(LinkedList* list,void*value){
+    if(isEmptyList(list)){
+        if(isDebugMode())errorMsg("list is empty",__FILE__,__LINE__);
+        return False;
+    }
+
+    LinkedListNode* focus = list->head;
+    while(focus){
+        if(isEqualValue(list->type,focus->value,value)){
+            removeNode(list, focus);
+            return True;
+        }
+    }
+    if(isDebugMode())errorMsg("value not found",__FILE__,__LINE__);
+    return False;
+}
 boolean linkedList_removeIndex(LinkedList* list,const int index){
     if(indexOutOfBoundry(list,index))return False;
 
     LinkedListNode* node = getNodeAt(list,index);
-    
     removeNode(list,node);
     return True;
 
@@ -215,27 +216,27 @@ void linkedList_add(LinkedList* list, void* value){
 
 
 char linkedList_getValueChar(LinkedList* list, const int index){
-    return getNodeAt(list,index)->value.charValue;
+    return *(char*)getNodeAt(list,index)->value;
 }
 char* linkedList_getValueString(LinkedList* list, const int index){
-    return getNodeAt(list,index)->value.stringValue;
+    return (char*)getNodeAt(list,index)->value;
 }
 int linkedList_getValueInt(LinkedList* list, const int index){
-    return getNodeAt(list,index)->value.intValue;
+    return *(int*)getNodeAt(list,index)->value;
 }
 long long linkedList_getValueLong(LinkedList* list,const int index){
-    return getNodeAt(list,index)->value.longValue;
+    return *(long long*)getNodeAt(list,index)->value;
 }
 float linkedList_getValueFloat(LinkedList* list,const int index){
-    return getNodeAt(list,index)->value.floatValue;
+    return *(float*)getNodeAt(list,index)->value;
 }
 double linkedList_getValueDouble(LinkedList* list, const int index){
-    return getNodeAt(list,index)->value.doubleValue;
+    return *(double*)getNodeAt(list,index)->value;
 }
 boolean linkedList_getValueBool(LinkedList* list, const int index){
-    return getNodeAt(list,index)->value.boolValue;
+    return *(boolean*)getNodeAt(list,index)->value;
 }
 Date* linkedList_getValueDate(LinkedList* list, const int index){
-    return getNodeAt(list,index)->value.dateValue;
+    return (Date*)getNodeAt(list,index)->value;
 }
 

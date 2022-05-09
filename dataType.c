@@ -3,6 +3,7 @@
 #include<string.h>
 #include<stdio.h>
 #include"date.h"
+#include<stdlib.h>
 
 int compareTo(DataType type,void* object1, void* object2){
     if(type == Char){
@@ -52,4 +53,35 @@ int compareTo(DataType type,void* object1, void* object2){
 boolean isEqualValue(DataType type,void* object1, void* object2){
     if(compareTo(type, object1, object2) == 0)return True;
     else return False;
+}
+
+char* newChar(char c){
+    char* ptr = malloc(sizeof(char));
+    *ptr=c;
+    return ptr;
+}
+int* newInt(int i){
+    int* ptr = malloc(sizeof(int));
+    *ptr=i;
+    return ptr;
+}
+long long* newLong(long long l){
+    long long* ptr = malloc(sizeof(long long));
+    *ptr = l;
+    return ptr;
+}
+float* newFloat(float f){
+    float* ptr = malloc(sizeof(float));
+    *ptr = f;
+    return ptr;
+}
+double* newDouble(double d){
+    double* ptr = malloc(sizeof(double));
+    *ptr = d;
+    return ptr;
+}
+boolean* newBool(boolean b){
+    boolean* ptr = malloc(sizeof(boolean));
+    *ptr = b;
+    return ptr;
 }
