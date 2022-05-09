@@ -9,13 +9,6 @@
 #include"date.h"
 
 int main(){
-
-    LinkedList* list = newLinkedList(DateType);
-    linkedList_add(list,newDate(2022,5,8));
-    linkedList_add(list,newDate(2022,5,9));
-    Date* date = linkedList_getValueDate(list,0);
-    printf("%d %d %d\n",date->year,date->month,date->day);
-    date = linkedList_getValueDate(list,1);
-    printf("%d %d %d\n",date->year,date->month,date->day);
+    
     return 0;
 }
