@@ -5,10 +5,10 @@
     typedef int boolean;
     
     enum DataType{
-        Char, String, Int, Long, Float, Double, Boolean,DateType
+        Char, String, Int, Long, Float, Double, Boolean,DateType,SpendType
     };
     typedef enum DataType DataType;
-    
+
     int compareTo(DataType type,void* object1, void* object2);
     boolean isEqualValue(DataType type,void* object1, void* object2);
     

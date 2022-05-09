@@ -180,27 +180,7 @@ int linkedList_lengeth(const LinkedList* list){
 }
 void linkedList_add(LinkedList* list, void* value){
     DataType type = list->type;
-    LinkedListNode* node;
-    if(type == Char){
-        node = newNode_Char(type,*(char*)value);
-    }else if(type==String){
-        node = newNode_String(type,(char*)value);
-    }else if(type == Int){
-        node = newNode_Int(type,*(int*)value);
-    }else if(type == Long){
-        node = newNode_Long(type,*(long long*)value);
-    }else if(type == Float){
-        node = newNode_Float(type, *(float*)value);
-    }else if(type == Double){
-        node = newNode_Double(type, *(double*)value);
-    }else if(type == Boolean){
-        node = newNode_Boolean(type,*(boolean*)value);
-    }else if(type == DateType){
-        node = newNode_Date(type,(Date*)value);
-    }else{
-        errorMsg("unknown dataType",__FILE__,__LINE__);
-        return;
-    }
+    LinkedListNode* node = newNode(list->type,value);
     debugMsg("Node constructed",__FILE__,__LINE__);
 
     if(isEmptyList(list)){

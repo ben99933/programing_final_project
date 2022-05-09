@@ -4,6 +4,7 @@
 
 
 static boolean checkDate(Date* date);
+
 Date* newDate(int year, int month, int day){
     Date* date = malloc(sizeof(Date));
     date->day = day;
@@ -12,6 +13,7 @@ Date* newDate(int year, int month, int day){
     if(checkDate(date) == False)return NULL;
     return date;
 }
+
 int getDateYear(Date* date){
     return date->year;
 }

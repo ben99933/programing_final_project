@@ -4,6 +4,8 @@
 #include<stdio.h>
 #include"date.h"
 #include<stdlib.h>
+#include"spend.h"
+#include"debug.h"
 
 int compareTo(DataType type,void* object1, void* object2){
     if(type == Char){
@@ -43,10 +45,34 @@ int compareTo(DataType type,void* object1, void* object2){
     }else if(type == DateType){
         Date* date1 = (Date*)object1;
         Date* date2 = (Date*)object2;
-        return getDateDay(date1) == getDateDay(date2) && getDateMonth(date1) == getDateMonth(date2) && getDateYear(date1) == getDateYear(date2);
+        if(date1->year < date2->year)return -1;
+        else if(date1->year > date2->year)return 1;
+        else{
+            if(date1->month < date2->month)return -1;
+            else if(date1->month > date2->month)return 1;
+            else{
+                if(date1->day < date2->day)return -1;
+                else if(date1->day > date2->day)return 1;
+                else return 0;
+            }
+        }
+    }else if(type == SpendType){
+        Spend* spend1 = (Spend*)object1;
+        Spend* spend2 = (Spend*)object2;
+        int dateCmp = compareTo(DateType,spend1->date,spend2->date);
+        if(dateCmp != 0)return dateCmp;
+        else{
+            if(spend1->category < spend2->category)return -1;
+            else if(spend1->category > spend2->category)return 1;
+            else{
+                if(spend1->cost < spend2->cost)return -1;
+                else if(spend1->cost > spend2->cost)return 1;
+                else return 0;
+            }
+        }
     }
     else{
-        printf("exception : unknown data type\n");
+        if(isDebugMode())errorMsg("unknown data type",__FILE__,__LINE__);
         return object1 == object2 ? 0 : object1 > object2 ? 1 : -1;
     } 
 }
