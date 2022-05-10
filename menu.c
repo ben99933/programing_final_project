@@ -22,6 +22,11 @@ void loginOrSingUp(){
         if(isDebugMode())printf("input=%s,len=%d\n",input,len);
         if(len == 0 || strcmp(input,"Y")==0 || strcmp(input,"y")==0){
             canContiune = login();
+            if(canContiune){
+                printf("Login successed!\n");
+                system("pause");
+                system("CLS");
+            }
         }else if(strcmp(input,"N")==0 || strcmp(input,"n")==0){
             printf("Do you want to sign up an account?[Y/n]\n");
             char input2[1024];

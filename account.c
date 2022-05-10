@@ -42,7 +42,6 @@ boolean login(){
         char input[1024];
         fgets(input,1024,stdin);
         input[strlen(input)-1] = '\0';
-        if(isDebugMode())
         if(strcmp(input,"back") == 0){
             return False;
         }
@@ -59,13 +58,15 @@ boolean login(){
                 char password[1024];
                 char passwordInput[1024];
                 fgets(passwordInput,1024,stdin);
-                input[strlen(input)-1] = '\0';
+                passwordInput[strlen(passwordInput)-1] = '\0';
                 if(strcmp(passwordInput,"back")==0){
                     closeFile(accountFile);
                     accountFile = NULL;
                     continue;
                 }
                 fgets(password,1024,accountFile);
+                if(isDebugMode())printf("input=%s,len=%d\n",passwordInput,(int)strlen(passwordInput));
+                if(isDebugMode())printf("password=%s,len=%d\n",password,(int)strlen(password));
                 if(strcmp(password,passwordInput) == 0){
                     closeFile(accountFile);
                     return True;
@@ -89,11 +90,13 @@ void signUp(){
         printf("1.Your id have to less than 32 character.\n");
         printf("2.Your id have to begin with english alphabet.\n");
         printf("3.Your id contains only number or english alphabet.\n");
+        printf("(You can input \"back\" to back to previous step.)\n");
         char id[1024];
         fgets(id,1024,stdin);
         id[strlen(id)-1] = '\0';
         int lenID = strlen(id);
         if(isDebugMode())printf("id=%s,len=%d\n", id,lenID);
+        if(strcmp(id,"back")==0)return;
         if(checkID(id) == False){
             printf("Invalid format!\n");
             system("pause");
