@@ -16,6 +16,7 @@
     void linkedList_add(LinkedList* list, void* value);
 
     void linkedList_insert(LinkedList* list, int index, void* value);
+    void linkedList_compareAndInsert(LinkedList* list, void* value);
     
     /*
      * 移除"第一個"遇到的相同VALUE的節點

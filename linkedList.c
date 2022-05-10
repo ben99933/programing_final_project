@@ -134,10 +134,10 @@ static void removeNode(LinkedList* list, LinkedListNode* node){
         list->tail = NULL;
     }else if(node == list->head){
         list->head = node->next;
-        node->previous = NULL;
+        list->head->previous = NULL;
     }else if(node == list->tail){
-        node->previous->next = NULL;
         list->tail = node->previous;
+        list->tail->next = NULL;
     }else{
         node->previous->next = node->next;
         node->next->previous = node->previous;
@@ -191,7 +191,51 @@ void linkedList_add(LinkedList* list, void* value){
     }
     list->size+=1;
 }
-
+void linkedList_insert(LinkedList* list, int index, void* value){
+    if(isEmptyList(list)){
+        linkedList_add(list,value);
+        return;
+    }else if(list->size == 1){
+        linkedList_add(list,value);
+        return;
+    }else{
+        LinkedListNode* current = getNodeAt(list, index);
+        LinkedListNode* node = newNode(list->type,value);
+        if(current == list->tail){
+            current->next = node;
+            node->previous = current;
+            node->next = NULL;
+            list->tail = node;
+            return;
+        }else{
+            node->next = current->next;
+            current->next->previous = node;
+            node->previous = current;
+            current->next = node;
+        }
+    }
+    
+}
+void linkedList_compareAndInsert(LinkedList* list,void* value){
+    LinkedListNode* focus = list->head;
+    while(focus!=list->tail){
+        if(compareTo(list->type,value,focus->value) <= 0){
+            LinkedListNode* node = newNode(list->type,value);
+            if(focus == list->head){
+                node->next = focus;
+                focus->previous = node;
+                node->previous = NULL;
+                list->head = node;
+            }else{
+                focus->previous->next = node;
+                node->previous = focus->previous;
+                node->next = focus;
+                focus->previous = node; 
+            }
+        }else focus = focus->next;
+    }
+    linkedList_add(list,value);
+}
 
 char linkedList_getValueChar(LinkedList* list, const int index){
     return *(char*)getNodeAt(list,index)->value;

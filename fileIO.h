@@ -7,5 +7,7 @@
     char* getAccountPath();
     void fileIO_init();
     FILE* findAccountFile(const char* accountName);
-    void closeAccountFile(const char* accountName);
+    FILE* creatAccountFile(const char* accountName);
+    void closeFile(FILE* file);
+
 #endif

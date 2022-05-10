@@ -2,7 +2,7 @@
 #include<stdio.h>
 
 
-static boolean debugMode = True;
+static boolean debugMode = False;
 
 void debugMsg(const char* string, const char* fileName, const int line){
     if(!debugMode)return;

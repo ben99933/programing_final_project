@@ -8,7 +8,9 @@
         "xstring": "c",
         "debug.h": "c",
         "encrypt.h": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "fileio.h": "c",
+        "stat.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

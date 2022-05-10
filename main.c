@@ -10,13 +10,17 @@
 #include"tree.h"
 #include"fileIO.h"
 #include"account.h"
+#include"menu.h"
 
 void init(){
+    printf("initializing...\n");
     fileIO_init();
     account_init();
+
+    system("CLS");
 }
 int main(){
     init();
-    login();
+    loginOrSingUp();
     return 0;
 }
