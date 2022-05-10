@@ -5,7 +5,7 @@
     typedef int boolean;
     
     enum DataType{
-        Char, String, Int, Long, Float, Double, Boolean,DateType,SpendType
+        Char, String, Int, Long, Float, Double, Boolean,DateType,SpendType,AccountType
     };
     typedef enum DataType DataType;
 

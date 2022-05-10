@@ -8,8 +8,15 @@
 #include"debug.h"
 #include"date.h"
 #include"tree.h"
+#include"fileIO.h"
+#include"account.h"
 
+void init(){
+    fileIO_init();
+    account_init();
+}
 int main(){
-
+    init();
+    login();
     return 0;
 }
