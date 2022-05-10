@@ -24,6 +24,7 @@ FILE* findAccountFile(const char* accountName){
     strcat(path,accountPath);
     strcat(path,"\\");
     strcat(path,accountName);
+    strcat(path,".txt");
     FILE* file = findFile(path);
 }
 static int findDir(const char* path){

@@ -17,12 +17,9 @@ void login(){
         char input[1024];
         fgets(input,1024,stdin);
         input[strlen(input)-1] = '\0';
-        char path[1024];
-        strcat(path,getAccountPath());
-        strcat(path,input);
-        strcat(path,".txt");
+        
         //printf("path=%s\n",path);
-        accountFile = findFile(path);
+        accountFile = findAccountFile(input);
         if(accountFile == NULL){
             printf("The account dose not exist.\n");
         }
