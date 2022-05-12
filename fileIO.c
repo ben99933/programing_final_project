@@ -5,7 +5,10 @@
 #include <shlobj.h>
 #include <windows.h>
 #include <direct.h>
+#include<io.h>
 
+#define True 1
+#define False 0
 
 CHAR documentPath[MAX_PATH];
 CHAR accountPath[MAX_PATH];
@@ -27,6 +30,16 @@ char* getAccountPath(){
 }
 char* getRecordPath(){
     return recordPath;
+}
+
+static int fileExist(const char* path){
+    /**
+     * _access的第二個參數為access mode
+     * 0為檢測該路徑之檔案是否存在
+     * access return 0 表示存在或擁有許可權 -1表示不存在或無許可權
+     */
+    if(_access(path,0) == 0) return True;
+    else return False;
 }
 
 static FILE* readFile(const char* path){
