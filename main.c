@@ -16,11 +16,11 @@ void init(){
     printf("initializing...\n");
     fileIO_init();
     account_init();
-
     system("CLS");
 }
 int main(){
     init();
     loginOrSingUp();
+    onMenu();
     return 0;
 }

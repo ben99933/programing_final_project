@@ -1,51 +1,44 @@
 #include"account.h"
 #include"fileIO.h"
 #include<string.h>
-#include"encrypt.h"
 #include"dataType.h"
 #include"debug.h"
+#include"word.h"
 
-static boolean isQualifiedWord(char c){
-    int ascii = (int)c;
-    if((int)'a' <= ascii && ascii <= (int)'z')return True;
-    if((int)'A' <= ascii && ascii <= (int)'Z')return True;
-    if((int)'0' <= ascii && ascii <= (int)'9')return True;
-    return False;
-}
+
 
 static boolean checkID(char*string){
     int len = strlen(string);
     if(len > 32)return False;
-    int ascii = (int)string[0];
-    if(!(((int)'a' <= ascii && ascii <= (int)'z') || ((int)'A' <= ascii && ascii <= (int)'Z')))return False;
-    for(int i = 0;i<len;i++){
-        if(!isQualifiedWord(string[i]))return False;
-    }
+    if(!isEnglishChar(string[0]))return False;
+    if(!isEnglishWithNumber(string))return False;
     return True;
 }
 static boolean checkPassword(char*string){
-    int len = strlen(string);
-    if(len > 32)return False;
-    int ascii = (int)string[0];
-    for(int i = 0;i<len;i++){
-        if(!isQualifiedWord(string[i]))return False;
-    }
-    return True;
+    if(isEnglishWithNumber(string))return True;
+    return False;
 }
-
+static void clearAccount(){
+    currentAccount.name[0] = '\0';
+    currentAccount.passowrdHash[0] = '\0';
+}
+/**
+ * 登入帳號
+ * 回傳登入是否成功
+ */
 boolean login(){
     
     FILE* accountFile = NULL;
     while(accountFile == NULL){
         system("CLS");
         printf("Please input your account id:\n(You can input \"back\" to back to previous step.)\n");
-        char input[1024];
-        fgets(input,1024,stdin);
-        input[strlen(input)-1] = '\0';
-        if(strcmp(input,"back") == 0){
+        char inputID[1024];
+        fgets(inputID,1024,stdin);
+        trimString(inputID);
+        if(strcmp(inputID,"back") == 0){
             return False;
         }
-        accountFile = findAccountFile(input);
+        accountFile = findAccountFile(inputID);
         if(accountFile == NULL){
             printf("The account dose not exist.\n");
             closeFile(accountFile);
@@ -58,7 +51,7 @@ boolean login(){
                 char password[1024];
                 char passwordInput[1024];
                 fgets(passwordInput,1024,stdin);
-                passwordInput[strlen(passwordInput)-1] = '\0';
+                trimString(passwordInput);
                 if(strcmp(passwordInput,"back")==0){
                     closeFile(accountFile);
                     accountFile = NULL;
@@ -69,6 +62,8 @@ boolean login(){
                 if(isDebugMode())printf("password=%s,len=%d\n",password,(int)strlen(password));
                 if(strcmp(password,passwordInput) == 0){
                     closeFile(accountFile);
+                    strcpy(currentAccount.name,inputID);
+                    strcpy(currentAccount.passowrdHash,password);
                     return True;
                 }else{
                     chance--;
@@ -93,7 +88,7 @@ void signUp(){
         printf("(You can input \"back\" to back to previous step.)\n");
         char id[1024];
         fgets(id,1024,stdin);
-        id[strlen(id)-1] = '\0';
+        trimString(id);
         int lenID = strlen(id);
         if(isDebugMode())printf("id=%s,len=%d\n", id,lenID);
         if(strcmp(id,"back")==0)return;
@@ -117,7 +112,7 @@ void signUp(){
         printf("(You can input \"back\" to reinput your id.)\n");
         char password[1024];
         fgets(password,1024,stdin);
-        password[strlen(password)-1] = '\0';
+        trimString(password);
         int lenPassword = strlen(password);
         if(isDebugMode())printf("password=%s,len=%d\n",password,lenPassword);
         if(strcmp(password,"back")==0)continue;
@@ -139,8 +134,16 @@ void signUp(){
     }
     
 }
-
+void logout(){
+    clearAccount();
+    system("CLS");
+    printf("You logged out.\n");
+    system("pause");
+}
+/**
+ * 把帳號的一些功能給初始化
+ * 在初始化階段時呼叫
+ */
 void account_init(){
-    currentAccount.name[0] = '\0';
-    currentAccount.passowrdHash[0] = '\0';
+    clearAccount();
 }

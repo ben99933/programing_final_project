@@ -10,7 +10,10 @@
         "encrypt.h": "c",
         "math.h": "c",
         "fileio.h": "c",
-        "stat.h": "c"
+        "stat.h": "c",
+        "spend.h": "c",
+        "date.h": "c",
+        "account.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

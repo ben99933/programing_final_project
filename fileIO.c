@@ -19,12 +19,12 @@ static void pathAppend(char* path,const char* destination){
 }
 
 static FILE* readFile(const char* path){
-    printf("read file, path=%s\n",path);
+    //printf("read file, path=%s\n",path);
     FILE* file = fopen(path,"r");
     return file;
 }
 static FILE* createFile(const char* path){
-    printf("write file, path=%s\n",path);
+    //printf("write file, path=%s\n",path);
     FILE* file = fopen(path,"w");
     return file;
 }
@@ -34,8 +34,9 @@ FILE* findAccountFile(const char* accountName){
     pathAppend(path,accountPath);
     pathAppend(path,accountName);
     strcat(path,".txt");
-    
     FILE* file = readFile(path);
+
+    return file;
 }
 FILE* creatAccountFile(const char* accountName){
     char path[1024];
@@ -45,9 +46,7 @@ FILE* creatAccountFile(const char* accountName){
     strcat(path,".txt");
     
     FILE* file = createFile(path);
-}
-static int findDir(const char* path){
-    return 1;
+    return file;
 }
 char* getDocumentPath(){
     return documentPath;

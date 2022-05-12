@@ -2,11 +2,10 @@
 #include<math.h>
 #include<string.h>
 #include<stdio.h>
+#include"debug.h"
 #include"date.h"
 #include<stdlib.h>
 #include"spend.h"
-#include"debug.h"
-#include"account.h"
 
 int compareTo(DataType type,void* object1, void* object2){
     if(type == Char){
@@ -71,13 +70,9 @@ int compareTo(DataType type,void* object1, void* object2){
                 else return 0;
             }
         }
-    }else if(type==AccountType){
-        Account* a1 = (Account*)object1;
-        Account* a2 = (Account*)object2;
-        return strcmp(a1->name,a2->name);
     }
     else{
-        if(isDebugMode())errorMsg("unknown data type",__FILE__,__LINE__);
+        errorMsg("unknown data type",__FILE__,__LINE__);
         return object1 == object2 ? 0 : object1 > object2 ? 1 : -1;
     } 
 }

@@ -5,6 +5,7 @@
 #include<string.h>
 #include"account.h"
 #include"debug.h"
+#include"word.h"
 
 void loginOrSingUp(){
     boolean canContiune = False;
@@ -50,4 +51,23 @@ void loginOrSingUp(){
             system("pause");
         }
     }
+}
+void onMenu(){
+    while(True){
+        system("CLS");
+        printf("Wellcome, %s.\n",currentAccount.name);
+        printf("What do you want to do?\n");
+        printf("Plase input the coordinating number.\n");
+        printf("[1] Adding consuming record.\n");
+        printf("[2] Check month consuming.\n");
+        char inputString[1024];
+        fgets(inputString,1024,stdin);
+        trimString(inputString);
+        if(!isNumberString(inputString)){
+            printf("Invalid input!\n");
+            continue;
+        }
+        int action = toIntValue(inputString);
+    }
+    
 }

@@ -11,5 +11,6 @@
     void account_init();
     boolean login();
     void signUp();
+    void logout();
     
 #endif
