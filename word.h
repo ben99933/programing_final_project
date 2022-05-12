@@ -12,4 +12,5 @@
     
     void trimString(char* string);
     int toIntValue(const char* string);
+    char* intToString(char* string,int value);
 #endif

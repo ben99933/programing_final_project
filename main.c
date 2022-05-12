@@ -19,6 +19,7 @@ void init(){
     system("CLS");
 }
 int main(){
+    
     init();
     loginOrSingUp();
     onMenu();

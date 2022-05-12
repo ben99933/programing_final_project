@@ -7,6 +7,11 @@
 #include"debug.h"
 #include"word.h"
 
+
+/**
+ * @brief 詢問你要登入或註冊帳號
+ * 
+ */
 void loginOrSingUp(){
     boolean canContiune = False;
     printf("Hello,user.\n");
@@ -21,7 +26,9 @@ void loginOrSingUp(){
         input[len-1] = '\0';
         len = strlen(input);
         if(isDebugMode())printf("input=%s,len=%d\n",input,len);
+        //對比輸入之文字
         if(len == 0 || strcmp(input,"Y")==0 || strcmp(input,"y")==0){
+            //登入
             canContiune = login();
             if(canContiune){
                 printf("Login successed!\n");
@@ -29,6 +36,7 @@ void loginOrSingUp(){
                 system("CLS");
             }
         }else if(strcmp(input,"N")==0 || strcmp(input,"n")==0){
+            //詢問是否註冊
             printf("Do you want to sign up an account?[Y/n]\n");
             char input2[1024];
             fgets(input2,1024,stdin);
@@ -42,9 +50,11 @@ void loginOrSingUp(){
                 continue;
             }
         }else if(strcmp(input,"debug") == 0){
+            //開啟DEBUG模式 這個功能使用者不會知道的~~嘻嘻
             debugOn();
             system("pause");
         }else if(strcmp(input,"exit")==0){
+            //退出程式
             exit(0);
         }else{
             printf("Invalid input!\n");
@@ -52,14 +62,28 @@ void loginOrSingUp(){
         }
     }
 }
+static void addRecord(){
+    system("CLS");
+    printf("==========Record==========\n");
+}
+
 void onMenu(){
+    if(hasRecord(currentAccount.name) == False){
+
+    }
     while(True){
         system("CLS");
         printf("Wellcome, %s.\n",currentAccount.name);
         printf("What do you want to do?\n");
         printf("Plase input the coordinating number.\n");
-        printf("[1] Adding consuming record.\n");
-        printf("[2] Check month consuming.\n");
+        printf("[0] Adding consumption  record.\n");
+        printf("[1] Remove consumption record.\n");
+        printf("[2] Search certain record according to date.\n");
+        printf("[3] Search certain record according to category.\n");
+        printf("[4] Consumption analysis.\n");
+        printf("[5] exit.\n");
+        printf("[6] log out.\n");
+
         char inputString[1024];
         fgets(inputString,1024,stdin);
         trimString(inputString);
@@ -68,6 +92,8 @@ void onMenu(){
             continue;
         }
         int action = toIntValue(inputString);
+        if(action == 0){
+
+        }
     }
-    
 }

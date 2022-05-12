@@ -10,8 +10,14 @@
 static boolean checkID(char*string){
     int len = strlen(string);
     if(len > 32)return False;
-    if(!isEnglishChar(string[0]))return False;
-    if(!isEnglishWithNumber(string))return False;
+    if(!isEnglishChar(string[0])){
+        errorMsg("開頭沒有英文",__FILE__,__LINE__);
+        return False;
+    }
+    if(!isEnglishWithNumber(string)){
+        
+        return False;
+    }
     return True;
 }
 static boolean checkPassword(char*string){
@@ -21,7 +27,14 @@ static boolean checkPassword(char*string){
 static void clearAccount(){
     currentAccount.name[0] = '\0';
     currentAccount.passowrdHash[0] = '\0';
+    debugMsg("account is clear now.",__FILE__,__LINE__);
 }
+static void changeAccount(const char* name,const char* passwordHash){
+    strcpy(currentAccount.name,name);
+    strcpy(currentAccount.passowrdHash,passwordHash);
+    debugMsg("account changed.",__FILE__,__LINE__);
+}
+
 /**
  * 登入帳號
  * 回傳登入是否成功
@@ -60,10 +73,10 @@ boolean login(){
                 fgets(password,1024,accountFile);
                 if(isDebugMode())printf("input=%s,len=%d\n",passwordInput,(int)strlen(passwordInput));
                 if(isDebugMode())printf("password=%s,len=%d\n",password,(int)strlen(password));
+                
                 if(strcmp(password,passwordInput) == 0){
                     closeFile(accountFile);
-                    strcpy(currentAccount.name,inputID);
-                    strcpy(currentAccount.passowrdHash,password);
+                    changeAccount(inputID,password);
                     return True;
                 }else{
                     chance--;
@@ -125,6 +138,7 @@ void signUp(){
         if(accountFile == NULL){
             errorMsg("File Created failed.",__FILE__,__LINE__);
         }
+
         fprintf(accountFile,"%s",password);
         closeFile(accountFile);
         printf("Your account created.\nPlease login again.\n");
@@ -133,6 +147,9 @@ void signUp(){
         
     }
     
+}
+boolean hasRecord(const char* accountName){
+    return False;
 }
 void logout(){
     clearAccount();

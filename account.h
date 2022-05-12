@@ -10,6 +10,7 @@
     Account currentAccount;
     void account_init();
     boolean login();
+    boolean hasRecord(const char* accountName);
     void signUp();
     void logout();
     

@@ -1,6 +1,8 @@
 #include"word.h"
+#include"debug.h"
 #include<string.h>
 #include<stdlib.h>
+#include<stdio.h>
 
 boolean isNumberChar(const char c){
     int ascii = (int)c;
@@ -30,9 +32,9 @@ boolean isEnglishString(const char* string){
 boolean isEnglishWithNumber(const char* string){
     int len = strlen(string);
     for(int i = 0;i<len;i++){
-        if(isEnglishChar(string[i]) == False && isNumberChar(string[i]))return False;
+        if(isEnglishChar(string[i]) == False && isNumberChar(string[i]) == False)return False;
     }
-    return False;
+    return True;
 }
 /**
  * 把字串末的換行符號去掉
@@ -44,4 +46,7 @@ void trimString(char* string){
 }
 int toIntValue(const char* string){
     return atoi(string);
+}
+char* intToString(char* string,int value){
+    return _itoa(value,string,strlen(string));
 }

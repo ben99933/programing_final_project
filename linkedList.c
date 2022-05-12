@@ -261,4 +261,3 @@ boolean linkedList_getValueBool(LinkedList* list, const int index){
 Date* linkedList_getValueDate(LinkedList* list, const int index){
     return (Date*)getNodeAt(list,index)->value;
 }
-

@@ -3,11 +3,13 @@
 #include<stdlib.h>
 #include<string.h>
 #include <shlobj.h>
-#include<direct.h>
+#include <windows.h>
+#include <direct.h>
 
 
 CHAR documentPath[MAX_PATH];
 CHAR accountPath[MAX_PATH];
+CHAR recordPath[MAX_PATH];
 
 static void pathAppend(char* path,const char* destination){
     if(path[0]=='\0'){
@@ -16,6 +18,15 @@ static void pathAppend(char* path,const char* destination){
     }
     strcat(path,"\\");
     strcat(path,destination);
+}
+char* getDocumentPath(){
+    return documentPath;
+}
+char* getAccountPath(){
+    return accountPath;
+}
+char* getRecordPath(){
+    return recordPath;
 }
 
 static FILE* readFile(const char* path){
@@ -28,46 +39,75 @@ static FILE* createFile(const char* path){
     FILE* file = fopen(path,"w");
     return file;
 }
+
+
 FILE* findAccountFile(const char* accountName){
-    char path[1024];
-    path[0] = '\0';
+    char path[1024] = {'\0'};
+
     pathAppend(path,accountPath);
     pathAppend(path,accountName);
     strcat(path,".txt");
     FILE* file = readFile(path);
-
+    
     return file;
 }
 FILE* creatAccountFile(const char* accountName){
-    char path[1024];
-    path[0] = '\0';
+    char path[1024] = {'\0'};
+    char record[1024]={'\0'};
     pathAppend(path,accountPath);
     pathAppend(path,accountName);
     strcat(path,".txt");
-    
+
+    pathAppend(record,recordPath);
+    pathAppend(record,accountName);
+    _mkdir(record);
+
     FILE* file = createFile(path);
     return file;
 }
-char* getDocumentPath(){
-    return documentPath;
+FILE* findSpendFile(const char* accountName,Date* date){
+    char path[MAX_PATH] = {'\0'};
+    char filename[9] = {'\0'};
+    _itoa((date->year*100+date->month), filename, 9);
+    pathAppend(path,recordPath);
+    pathAppend(path,accountName);
+    pathAppend(path,filename);
+    strcat(path,".csv");
+    FILE* file = fopen(path,"r");
+    return file;
 }
-char* getAccountPath(){
-    return accountPath;
+FILE* creatdSpendFile(const char* accountName,Date* date){
+    char path[MAX_PATH] = {'\0'};
+    char filename[9] = {'\0'};
+    _itoa((date->year*100+date->month), filename, 9);
+    pathAppend(path,recordPath);
+    pathAppend(path,accountName);
+    pathAppend(path,filename);
+    strncat(path,".csv",5);
+    FILE* file = fopen(path,"a");
+    return file;
 }
+
 
 void fileIO_init(){
     documentPath[0] = '\0';
     accountPath[0] = '\0';
+    recordPath[0] = '\0';
     HRESULT result = SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, documentPath);
     
     pathAppend(documentPath,"finalProject");
     pathAppend(accountPath,documentPath);
+    pathAppend(recordPath,documentPath);
     _mkdir(documentPath);
-    pathAppend(accountPath,"account");
     _mkdir(accountPath);
-    printf("documentPath=%s\n",documentPath);
-    //printf("documentPath=%s\n",documentPath);
-    //printf("accountPath=%s\n",accountPath);
+    _mkdir(recordPath);
+
+    pathAppend(accountPath,"account");
+    pathAppend(recordPath,"record");
+    _mkdir(accountPath);
+    _mkdir(recordPath);
+
+    //mkdir是創建資料夾 mkdir只能一層一層創
 }
 void closeFile(FILE* file){
     fclose(file);
