@@ -21,7 +21,9 @@ void init(){
 int main(){
     
     init();
-    loginOrSingUp();
-    onMenu();
+    while(True){
+        loginOrSingUp();
+        onMenu();
+    }
     return 0;
 }

@@ -22,6 +22,12 @@ static void pathAppend(char* path,const char* destination){
     strcat(path,"\\");
     strcat(path,destination);
 }
+static void pathAppendFile(char* path,const char* name,const char* format){
+    strcat(path,"\\");
+    strcat(path,name);
+    strcat(path,".");
+    strcat(path,format);
+}
 char* getDocumentPath(){
     return documentPath;
 }
@@ -52,14 +58,17 @@ static FILE* createFile(const char* path){
     FILE* file = fopen(path,"w");
     return file;
 }
+static FILE* appendFile(const char* path){
+    FILE* file = fopen(path,"a");
+    return file;
+}
 
 
 FILE* findAccountFile(const char* accountName){
     char path[1024] = {'\0'};
 
     pathAppend(path,accountPath);
-    pathAppend(path,accountName);
-    strcat(path,".txt");
+    pathAppendFile(path,accountName,"txt");
     FILE* file = readFile(path);
     
     return file;
@@ -67,41 +76,69 @@ FILE* findAccountFile(const char* accountName){
 FILE* creatAccountFile(const char* accountName){
     char path[1024] = {'\0'};
     char record[1024]={'\0'};
-    pathAppend(path,accountPath);
-    pathAppend(path,accountName);
-    strcat(path,".txt");
 
     pathAppend(record,recordPath);
     pathAppend(record,accountName);
     _mkdir(record);
 
+    pathAppend(path,accountPath);
+    pathAppendFile(path,accountName,"txt");
     FILE* file = createFile(path);
     return file;
 }
 FILE* findSpendFile(const char* accountName,Date* date){
     char path[MAX_PATH] = {'\0'};
     char filename[9] = {'\0'};
-    _itoa((date->year*100+date->month), filename, 9);
+    _itoa((date->year*100+date->month), filename, 10);
     pathAppend(path,recordPath);
     pathAppend(path,accountName);
-    pathAppend(path,filename);
-    strcat(path,".csv");
-    FILE* file = fopen(path,"r");
+    pathAppendFile(path,filename,"csv");
+    FILE* file = readFile(path);
     return file;
 }
 FILE* creatdSpendFile(const char* accountName,Date* date){
     char path[MAX_PATH] = {'\0'};
     char filename[9] = {'\0'};
-    _itoa((date->year*100+date->month), filename, 9);
+    _itoa((date->year*100+date->month), filename, 10);
     pathAppend(path,recordPath);
     pathAppend(path,accountName);
-    pathAppend(path,filename);
-    strncat(path,".csv",5);
-    FILE* file = fopen(path,"a");
+    pathAppendFile(path,filename,"csv");
+    FILE* file = createFile(path);
     return file;
 }
-
-
+FILE* findRecorderFile(const char* accountName){
+    char path[1024] = {'\0'};
+    pathAppend(path,recordPath);
+    pathAppend(path,accountName);
+    pathAppendFile(path,"recorder", "txt");
+    FILE* file = fopen(path,"a+");
+    return file;
+}
+FILE* createRecorderFile(const char* accountName){
+    char path[1024] = {'\0'};
+    pathAppend(path,recordPath);
+    pathAppend(path,accountName);
+    pathAppendFile(path,"recorder","txt");
+    FILE* file = fopen(path,"a+");//append
+    return file;
+}
+FILE* getSpendFile(int year,int month,const char* accountName){
+    char path[1024] = {'\0'};
+    char name[9];
+    _itoa((year*100+month),name,10);
+    printf("year=%d,month=%d,year*100+month=%d\n",year,month,year*100+month);
+    printf("filename=%s\n",name);
+    pathAppend(path,getRecordPath());
+    pathAppend(path,accountName);
+    pathAppendFile(path,name,"csv");
+    if(!fileExist(path)){
+        FILE* recorder = findRecorderFile(accountName);
+        fprintf(recorder,"%d\n",(year*100+month));
+        closeFile(recorder);
+    }
+    FILE* file = fopen(path,"a+");//append 不會覆蓋掉
+    return file;
+}
 void fileIO_init(){
     documentPath[0] = '\0';
     accountPath[0] = '\0';

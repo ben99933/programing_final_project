@@ -6,6 +6,8 @@
 #include"account.h"
 #include"debug.h"
 #include"word.h"
+#include"spend.h"
+#include"recorder.h"
 
 
 /**
@@ -62,21 +64,85 @@ void loginOrSingUp(){
         }
     }
 }
+
 static void addRecord(){
     system("CLS");
-    printf("==========Record==========\n");
+    printf("================================Record================================\n");
+    printf("Please your consumption record.\n");
+    printf("(You can input \"back\" to exit previous step.)\n");
+    printf("Category id: [0]food [1]traffic [2]entertainment [3]shopping\n\n");
+    printf("Format : <year> <month> <day> <category id> <cost amount> <notes>\n");
+    printf("======================================================================\n");
+    while(True){
+        char input[1024] = {'\0'};
+        short year = 0;
+        short month = 0;
+        short day = 0;
+        Category category = 0;
+        int cost = 0;
+        fgets(input,1024,stdin);
+        
+        trimString(input);
+        if(strcmp(input,"back") == 0)return;
+        char* split;
+        split = strtok(input," ");
+        if(split != NULL && isNumberString(split))year = toIntValue(split);
+        else{
+            printf("Invalid input.\n");
+            system("pause");
+            continue;
+        }
+
+        split = strtok(NULL," ");
+        if(split != NULL && isNumberString(split))month = toIntValue(split);
+        else{
+            printf("Invalid input.\n");
+            system("pause");
+            continue;
+        }
+
+        split = strtok(NULL," ");
+        if(split != NULL && isNumberString(split))day = toIntValue(split);
+        else{
+            printf("Invalid input.\n");
+            system("pause");
+            continue;
+        }
+
+        split = strtok(NULL," ");
+        if(split != NULL && isNumberString(split))category = toCategory(toIntValue(split));
+        else{
+            printf("Invalid input.\n");
+            system("pause");
+            continue;
+        }
+
+        split = strtok(NULL," ");
+        if(split != NULL && isNumberString(split))cost = toIntValue(split);
+        else{
+            printf("Invalid input.\n");
+            system("pause");
+            continue;
+        }
+
+        split = strtok(NULL," ");
+        if(split == NULL)recordSpend(year,month,day,category,cost,"none",currentAccount.name);
+        else recordSpend(year,month,day,category,cost,split,currentAccount.name);
+    }
+    
+
 }
 
 void onMenu(){
-    if(hasRecord(currentAccount.name) == False){
-
+    if(checkRecorder(currentAccount.name) == False){
+        addRecord();
     }
     while(True){
         system("CLS");
         printf("Wellcome, %s.\n",currentAccount.name);
         printf("What do you want to do?\n");
         printf("Plase input the coordinating number.\n");
-        printf("[0] Adding consumption  record.\n");
+        printf("[0] Adding consumption record.\n");
         printf("[1] Remove consumption record.\n");
         printf("[2] Search certain record according to date.\n");
         printf("[3] Search certain record according to category.\n");
@@ -89,11 +155,29 @@ void onMenu(){
         trimString(inputString);
         if(!isNumberString(inputString)){
             printf("Invalid input!\n");
+            system("pause");
             continue;
         }
         int action = toIntValue(inputString);
         if(action == 0){
+            addRecord();
+        }else if(action == 1){
+            
+        }else if(action == 2){
 
+        }else if(action == 3){
+
+        }else if(action == 4){
+
+        }else if(action == 5){
+            exit(0);
+        }else if(action == 6){
+            logout();
+            return;
+        }else{
+            printf("Invalid input!\n");
+            system("pause");
+            continue;
         }
     }
 }

@@ -67,7 +67,7 @@ int compareTo(DataType type,void* object1, void* object2){
             else{
                 if(spend1->cost < spend2->cost)return -1;
                 else if(spend1->cost > spend2->cost)return 1;
-                else return 0;
+                else return strcmp(spend1->note,spend2->note);
             }
         }
     }

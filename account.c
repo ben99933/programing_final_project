@@ -89,6 +89,7 @@ boolean login(){
             system("pause");
         }
     }
+    return False;
 }
 void signUp(){
     boolean canContinue = False;
@@ -148,8 +149,11 @@ void signUp(){
     }
     
 }
-boolean hasRecord(const char* accountName){
-    return False;
+boolean checkRecorder(const char* accountName){
+    FILE* recorder = findRecorderFile(currentAccount.name);
+    boolean b = recorder == NULL ? False : True;
+    closeFile(recorder);
+    return b;
 }
 void logout(){
     clearAccount();

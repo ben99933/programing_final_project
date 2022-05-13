@@ -1,4 +1,5 @@
 #include"spend.h"
+#include"debug.h"
 #include<stdlib.h>
 
 /**
@@ -12,4 +13,14 @@ Spend* newSpend(int cost,Category category,Date* date){
     spend->category = category;
     spend->date = date;
     return spend;
+}
+Category toCategory(int num){
+    if(num > 4){
+        errorMsg("Out of category limit.",__FILE__,__LINE__);
+        return 4;
+    }else if(num < 0){
+        errorMsg("Out of category limit.",__FILE__,__LINE__);
+        return 0;
+    }
+    return num;
 }

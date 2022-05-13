@@ -48,5 +48,5 @@ int toIntValue(const char* string){
     return atoi(string);
 }
 char* intToString(char* string,int value){
-    return _itoa(value,string,strlen(string));
+    return _itoa(value,string,10);
 }
