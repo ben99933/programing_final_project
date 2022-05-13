@@ -9,8 +9,8 @@
     typedef struct Spend{
         int cost;
         Category category;
-        Date* date;
-    } Spend;
+        Date date;
+    }Spend;
     Spend* newSpend(int cost,Category category,Date* date);
     
 #endif
