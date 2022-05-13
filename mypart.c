@@ -38,7 +38,7 @@ int compCost(Spend tempData, Spend nodeData){
         return 0;
 }
 
-//Insert new node and retrun new head. (first element of list)
+//Insert new node 
 void sortedInsert(struct LLNode *curr,struct LLNode *prev, struct LLNode *key, int listSize){
     //Base Case 1:
     if(curr == NULL){
@@ -118,14 +118,37 @@ void printLL(struct LLNode *head){
     struct LLNode *curr = head;
     printf("Sorted Linked List:\n");
     printf("Date\tCategory\tCost\n");
-    for (;curr != NULL; curr = curr->next){
+    for (int i = 0;curr != NULL; curr = curr->next, i++){
         short int year = curr->spend.date.year;
         short int month = curr->spend.date.month;
         short int day = curr->spend.date.day;
         int category = (int) curr->spend.category;
         int cost = curr->spend.cost;
-        printf("%hi/%hi/%hi\t%d\t%d\n", year, month, day, category, cost);
+        printf("[%d] %hi/%hi/%hi\t%d\t%d\n", i, year, month, day, category, cost);
     }
+}
+
+void deleteData(struct LLNode *list){
+    //print the sortedList
+    printLL(list);
+    printf("Which data would you like to delete? (Type number in [])\n");
+    int index;
+    scanf("%d",&index);
+
+    struct LLNode *prev = list;
+    struct LLNode *key = list;
+
+    for (int i = 0 ; i < index ; i++){
+        key = key->next;
+        if(i != index-1)
+            prev = prev->next;
+    }
+    printf("[%d] is deleted\n", index);
+    prev->next = key->next;
+    key->next->prev = prev;
+    free(key);
+
+    printLL(list);
 }
 
 int isSameDate(Date date1, Date date2){
@@ -168,7 +191,7 @@ void printOccurence(Occurence *occurenceList,int size){
     printf("Date\tCount\tInitPos\n");
 
     for (int i = 0; i< size ; i++){
-        if(occurenceList[i].Count == 0)
+        if(occurenceList[i].Count == 0) //There's no such date in the linked list.
             continue;
         else
             printf("%d\t%d\t%d\n", i + 1, occurenceList[i].Count, occurenceList[i].initPos);
@@ -201,6 +224,7 @@ int main (){
     }
     for(;head->prev != NULL; head = head->prev);
     printLL(head);
+    deleteData(head);
 
     Occurence *occurList = findOccurence(head);
     printOccurence(occurList, DAY_OF_MONTH);

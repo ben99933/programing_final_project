@@ -20,12 +20,19 @@ struct LLNode{
 
 //This function is exclusively for linkedlist creation.
 struct LLNode *createList(Spend data);
-//This function is for sortedInsert, the list is sorted based on this order: date -> catergory -> cost
+//The list is sorted based on this order: date -> catergory -> cost
 int compDate(Spend tempDate, Spend nodeDate);
 int compCategory(Spend tempData, Spend nodeData);
 int compCost(Spend tempData, Spend nodeData);
-//This function is for further node(data) insertion.
+//This function is for further node(data) insertion, as well as adding expenses(adding node).
 void sortedInsert(struct LLNode *curr,struct LLNode *prev, struct LLNode *key, int listSize);
+/*
+deletaData:
+This function will print the sorted list with distinct index in front of every node.
+So that user can just delete any node on the list.
+*/
+void deleteData(struct LLNode *list);
+//Testing function to print sorted linked list with index in front.
 void printLL(struct LLNode *head);
 
 /*OCCURENCE LIST PART*/
@@ -38,6 +45,7 @@ typedef struct Occurence{
 int isSameDate(Date date1, Date date2);
 //Create an array of Occurence based on sortedList.
 Occurence *findOccurence(struct LLNode *sortedList);
+//Testing function to print occurence list.
 void printOccurence(Occurence *occurenceList, int size);
 
 
