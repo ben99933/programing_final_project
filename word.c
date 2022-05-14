@@ -36,6 +36,7 @@ boolean isEnglishWithNumber(const char* string){
     }
     return True;
 }
+
 /**
  * 把字串末的換行符號去掉
  * @param string
@@ -44,6 +45,8 @@ void trimString(char* string){
     int len = strlen(string);
     if(string[len-1] == '\n')string[len-1] = '\0';
 }
+
+
 int toIntValue(const char* string){
     return atoi(string);
 }
