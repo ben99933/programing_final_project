@@ -198,38 +198,3 @@ void printOccurence(Occurence *occurenceList,int size){
             printf("%d\t%d\t%d\n", i + 1, occurenceList[i].Count, occurenceList[i].initPos);
     }
 }
-
-//my test main
-int main (){
-    int num = 22;
-    struct LLNode *head = malloc(sizeof(struct LLNode));
-    int listSize = 0;
-    for (int i = 0 ; i < num ; i++, listSize++){
-        int year, month, day;
-        int category, cost;
-        scanf("%d/%2d/%2d %d %d",&year ,&month ,&day ,&category ,&cost);
-        Spend data;
-        data.date.year = (short) year;
-        data.date.month = (short) month;
-        data.date.day = (short) day;
-        data.category = category;
-        data.cost = cost;
-        struct LLNode *key = malloc(sizeof(struct LLNode));
-        key->spend = data;
-        key->next = key->prev = NULL;
-
-        if (i == 0)
-            head = createList(data);
-        else
-            sortedInsert(head, NULL, key, listSize);
-    }
-    for(;head->prev != NULL; head = head->prev);
-    printLL(head);
-    deleteData(head);
-
-    Occurence *occurList = findOccurence(head);
-    printOccurence(occurList, DAY_OF_MONTH);
-
-    system("PAUSE");
-    return 0;
-}
