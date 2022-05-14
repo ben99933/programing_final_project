@@ -1,27 +1,27 @@
 Sorted Linked List:
 Date    Category        Cost
-2022/5/1        0       50
-2022/5/1        1       20
-2022/5/2        0       100
-2022/5/2        0       150
-2022/5/3        1       150
-2022/5/4        2       200
-2022/5/5        1       50
-2022/5/7        0       100
-2022/5/9        2       150
-2022/5/9        3       200
-2022/5/15       0       100
-2022/5/15       3       150
-2022/5/16       1       50
-2022/5/16       1       100
-2022/5/21       0       120
-2022/5/21       2       50
-2022/5/23       3       50
-2022/5/25       3       100
-2022/5/27       1       100
-2022/5/28       3       20
-2022/5/29       1       170
-2022/5/30       2       50
+[0] 2022/5/1    0       50
+[1] 2022/5/1    1       20
+[2] 2022/5/2    0       100
+[3] 2022/5/2    0       150
+[4] 2022/5/3    1       150
+[5] 2022/5/4    2       200
+[6] 2022/5/5    1       50
+[7] 2022/5/7    0       100
+[8] 2022/5/9    2       150
+[9] 2022/5/9    3       200
+[10] 2022/5/15  0       100
+[11] 2022/5/15  3       150
+[12] 2022/5/16  1       50
+[13] 2022/5/16  1       100
+[14] 2022/5/21  0       120
+[15] 2022/5/21  2       50
+[16] 2022/5/23  3       50
+[17] 2022/5/25  3       100
+[18] 2022/5/27  1       100
+[19] 2022/5/28  3       20
+[20] 2022/5/29  1       170
+[21] 2022/5/30  2       50
 Occurence List
 Date    Count   InitPos
 1       2       0
@@ -40,3 +40,44 @@ Date    Count   InitPos
 28      1       19
 29      1       20
 30      1       21
+List of expenses with category 0 and from date 2022/5/1 to 2022/5/15
+The list is ordered in date.(ascending)
+Date    Category        Cost
+2022/5/1        0       50
+2022/5/2        0       100
+2022/5/2        0       150
+2022/5/7        0       100
+2022/5/15       0       100
+List of expenses with Category 2The list is ordered in date.(ascending)
+Date    Category        Cost
+2022/5/4        2       200
+2022/5/9        2       150
+2022/5/21       2       50
+2022/5/30       2       50
+List of expenses from date 2022/5/1 to 2022/5/25
+The list is ordered in date.(ascending)
+Date    Category        Cost
+2022/5/1        0       50
+2022/5/1        0       20
+2022/5/2        0       100
+2022/5/2        0       150
+2022/5/3        0       150
+2022/5/4        0       200
+2022/5/5        0       50
+2022/5/7        0       100
+2022/5/9        0       150
+2022/5/9        0       200
+2022/5/15       0       100
+2022/5/15       0       150
+2022/5/16       0       50
+2022/5/16       0       100
+2022/5/21       0       120
+2022/5/21       0       50
+2022/5/23       0       50
+2022/5/25       0       100
+illgal Input Example, Category Overflow :getKeyData(head, occurList, 6, 1, 25)
+Invalid Input, please check your input!
+illgal Input Example, Incorrect Date :getKeyData(head, occurList, 1, 0, 25)
+Invalid Input, please check your input!
+illgal Input Example, No specifier :getKeyData(head, occurList, -1, 0, 0)
+Invalid Input, please check your input!
