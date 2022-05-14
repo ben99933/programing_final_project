@@ -13,17 +13,17 @@
 #include"menu.h"
 #include"spend.h"
 
+
+//一些東西的初始化
 void init(){
     printf("initializing...\n");
     fileIO_init();
     account_init();
     system("CLS");
 }
-static void print(DataType type, void* value){
-    Spend* spend = (Spend*)value;
-    printf("%d %d %d %d %d %s\n",spend->date->year,spend->date->month,spend->date->day,spend->category,spend->cost,spend->note);
-}
+
 int main(){
+    
     init();
     while(True){
         loginOrSingUp();

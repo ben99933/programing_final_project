@@ -3,6 +3,13 @@
 #include<stdlib.h>
 #include<string.h>
 
+
+const char* FOOD = "Food";
+const char* TRAFFIC = "Traffic";
+const char* ENTERTAINMENT = "Entertainment";
+const char* SHOPPING = "Shopping";
+const char* OTHER = "Other";
+
 /**
  * 用法:
  * Date的部分
@@ -27,17 +34,17 @@ Category toCategory(int num){
     }
     return num;
 }
-void toCategoryString(char* string,Category category){
+const char* toCategoryString(Category category){
     //food,traffic,entertainment,shopping,other
     if(category == food){
-        strcpy(string,"food");
+        return FOOD;
     }else if(category == traffic){
-        strcpy(string,"traffic");
+        return TRAFFIC;
     }else if(category == entertainment){
-        strcpy(string,"entertainment");
+        return ENTERTAINMENT;
     }else if(category == shopping){
-        strcpy(string,"shopping");
+        return SHOPPING;
     }else{
-        strcpy(string,"other");
+        return OTHER;
     }
 }

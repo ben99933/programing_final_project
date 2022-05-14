@@ -26,7 +26,7 @@
      * 如果移除成功 返回true
      * 找不到該點 返回false
      */
-    boolean linkedList_remove(LinkedList* list,void*value);
+    boolean linkedList_removeValue(LinkedList* list,void*value);
     boolean linkedList_removeIndex(LinkedList* list,const int index);
     boolean isEmptyList(const LinkedList* list);
     //void *linkedList_getValue(const LinkedList* list,const int index);

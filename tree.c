@@ -129,6 +129,7 @@ static void pushToList(DataType type, void* value){
     
 }
 LinkedList* tree_toList(Tree* tree){
+    if(isEmptyTree(tree))return NULL;
     LinkedList* list = newLinkedList(tree->type);
     listBuffer = list;
     tree_inOrder(tree,pushToList);

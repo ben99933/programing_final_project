@@ -156,6 +156,7 @@ boolean linkedList_removeValue(LinkedList* list,void*value){
             removeNode(list, focus);
             return True;
         }
+        focus = focus->next;
     }
     if(isDebugMode())errorMsg("value not found",__FILE__,__LINE__);
     return False;

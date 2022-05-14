@@ -7,7 +7,10 @@
 #include<stdlib.h>
 #include"spend.h"
 
-int intBuffer = 0;
+int intBuffer[16] = {0};
+void clearIntBuffer(){
+    for(int i = 0;i<15;i++)intBuffer[i] = 0;
+}
 
 int compareTo(DataType type,void* object1, void* object2){
     if(type == Char){
