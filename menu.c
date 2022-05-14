@@ -92,7 +92,7 @@ static void traverse_printYearMonth(DataType type,void* value){
 static void traverse_printSpendDetail(DataType type,void* value){
     if(type!=SpendType)return;
     Spend* spend = (Spend*)value;
-    Date* d = spend->date;
+    Date* d = &spend->date;
     Date* date = newDate(d->year,d->month,d->day);
     //"Year\tMonth\tDay\tCategory\tCost\tNote"
 

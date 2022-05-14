@@ -16,10 +16,10 @@
     typedef struct Spend{
         int cost;
         Category category;
-        Date* date;
+        Date date;
         char note[16];//備註
     } Spend;
-    Spend* newSpend(int cost,Category category,Date* date, const char* note);
+    Spend* newSpend(int cost,Category category,Date date, const char* note);
     Category toCategory(int num);
     const char* toCategoryString(Category category);
 #endif

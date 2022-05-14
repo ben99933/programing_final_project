@@ -15,11 +15,11 @@ const char* OTHER = "Other";
  * Date的部分
  * Spend* spend = newSpend(cost , Category , newDate(2022, 5, 10) );
  */
-Spend* newSpend(int cost,Category category,Date* date, const char* note){
+Spend* newSpend(int cost,Category category,Date date, const char* note){
     Spend* spend = malloc(sizeof(Spend));
     spend->cost = cost;
     spend->category = category;
-    spend->date = date;
+    spend->date = date; 
     strncpy(spend->note,note,15);
     spend->note[15] = '\0';
     return spend;

@@ -65,7 +65,7 @@ LinkedList* getSpendList(const char* accountName, int year, int month){
         split = strtok(NULL,",");
         strncpy(note,split,15);
 
-        Spend* spend = newSpend(cost,category,newDate(year,month,day),note);
+        Spend* spend = newSpend(cost,category,*newDate(year,month,day),note);
         tree_add(tree,spend);
     }
     LinkedList* list = tree_toList(tree);
@@ -83,14 +83,14 @@ static void traverse_coverSpend(DataType type,void* value){
     FILE* file = fileBuffer[0];
     
     Spend* spend = (Spend*)value;
-    Date* date = spend->date;
+    Date* date = &spend->date;
     fprintf(file,"%d,%d,%d,%d,%d,%s\n",date->year,date->month,date->day,spend->category,spend->cost,spend->note);
 }
 
 void removeSpend(int year,int month, int day, int category, int cost, char note[16], const char* accountName){
     LinkedList* list = getSpendList(accountName,year,month);
     Date* date = newDate(year,month,day);
-    Spend* spend = newSpend(cost,category,date,note);
+    Spend* spend = newSpend(cost,category,*date,note);
     if(isDebugMode())printf("list.len=%d\n",linkedList_lengeth(list));
     boolean success = linkedList_removeValue(list, spend);//比對相同的VALUE 所以要用newSpend
     if(isDebugMode())printf("list.len=%d\n",linkedList_lengeth(list));

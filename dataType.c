@@ -64,7 +64,7 @@ int compareTo(DataType type,void* object1, void* object2){
     }else if(type == SpendType){
         Spend* spend1 = (Spend*)object1;
         Spend* spend2 = (Spend*)object2;
-        int dateCmp = compareTo(DateType,spend1->date,spend2->date);
+        int dateCmp = compareTo(DateType,&spend1->date,&spend2->date);
         if(dateCmp != 0)return dateCmp;
         else{
             if(spend1->category < spend2->category)return -1;
