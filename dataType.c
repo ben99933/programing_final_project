@@ -7,6 +7,8 @@
 #include<stdlib.h>
 #include"spend.h"
 
+int intBuffer = 0;
+
 int compareTo(DataType type,void* object1, void* object2){
     if(type == Char){
         char c1 = *((char*)object1);
@@ -79,6 +81,35 @@ int compareTo(DataType type,void* object1, void* object2){
 boolean isEqualValue(DataType type,void* object1, void* object2){
     if(compareTo(type, object1, object2) == 0)return True;
     else return False;
+}
+void copy(DataType type,void* object1,void* object2){
+    if(type == Char){
+        *(char*)object1 = *(char*)object2;
+        
+    }else if(type == Int || type == Boolean){
+        *(int*)object1 = *(int*)object2;
+        
+    }else if(type == Long){
+        *(long long*)object1 = *(long long*)object2;
+        
+    }else if(type == Float){
+        *(float*)object1 = *(float*)object2;
+        
+    }else if(type == Double){
+        *(double*)object1 = *(double*)object2;
+        
+    }else if(type == DateType){
+        Date* date1 = (Date*)object1;
+        Date* date2 = (Date*)object2;
+        *date1 = *date2;
+    }else if(type == SpendType){
+        Spend* spend1 = (Spend*)object1;
+        Spend* spend2 = (Spend*)object2;
+        *spend1 = *spend2;
+    }
+    else{
+        errorMsg("unknown data type",__FILE__,__LINE__);
+    } 
 }
 
 char* newChar(char c){

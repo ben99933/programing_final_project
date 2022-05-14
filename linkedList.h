@@ -7,7 +7,9 @@
     
     struct LinkedList;
     typedef struct LinkedList LinkedList;
-    
+
+    LinkedList* listBuffer;//用於暫存
+
     /*建構一個LinkedList 並且把它初始化
      *參數DataType是這個List節點的資料型態 
      *這樣做是為了達到類似泛型(Generic)的效果
@@ -38,5 +40,8 @@
     double linkedList_getValueDouble(LinkedList* list, const int index);
     boolean linkedList_getValueBool(LinkedList* list, const int index);
     Date* linkedList_getValueDate(LinkedList* list, const int index);
+    
+    void linkedList_traverse(LinkedList* list, void (*action)(DataType type,void* value));
 
+    void list_destory(LinkedList* list);
 #endif

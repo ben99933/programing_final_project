@@ -11,6 +11,7 @@
 #include"fileIO.h"
 #include"account.h"
 #include"menu.h"
+#include"spend.h"
 
 void init(){
     printf("initializing...\n");
@@ -18,8 +19,11 @@ void init(){
     account_init();
     system("CLS");
 }
+static void print(DataType type, void* value){
+    Spend* spend = (Spend*)value;
+    printf("%d %d %d %d %d %s\n",spend->date->year,spend->date->month,spend->date->day,spend->category,spend->cost,spend->note);
+}
 int main(){
-    
     init();
     while(True){
         loginOrSingUp();

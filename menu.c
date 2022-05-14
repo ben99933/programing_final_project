@@ -66,14 +66,15 @@ void loginOrSingUp(){
 }
 
 static void addRecord(){
-    system("CLS");
-    printf("================================Record================================\n");
-    printf("Please your consumption record.\n");
-    printf("(You can input \"back\" to exit previous step.)\n");
-    printf("Category id: [0]food [1]traffic [2]entertainment [3]shopping\n\n");
-    printf("Format : <year> <month> <day> <category id> <cost amount> <notes>\n");
-    printf("======================================================================\n");
+    
     while(True){
+        system("CLS");
+        printf("================================Record================================\n");
+        printf("Please your consumption record.\n");
+        printf("(You can input \"back\" to exit previous step.)\n");
+        printf("Category id: [0]food [1]traffic [2]entertainment [3]shopping\n\n");
+        printf("Format : <year> <month> <day> <category id> <cost amount> <notes>\n");
+        printf("======================================================================\n");
         char input[1024] = {'\0'};
         short year = 0;
         short month = 0;
@@ -132,11 +133,112 @@ static void addRecord(){
     
 
 }
+static void totalSpendCost(DataType type,void* value){
+    if(type != SpendType)return;
+    Spend* spend = (Spend*)value;
+    intBuffer += spend->cost;
+}
+//在Tree或list走訪的時候要用到的
+static void traverse_printYearMonth(DataType type,void* value){
+    if(type != Int)return;
+    int name = *(int*)value;
+    int year = name/100;
+    int month = name % 100;
+    if(year <= 0 || month <= 0)return;
+    printf("%d\t%3d\n",year,month);
+}
+static void traverse_printSpendDetail(DataType type,void* value){
+    if(type!=SpendType)return;
+    Spend* spend = (Spend*)value;
+    Date* date = spend->date;
+    //"Year\tMonth\tDay\tCategory\tCost\tNote"
+    char categoryString[1024] = {'\0'};
+    toCategoryString(categoryString,spend->category);
+    printf("%d\t%d\t%d\t%s\t%d\t%s",date->year,date->month,date->day,categoryString,spend->cost,spend->note);
+}
+
+//印出所有可用的月份
+static void printAllAvailableRecords(){
+    system("CLS");
+    Tree* tree = getAllRecordName(currentAccount.name);
+    printf("========================All Available Records=========================\n");
+    printf("Year\tMonth\n");
+    tree_inOrder(tree,traverse_printYearMonth);
+    tree_destory(tree);
+    printf("======================================================================\n");
+    system("pause");
+}
+
+/**
+ * 印出這個月的各項消費之概要
+ * 未完待續
+ */
+static void printMonthSummary(int year,int month, boolean hasBudget, int budget){
+    LinkedList* list = getSpendList(currentAccount.name,year,month);
+    system("CLS");
+    printf("================================Summary===============================\n");
+    printf("Total Expenses : %d\n");
+    printf("----------------------------------------------------------------------\n");
+    printf("======================================================================\n");
+    system("pause");
+    list_destory(list);
+    free(list);
+}
+static void printfMonthSpendDetail(int year,int month){
+    LinkedList* list = getSpendList(currentAccount.name,year,month);
+    system("CLS");
+    printf("================================Detail================================\n");
+    printf("Year\tMonth\tDay\tCategory\tCost\tNote");
+    linkedList_traverse(list,traverse_printSpendDetail);
+    printf("======================================================================\n");
+    system("pause");
+}
+
+/**詢問要選哪一個月
+ * 返回一個6位數數字
+ * 前四位數為年份 十位數和個位數為月份
+ * EX : 202205
+ * 如果回傳0表示退出
+ */
+static int chooseSpend(){
+    while(True){
+        printf("Which month do you want to choose?\n");
+        printf("You can input \"back\" to back to previous step.\n");
+        printf("Format : <year> <month>\n");
+
+        char input[1024];
+        fgets(input,1024,stdin);
+        trimString(input);
+
+        if(strcmp(input,"back") == 0)return 0;
+        char* split = strtok(input, " ");
+        int year = 0;
+        int month = 0;
+        if(isNumberString(split) == True)year = toIntValue(split);
+        else{
+            printf("Invalid input!.\n");
+            continue;
+        }
+        split = strtok(NULL, " ");
+        if(isNumberString(split) == True)month = toIntValue(split);
+        else{
+            printf("Invalid input!.\n");
+            continue;
+        }
+        return year*100 + month;
+    }
+    return 0;
+}
+
+static void removeSpend(){
+    printAllAvailableRecords();
+    int month = chooseSpend();
+    if(month == 0)return;
+    if(isDebugMode())printf("Spend=%d\n",month);
+    printfMonthSpendDetail(month/100,month%100);
+}
 
 void onMenu(){
-    if(checkRecorder(currentAccount.name) == False){
-        addRecord();
-    }
     while(True){
         system("CLS");
         printf("Wellcome, %s.\n",currentAccount.name);
@@ -158,17 +260,18 @@ void onMenu(){
             system("pause");
             continue;
         }
+        if(strlen(inputString) == 0)continue;
         int action = toIntValue(inputString);
         if(action == 0){
             addRecord();
         }else if(action == 1){
-            
+            removeSpend();
         }else if(action == 2){
 
         }else if(action == 3){
 
         }else if(action == 4){
-
+            
         }else if(action == 5){
             exit(0);
         }else if(action == 6){

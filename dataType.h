@@ -9,8 +9,13 @@
     };
     typedef enum DataType DataType;
 
+    extern int intBuffer;
+
+
     int compareTo(DataType type,void* object1, void* object2);
     boolean isEqualValue(DataType type,void* object1, void* object2);
+    void copy(DataType type,void* object1,void* object2);
+
     
     char* newChar(char c);
     int* newInt(int i);

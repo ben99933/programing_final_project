@@ -261,3 +261,26 @@ boolean linkedList_getValueBool(LinkedList* list, const int index){
 Date* linkedList_getValueDate(LinkedList* list, const int index){
     return (Date*)getNodeAt(list,index)->value;
 }
+
+
+void linkedList_traverse(LinkedList* list, void (*action)(DataType type,void* value)){
+    LinkedListNode* focus = list->head;
+    while(focus){
+        action(list->type,focus->value);
+        focus = focus->next;
+    }
+    
+}
+
+void list_destory(LinkedList* list){
+    LinkedListNode* focus = list->head;
+    while(focus){
+        LinkedListNode* node = focus;
+        focus = focus->next;
+        free(node->value);
+        free(node);
+    }
+    list->size = 0;
+    list->head = NULL;
+    list->tail = NULL;
+}

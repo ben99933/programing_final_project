@@ -44,7 +44,9 @@ static int fileExist(const char* path){
      * 0為檢測該路徑之檔案是否存在
      * access return 0 表示存在或擁有許可權 -1表示不存在或無許可權
      */
-    if(_access(path,0) == 0) return True;
+    int acc = _access(path,0);
+    printf("access(path,0)=%d\n",acc);
+    if(acc == 0) return True;
     else return False;
 }
 
@@ -86,6 +88,7 @@ FILE* creatAccountFile(const char* accountName){
     FILE* file = createFile(path);
     return file;
 }
+
 FILE* findSpendFile(const char* accountName,Date* date){
     char path[MAX_PATH] = {'\0'};
     char filename[9] = {'\0'};
@@ -106,6 +109,7 @@ FILE* creatdSpendFile(const char* accountName,Date* date){
     FILE* file = createFile(path);
     return file;
 }
+
 FILE* findRecorderFile(const char* accountName){
     char path[1024] = {'\0'};
     pathAppend(path,recordPath);
@@ -122,16 +126,15 @@ FILE* createRecorderFile(const char* accountName){
     FILE* file = fopen(path,"a+");//append
     return file;
 }
+
 FILE* getSpendFile(int year,int month,const char* accountName){
     char path[1024] = {'\0'};
     char name[9];
     _itoa((year*100+month),name,10);
-    printf("year=%d,month=%d,year*100+month=%d\n",year,month,year*100+month);
-    printf("filename=%s\n",name);
     pathAppend(path,getRecordPath());
     pathAppend(path,accountName);
     pathAppendFile(path,name,"csv");
-    if(!fileExist(path)){
+    if(fileExist(path) == False){
         FILE* recorder = findRecorderFile(accountName);
         fprintf(recorder,"%d\n",(year*100+month));
         closeFile(recorder);
@@ -139,6 +142,7 @@ FILE* getSpendFile(int year,int month,const char* accountName){
     FILE* file = fopen(path,"a+");//append 不會覆蓋掉
     return file;
 }
+
 void fileIO_init(){
     documentPath[0] = '\0';
     accountPath[0] = '\0';
