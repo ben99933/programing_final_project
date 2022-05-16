@@ -4,12 +4,13 @@
 #include<string.h>
 
 
-const char* FOOD = "Food";
-const char* TRAFFIC = "Traffic";
-const char* ENTERTAINMENT = "Entertainment";
-const char* SHOPPING = "Shopping";
-const char* OTHER = "Other";
-
+ const char* FOOD = "FOOD";
+ const char* CLOTHING = "CLOTHING";
+ const char* TRANSPORTATION = "TRANSPORTATION";
+ const char* ENTERTAINMENT = "ENTERTAINMENT";
+ const char* UTILITY  = "UTILITY";
+ const char* OTHER = "OTHER";
+ const char* WAGE = "WAGE";
 /**
  * 用法:
  * Date的部分
@@ -25,9 +26,9 @@ Spend* newSpend(int cost,Category category,Date date, const char* note){
     return spend;
 }
 Category toCategory(int num){
-    if(num > 4){
+    if(num > 6){
         errorMsg("Out of category limit.",__FILE__,__LINE__);
-        return 4;
+        return 6;
     }else if(num < 0){
         errorMsg("Out of category limit.",__FILE__,__LINE__);
         return 0;
@@ -35,16 +36,20 @@ Category toCategory(int num){
     return num;
 }
 const char* toCategoryString(Category category){
-    //food,traffic,entertainment,shopping,other
+    //food, clothing, transportation, entertainment, utility, other, wage
     if(category == food){
         return FOOD;
-    }else if(category == traffic){
-        return TRAFFIC;
+    }else if(category == transportation){
+        return TRANSPORTATION;
     }else if(category == entertainment){
         return ENTERTAINMENT;
-    }else if(category == shopping){
-        return SHOPPING;
-    }else{
+    }else if(category == utility){
+        return UTILITY;
+    }else if(category == other){
+        return OTHER;
+    }else if(category == wage){
+        return WAGE;
+    }else {
         return OTHER;
     }
 }
