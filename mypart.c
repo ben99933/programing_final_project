@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "mypart.h"
 
 struct LLNode *createList(Spend data){
@@ -158,7 +156,6 @@ int isSameDate(Date date1, Date date2){
         return 0;
 }
 
-//This function creates occurence list for further data extraction purposes.
 Occurence *findOccurence(struct LLNode *sortedList){
     struct LLNode *curr = sortedList;
     Occurence *occurList = calloc(DAY_OF_MONTH, sizeof(Occurence));
@@ -166,7 +163,7 @@ Occurence *findOccurence(struct LLNode *sortedList){
     for (int pos = 0;curr != NULL;)
     {
         Date tempDate = curr->spend.date;
-        int currDate = ((int) tempDate.day) - 1; // -1 to match index (start from 0)
+        int currDate = ((int) tempDate.day) - 1; // -1 to match index (which starts from 0)
         occurList[currDate].Count = 1;
         occurList[currDate].initPos = pos;
 
@@ -203,7 +200,7 @@ int findOccurTail(Occurence *occurenceList){
     int tailIndex = DAY_OF_MONTH;
     while (occurenceList[tailIndex - 1].Count == 0)
         tailIndex--;
-    tailIndex = occurenceList[tailIndex - 1].initPos +occurenceList[tailIndex - 1].Count - 1;
+    tailIndex = occurenceList[tailIndex - 1].initPos + occurenceList[tailIndex - 1].Count - 1;
     return tailIndex;
 }
 
