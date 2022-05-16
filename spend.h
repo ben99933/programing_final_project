@@ -17,7 +17,7 @@
         int cost;
         Category category;
         Date date;
-        char note[16];//備註
+        char note[16];//這筆消費的備註
     } Spend;
     Spend* newSpend(int cost,Category category,Date date, const char* note);
     Category toCategory(int num);

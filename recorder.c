@@ -31,6 +31,8 @@ Tree* getAllRecordName(const char* accountName){
     closeFile(recorder);
     return tree;
 }
+
+
 LinkedList* getSpendList(const char* accountName, int year, int month){
     FILE* file = getSpendFile(year,month,accountName,appendMode);
     if(file == NULL){

@@ -283,6 +283,7 @@ static void removeRecord(){
     if(month == 0)return;
     if(isDebugMode())printf("Spend=%d\n",month);
     while(True){
+        
         if(printfMonthSpendDetail(month/100,month%100) == False)return;
         printf("Which record do you want to delete?\n");
         printf("(You can input \"back\" to exit previous step.)\n");
