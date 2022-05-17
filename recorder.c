@@ -32,8 +32,7 @@ Tree* getAllRecordName(const char* accountName){
     return tree;
 }
 
-
-LinkedList* getSpendList(const char* accountName, int year, int month){
+Tree* getgetSpendRecordTree(const char* accountName,int year, int month){
     FILE* file = getSpendFile(year,month,accountName,appendMode);
     if(file == NULL){
         errorMsg("file not found.",__FILE__,__LINE__);
@@ -45,7 +44,7 @@ LinkedList* getSpendList(const char* accountName, int year, int month){
         fgets(string,1024,file);
         if(strcmp(string,"\n") == 0 || strcmp(string,"\0") == 0)continue;;
         trimString(string);
-        if(isDebugMode())printf("string=%s\n",string);
+        if(isDebugMode())printf("string=%s",string);
         debugMsg("",__FILE__,__LINE__);
         //spend
         int year;
@@ -65,15 +64,22 @@ LinkedList* getSpendList(const char* accountName, int year, int month){
         split = strtok(NULL,",");
         if(isNumberString(split))cost = toIntValue(split);
         split = strtok(NULL,",");
+        trimString(split);
         strncpy(note,split,15);
-
-        Spend* spend = newSpend(cost,category,*newDate(year,month,day),note);
-        tree_add(tree,spend);
+        
+        Date date = {.year = year,.month = month,.day = day};
+        tree_add(tree,newSpend(cost,category,date,note));
     }
-    LinkedList* list = tree_toList(tree);
     closeFile(file);
+    debugMsg("tree construted.",__FILE__,__LINE__);
+    return tree;
+}
+
+LinkedList* getSpendList(const char* accountName, int year, int month){
+    Tree* tree = getgetSpendRecordTree(accountName, year, month);
+    LinkedList* list = tree_toList(tree);
+    tree_destory(tree);
     return list;
-    
 }
 
 //LIST做尋訪的時候要用到的

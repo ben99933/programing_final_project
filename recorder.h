@@ -15,6 +15,6 @@
     void recordSpend(int year,int month, int day, int category, int cost, char remark[16], const char* accountName);
     void removeSpend(int year,int month, int day, int category, int cost, char remark[16], const char* accountName);
     Tree* getAllRecordName(const char* accountName);
-    LinkedList* getSpendList(const char* accountName, int year, int month);
+    LLNode* getSpendList(const char* accountName, int year, int month);
 #endif
 
