@@ -12,6 +12,7 @@
 #include"account.h"
 #include"menu.h"
 #include"spend.h"
+#include"spendList.h"
 
 
 //一些東西的初始化
@@ -29,5 +30,7 @@ int main(){
         loginOrSingUp();
         onMenu();
     }
+    
+    
     return 0;
 }
