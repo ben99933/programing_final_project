@@ -15,7 +15,7 @@
         struct LLNode *next;
         struct LLNode *prev;
     };
-
+    typedef struct LLNode LLNode;
     //This function is exclusively for linkedlist creation.
     struct LLNode *createList(Spend data);
     //The list is sorted based on this order: date -> catergory -> cost
@@ -80,14 +80,24 @@
         Spend *dataList; 
     }keyDataList;
 
-    /*
-    This is a general data extraction function, you can choose to :
-    1. Enter only keyCategory, leaving both day 0 to get data with certain category.
-    2. Enter only dayBegin and dayEnd, leaving keyCategory -1 to get data of certain interval
-    3. Enter all of those to get data within certain interval and of certain category.
-    NOTE: If you want the data from 1 specific day, type same number in dayBegin and dayEnd !
-    NOTE: REMEMBER IF YOU DON'T NEED dayBegin and dayEnd OPTION, BE SURE TO LEAVE them AS 0 !!
-    AND IF YOU DON'T NEED keyCategory, LEAVE keyCategory AS -1 !
+    /**
+        This is a general data extraction function, you can choose to :
+        1. Enter only keyCategory, leaving both day 0 to get data with certain category.
+        2. Enter only dayBegin and dayEnd, leaving keyCategory -1 to get data of certain interval
+        3. Enter all of those to get data within certain interval and of certain category.
+        NOTE: If you want the data from 1 specific day, type same number in dayBegin and dayEnd !
+        NOTE: REMEMBER IF YOU DON'T NEED dayBegin and dayEnd OPTION, BE SURE TO LEAVE them AS 0 !!
+        AND IF YOU DON'T NEED keyCategory, LEAVE keyCategory AS -1 !
+
+        機翻:
+        這是一個通用的數據提取功能，您可以選擇：
+        1. 只輸入keyCategory，保留第0天獲取特定類別的數據。
+        2. 只輸入dayBegin和dayEnd，keyCategory -1 獲取一定區間的數據
+        3. 輸入所有這些以獲取特定區間和特定類別的數據。
+        注意：如果您想要 1 個特定日期的數據，請在 dayBegin 和 dayEnd 中輸入相同的數字！
+        注意：請記住，如果您不需要 dayBegin 和 dayEnd 選項，請務必將它們保留為 0 ！
+        如果您不需要 keyCategory，請將 keyCategory 保留為 -1 ！
+
     */
     keyDataList *getKeyData(struct LLNode *sortedList, Occurence *occurenceList, Category keyCategory, const short dayBegin, const short dayEnd);
 
