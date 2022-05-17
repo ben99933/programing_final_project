@@ -4,6 +4,12 @@
 #include"debug.h"
 #include<stdio.h>
 #include"spend.h"
+#include"spendList.h"
+
+static LLNode* LLNodeBuffer;
+static void clearLLNodeBuffer(){
+    LLNodeBuffer = NULL;
+}
 
 struct Node{
     struct Node* left;
@@ -121,12 +127,26 @@ void tree_add(Tree* tree, void* value){
 
 static void pushToList(DataType type, void* value){
     if(type == SpendType){
-        Spend* spend = (Spend*)value;
-        linkedList_add(listBuffer, newSpend(spend->cost,spend->category,spend->date,spend->note));
+        Spend spend = *(Spend*)value;
+        linkedList_add(listBuffer, newSpend(spend.cost,spend.category,spend.date,spend.note));
     }else if(type==Int){
         linkedList_add(listBuffer, newInt(*(int*)value));
     }
-    
+}
+static void pushToSpendList(DataType type,void* value){
+    if(type != SpendType)return;
+    LLNode* node = malloc(sizeof(LLNode));
+    node->spend = *(Spend*)value;
+    node->next = NULL;
+    node->prev = NULL;
+    if(LLNodeBuffer == NULL){
+        LLNodeBuffer = node;
+        return;
+    }else{
+        sortedInsert(LLNodeBuffer, NULL, node, intBuffer[15]);
+        intBuffer[15]++;
+    }
+
 }
 LinkedList* tree_toList(Tree* tree){
     if(isEmptyTree(tree))return NULL;
@@ -135,7 +155,23 @@ LinkedList* tree_toList(Tree* tree){
     tree_inOrder(tree,pushToList);
     return list;
 }
+/**
+ * 為了要和"SpendList"相容 
+ */
+LLNode* tree_toSpendList(Tree* tree){
+    if(isEmptyTree(tree)){
+        debugMsg("Tree is emtpy",__FILE__,__LINE__);
+        return NULL;
+    }
+    LLNode* head = malloc(sizeof(LLNode));
+    clearIntBuffer();
+    clearLLNodeBuffer();
+    tree_inOrder(tree,pushToSpendList);
+    head = LLNodeBuffer;
+    return head;
+}
 static void destoryNode(Node* node){
+    if(node == NULL)return;
     if(node->left != NULL)destoryNode(node->left);
     if(node->right != NULL)destoryNode(node->right);
     free(node->value);
@@ -145,6 +181,7 @@ void tree_destory(Tree* tree){
     destoryNode(tree->root);
     tree->root = NULL;
     tree->size = 0;
+    free(tree);
 }
 
 static void preOrderFunc(Node* node, void (*action)(DataType type,void* value)){
