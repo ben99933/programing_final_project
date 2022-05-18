@@ -1,27 +1,49 @@
+2022/05/01 1 20 uniqlo
+2022/05/09 3 200 movie
+2022/05/15 3 150 game
+2022/05/01 0 50 lunch
+2022/05/16 1 100 uniqlo
+2022/05/16 1 100 shoppee
+2022/05/21 0 120 dinner
+2022/05/02 0 150 dinner
+2022/05/02 0 150 breakfast
+2022/05/03 1 150 uniqlo
+2022/05/05 1 50 none
+2022/05/07 0 100 dinner
+2022/05/09 2 150 train
+2022/05/15 0 100 lunch
+2022/05/21 2 50 train
+2022/05/25 3 100 none
+2022/05/23 3 50 none
+2022/05/30 2 50 train
+2022/05/28 3 20 none
+2022/05/27 1 100 none
+2022/05/04 2 200 train
+2022/05/29 1 170 none
 Sorted Linked List:
-Date    Category        Cost
-[0] 2022/5/1    0       50
-[1] 2022/5/1    1       20
-[2] 2022/5/2    0       100
-[3] 2022/5/2    0       150
-[4] 2022/5/3    1       150
-[5] 2022/5/4    2       200
-[6] 2022/5/5    1       50
-[7] 2022/5/7    0       100
-[8] 2022/5/9    2       150
-[9] 2022/5/9    3       200
-[10] 2022/5/15  0       100
-[11] 2022/5/15  3       150
-[12] 2022/5/16  1       50
-[13] 2022/5/16  1       100
-[14] 2022/5/21  0       120
-[15] 2022/5/21  2       50
-[16] 2022/5/23  3       50
-[17] 2022/5/25  3       100
-[18] 2022/5/27  1       100
-[19] 2022/5/28  3       20
-[20] 2022/5/29  1       170
-[21] 2022/5/30  2       50
+Date    Category        Cost    Note
+[0] 2022/5/1    0       50      lunch
+[1] 2022/5/1    1       20      uniqlo
+[2] 2022/5/2    0       150     breakfast
+[3] 2022/5/2    0       150     dinner
+[4] 2022/5/3    1       150     uniqlo
+[5] 2022/5/4    2       200     train
+[6] 2022/5/5    1       50      none
+[7] 2022/5/7    0       100     dinner
+[8] 2022/5/9    2       150     train
+[9] 2022/5/9    3       200     movie
+[10] 2022/5/15  0       100     lunch
+[11] 2022/5/15  3       150     game
+[12] 2022/5/16  1       100     shoppee
+[13] 2022/5/16  1       100     uniqlo
+[14] 2022/5/21  0       120     dinner
+[15] 2022/5/21  2       50      train
+[16] 2022/5/23  3       50      none
+[17] 2022/5/25  3       100     none
+[18] 2022/5/27  1       100     none
+[19] 2022/5/28  3       20      none
+[20] 2022/5/29  1       170     none
+[21] 2022/5/30  2       50      train
 Occurence List
 Date    Count   InitPos
 1       2       0
@@ -40,44 +62,304 @@ Date    Count   InitPos
 28      1       19
 29      1       20
 30      1       21
-List of expenses with category 0 and from date 2022/5/1 to 2022/5/15
+Do you want to view a certain range of data to select which data to delete?
+[0] Show every data without any filthering (NOT RECOMMENDED).
+[1] Show all data with certain category.
+[2] Show all data with certain range of date.
+[3] Show all data with both certain range and category
+[-1] Back to menu
+0
+List of expenses from date 2022/5/1 to 2022/5/31
 The list is ordered in date.(ascending)
 Date    Category        Cost
-2022/5/1        0       50
-2022/5/2        0       100
-2022/5/2        0       150
-2022/5/7        0       100
-2022/5/15       0       100
-List of expenses with Category 2The list is ordered in date.(ascending)
-Date    Category        Cost
-2022/5/4        2       200
-2022/5/9        2       150
-2022/5/21       2       50
-2022/5/30       2       50
-List of expenses from date 2022/5/1 to 2022/5/25
+[0] 2022/5/1    0       50
+[1] 2022/5/1    1       20
+[2] 2022/5/2    0       150
+[3] 2022/5/2    0       150
+[4] 2022/5/3    1       150
+[5] 2022/5/4    2       200
+[6] 2022/5/5    1       50
+[7] 2022/5/7    0       100
+[8] 2022/5/9    2       150
+[9] 2022/5/9    3       200
+[10] 2022/5/15  0       100
+[11] 2022/5/15  3       150
+[12] 2022/5/16  1       100
+[13] 2022/5/16  1       100
+[14] 2022/5/21  0       120
+[15] 2022/5/21  2       50
+[16] 2022/5/23  3       50
+[17] 2022/5/25  3       100
+[18] 2022/5/27  1       100
+[19] 2022/5/28  3       20
+[20] 2022/5/29  1       170
+Please select which data you would like to delete: (Enter index in [])
+4
+Sorted Linked List:
+Date    Category        Cost    Note
+[0] 2022/5/1    0       50      lunch
+[1] 2022/5/1    1       20      uniqlo
+[2] 2022/5/2    0       150     breakfast
+[3] 2022/5/2    0       150     dinner
+[4] 2022/5/4    2       200     train
+[5] 2022/5/5    1       50      none
+[6] 2022/5/7    0       100     dinner
+[7] 2022/5/9    2       150     train
+[8] 2022/5/9    3       200     movie
+[9] 2022/5/15   0       100     lunch
+[10] 2022/5/15  3       150     game
+[11] 2022/5/16  1       100     shoppee
+[12] 2022/5/16  1       100     uniqlo
+[13] 2022/5/21  0       120     dinner
+[14] 2022/5/21  2       50      train
+[15] 2022/5/23  3       50      none
+[16] 2022/5/25  3       100     none
+[17] 2022/5/27  1       100     none
+[18] 2022/5/28  3       20      none
+[19] 2022/5/29  1       170     none
+[20] 2022/5/30  2       50      train
+Occurence List
+Date    Count   InitPos
+1       2       0
+2       2       2
+4       1       4
+5       1       5
+7       1       6
+9       2       7
+15      2       9
+16      2       11
+21      2       13
+23      1       15
+25      1       16
+27      1       17
+28      1       18
+29      1       19
+30      1       20
+Do you want to view a certain range of data to select which data to delete?
+[0] Show every data without any filthering (NOT RECOMMENDED).
+[1] Show all data with certain category.
+[2] Show all data with certain range of date.
+[3] Show all data with both certain range and category
+[-1] Back to menu
+1
+Which kind of category of would you like to view?
+[0]food [1]Clothing     [2]Transportation       [3]Utility
+[4]Misc [5]Wage
+0
+List of expenses with category 0 and from date 2022/5/1 to 2022/5/31
 The list is ordered in date.(ascending)
 Date    Category        Cost
-2022/5/1        0       50
-2022/5/1        0       20
-2022/5/2        0       100
-2022/5/2        0       150
-2022/5/3        0       150
-2022/5/4        0       200
-2022/5/5        0       50
-2022/5/7        0       100
-2022/5/9        0       150
-2022/5/9        0       200
-2022/5/15       0       100
-2022/5/15       0       150
-2022/5/16       0       50
-2022/5/16       0       100
-2022/5/21       0       120
-2022/5/21       0       50
-2022/5/23       0       50
-2022/5/25       0       100
-illgal Input Example, Category Overflow :getKeyData(head, occurList, 6, 1, 25)
-Invalid Input, please check your input!
-illgal Input Example, Incorrect Date :getKeyData(head, occurList, 1, 0, 25)
-Invalid Input, please check your input!
-illgal Input Example, No specifier :getKeyData(head, occurList, -1, 0, 0)
-Invalid Input, please check your input!
+[0] 2022/5/1    0       50
+[1] 2022/5/2    0       150
+[2] 2022/5/2    0       150
+[3] 2022/5/7    0       100
+[4] 2022/5/15   0       100
+[5] 2022/5/21   0       120
+Please select which data you would like to delete: (Enter index in [])
+0
+Sorted Linked List:
+Date    Category        Cost    Note
+[0] 2022/5/1    1       20      uniqlo
+[1] 2022/5/2    0       150     breakfast
+[2] 2022/5/2    0       150     dinner
+[3] 2022/5/4    2       200     train
+[4] 2022/5/5    1       50      none
+[5] 2022/5/7    0       100     dinner
+[6] 2022/5/9    2       150     train
+[7] 2022/5/9    3       200     movie
+[8] 2022/5/15   0       100     lunch
+[9] 2022/5/15   3       150     game
+[10] 2022/5/16  1       100     shoppee
+[11] 2022/5/16  1       100     uniqlo
+[12] 2022/5/21  0       120     dinner
+[13] 2022/5/21  2       50      train
+[14] 2022/5/23  3       50      none
+[15] 2022/5/25  3       100     none
+[16] 2022/5/27  1       100     none
+[17] 2022/5/28  3       20      none
+[18] 2022/5/29  1       170     none
+[19] 2022/5/30  2       50      train
+Occurence List
+Date    Count   InitPos
+1       1       0
+2       2       1
+4       1       3
+5       1       4
+7       1       5
+9       2       6
+15      2       8
+16      2       10
+21      2       12
+23      1       14
+25      1       15
+27      1       16
+28      1       17
+29      1       18
+30      1       19
+Do you want to view a certain range of data to select which data to delete?
+[0] Show every data without any filthering (NOT RECOMMENDED).
+[1] Show all data with certain category.
+[2] Show all data with certain range of date.
+[3] Show all data with both certain range and category
+[-1] Back to menu
+2
+What date interval would you like to view?
+Format:<dayBegin> <dayEnd> (e.g. 10 25)
+Enter same number in dayBegin, dayEnd if you want to view data of a certain day. (e.g. 15 15)
+15 30
+List of expenses from date 2022/5/15 to 2022/5/30
+The list is ordered in date.(ascending)
+Date    Category        Cost
+[0] 2022/5/15   0       100
+[1] 2022/5/15   3       150
+[2] 2022/5/16   1       100
+[3] 2022/5/16   1       100
+[4] 2022/5/21   0       120
+[5] 2022/5/21   2       50
+[6] 2022/5/23   3       50
+[7] 2022/5/25   3       100
+[8] 2022/5/27   1       100
+[9] 2022/5/28   3       20
+[10] 2022/5/29  1       170
+[11] 2022/5/30  2       50
+Please select which data you would like to delete: (Enter index in [])
+1
+Sorted Linked List:
+Date    Category        Cost    Note
+[0] 2022/5/1    1       20      uniqlo
+[1] 2022/5/2    0       150     breakfast
+[2] 2022/5/2    0       150     dinner
+[3] 2022/5/4    2       200     train
+[4] 2022/5/5    1       50      none
+[5] 2022/5/7    0       100     dinner
+[6] 2022/5/9    2       150     train
+[7] 2022/5/9    3       200     movie
+[8] 2022/5/15   0       100     lunch
+[9] 2022/5/16   1       100     shoppee
+[10] 2022/5/16  1       100     uniqlo
+[11] 2022/5/21  0       120     dinner
+[12] 2022/5/21  2       50      train
+[13] 2022/5/23  3       50      none
+[14] 2022/5/25  3       100     none
+[15] 2022/5/27  1       100     none
+[16] 2022/5/28  3       20      none
+[17] 2022/5/29  1       170     none
+[18] 2022/5/30  2       50      train
+Occurence List
+Date    Count   InitPos
+1       1       0
+2       2       1
+4       1       3
+5       1       4
+7       1       5
+9       2       6
+15      1       8
+16      2       9
+21      2       11
+23      1       13
+25      1       14
+27      1       15
+28      1       16
+29      1       17
+30      1       18
+Do you want to view a certain range of data to select which data to delete?
+[0] Show every data without any filthering (NOT RECOMMENDED).
+[1] Show all data with certain category.
+[2] Show all data with certain range of date.
+[3] Show all data with both certain range and category
+[-1] Back to menu
+1
+Which kind of category of would you like to view?
+[0]food [1]Clothing     [2]Transportation       [3]Utility
+[4]Misc [5]Wage
+4
+No such data in designated range. Please retry.
+No such data in designated range, please retry.
+Sorted Linked List:
+Date    Category        Cost    Note
+[0] 2022/5/1    1       20      uniqlo
+[1] 2022/5/2    0       150     breakfast
+[2] 2022/5/2    0       150     dinner
+[3] 2022/5/4    2       200     train
+[4] 2022/5/5    1       50      none
+[5] 2022/5/7    0       100     dinner
+[6] 2022/5/9    2       150     train
+[7] 2022/5/9    3       200     movie
+[8] 2022/5/15   0       100     lunch
+[9] 2022/5/16   1       100     shoppee
+[10] 2022/5/16  1       100     uniqlo
+[11] 2022/5/21  0       120     dinner
+[12] 2022/5/21  2       50      train
+[13] 2022/5/23  3       50      none
+[14] 2022/5/25  3       100     none
+[15] 2022/5/27  1       100     none
+[16] 2022/5/28  3       20      none
+[17] 2022/5/29  1       170     none
+[18] 2022/5/30  2       50      train
+Occurence List
+Date    Count   InitPos
+1       1       0
+2       2       1
+4       1       3
+5       1       4
+7       1       5
+9       2       6
+15      1       8
+16      2       9
+21      2       11
+23      1       13
+25      1       14
+27      1       15
+28      1       16
+29      1       17
+30      1       18
+Do you want to view a certain range of data to select which data to delete?
+[0] Show every data without any filthering (NOT RECOMMENDED).
+[1] Show all data with certain category.
+[2] Show all data with certain range of date.
+[3] Show all data with both certain range and category
+[-1] Back to menu
+2
+What date interval would you like to view?
+Format:<dayBegin> <dayEnd> (e.g. 10 25)
+Enter same number in dayBegin, dayEnd if you want to view data of a certain day. (e.g. 15 15)
+1 0
+Invalid input, please retry
+Sorted Linked List:
+Date    Category        Cost    Note
+[0] 2022/5/1    1       20      uniqlo
+[1] 2022/5/2    0       150     breakfast
+[2] 2022/5/2    0       150     dinner
+[3] 2022/5/4    2       200     train
+[4] 2022/5/5    1       50      none
+[5] 2022/5/7    0       100     dinner
+[6] 2022/5/9    2       150     train
+[7] 2022/5/9    3       200     movie
+[8] 2022/5/15   0       100     lunch
+[9] 2022/5/16   1       100     shoppee
+[10] 2022/5/16  1       100     uniqlo
+[11] 2022/5/21  0       120     dinner
+[12] 2022/5/21  2       50      train
+[13] 2022/5/23  3       50      none
+[14] 2022/5/25  3       100     none
+[15] 2022/5/27  1       100     none
+[16] 2022/5/28  3       20      none
+[17] 2022/5/29  1       170     none
+[18] 2022/5/30  2       50      train
+Occurence List
+Date    Count   InitPos
+1       1       0
+2       2       1
+4       1       3
+5       1       4
+7       1       5
+9       2       6
+15      1       8
+16      2       9
+21      2       11
+23      1       13
+25      1       14
+27      1       15
+28      1       16
+29      1       17
+30      1       18
