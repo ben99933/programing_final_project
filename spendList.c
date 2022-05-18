@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "spendList.h"
 
 struct LLNode *createList(Spend data){
@@ -606,8 +609,7 @@ struct LLNode *deleteAction(struct LLNode *sortedList, Occurence *occurenceList)
         return sortedList;
     }
     
-} 
-
+}
 
 //my test main
 int main (){
