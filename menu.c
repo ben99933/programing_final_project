@@ -119,19 +119,11 @@ static void printAllAvailableRecords(){
  * 未完待續
  */
 static void printMonthSummary(int year,int month, boolean hasBudget, int budget){
-    LinkedList* list = getSpendList(currentAccount.name,year,month);
+    LLNode* list = getSpendList(currentAccount.name,year,month);
     clearIntBuffer();
-    linkedList_traverse(list,traverse_totalSpendCost);//totalSpendCost會用到intBuffer
-    // intBufer為暫時存放int的陣列 因為traverse的function沒有辦法用到外面的資料 所以把她放在全域的地方
-    int num = intBuffer[0];//spend的數量
-    int total = intBuffer[1];
-    system("CLS");
-    printf("================================Summary===============================\n");
-    printf("Amount of records: %d\n",num);
-    printf("Total Expenses : %d\n",total);
-    printf("======================================================================\n");
-    list_destory(list);
-    free(list);
+    int amount = 0;
+    int total = 0;
+    //未完待續
 }
 
 /**
@@ -139,20 +131,26 @@ static void printMonthSummary(int year,int month, boolean hasBudget, int budget)
  * 如果沒有辦法印出 則返回FALSE
  */
 static boolean printfMonthSpendDetail(int year,int month){
-    LinkedList* list = getSpendList(currentAccount.name,year,month);
+    LLNode* listHead = getSpendList(currentAccount.name,year,month);
     debugMsg("test",__FILE__,__LINE__);
     system("CLS");
-    if(list==NULL){
+    if(listHead==NULL){
         printf("Data not found.\n");
         system("pause");
         return False;
     }
+    LLNode* focus = listHead;
     printf("================================Detail================================\n");
     printf("Year\tMonth\tDay\tCategory  \tCost\tNote\n");
-    linkedList_traverse(list,traverse_printSpendDetail);
+    while(focus){
+        Spend spend = focus->spend;
+        Date date = spend.date;
+        //"Year\tMonth\tDay\tCategory\tCost\tNote"
+        printf("%d\t%d\t%d\t%-12s\t%d\t%s\n",date.year,date.month,date.day,toCategoryString(spend.category),spend.cost,spend.note);
+        focus = focus->next;
+    }
     printf("======================================================================\n");
-    list_destory(list);
-    free(list);
+    destorySpendList(listHead);
     return True;
 }
 

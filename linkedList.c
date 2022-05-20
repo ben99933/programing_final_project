@@ -29,7 +29,7 @@ static LinkedListNode* newNode(DataType type,void *value){
     return node;
 }
 
-//===========================new Node()==========================================
+//===========================這部分已經捨去==========================================
 /***
 static LinkedListNode* newNode_Char(DataType type, char value){
     LinkedListNode* node = malloc(sizeof(LinkedListNode));

@@ -4,6 +4,8 @@
 #include"debug.h"
 #include"word.h"
 #include<string.h>
+#include"spendList.h"
+#include"linkedList.h"
 
 /**
  * 先使用fileIO.c的getSpendFile得到存放該月份消費的檔案
@@ -75,9 +77,9 @@ Tree* getgetSpendRecordTree(const char* accountName,int year, int month){
     return tree;
 }
 
-LinkedList* getSpendList(const char* accountName, int year, int month){
+LLNode* getSpendList(const char* accountName, int year, int month){
     Tree* tree = getgetSpendRecordTree(accountName, year, month);
-    LinkedList* list = tree_toList(tree);
+    LLNode* list = tree_toSpendList(tree);
     tree_destory(tree);
     return list;
 }
@@ -96,25 +98,25 @@ static void traverse_coverSpend(DataType type,void* value){
 }
 
 void removeSpend(int year,int month, int day, int category, int cost, char note[16], const char* accountName){
-    LinkedList* list = getSpendList(accountName,year,month);
-    Date* date = newDate(year,month,day);
-    Spend* spend = newSpend(cost,category,*date,note);
-    if(isDebugMode())printf("list.len=%d\n",linkedList_lengeth(list));
-    boolean success = linkedList_removeValue(list, spend);//比對相同的VALUE 所以要用newSpend
-    if(isDebugMode())printf("list.len=%d\n",linkedList_lengeth(list));
+    LLNode* listHead = getSpendList(accountName,year,month);
+    Occurence *occurList = findOccurence(listHead);
+    Date date = {.year = year, .month = month, .day = day};
+    Spend* spend = newSpend(cost, category, date, note);
+    boolean success;
+    listHead = LLNode_removeNode(listHead, *spend, &success);
     
     if(success == False){
         printf("Can not fine record.\n");
     }
-    free(date);
-    free(spend);
+    
 
     clearFileBuffer();
     FILE* file = getSpendFile(year,month,accountName,coverMode);
     fileBuffer[0] = file;
-    linkedList_traverse(list,traverse_coverSpend);
+    
     closeFile(file);
     printf("Delete successful.\n");
+    destorySpendList(listHead);
     system("pause");
 
 }
