@@ -84,7 +84,6 @@ LLNode* getSpendList(const char* accountName, int year, int month){
     return list;
 }
 
-
 //LIST做尋訪的時候要用到的
 static void traverse_coverSpend(DataType type,void* value){
     if(type != SpendType){
