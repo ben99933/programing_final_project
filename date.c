@@ -3,37 +3,33 @@
 #include<stdlib.h>
 
 
-static boolean checkDate(Date* date);
-static boolean isLeapYear(Date*date){
-    int year = date->year;
+boolean isLeapYear(int year){
     if((((year) % 4) == 0 && ((year) % 100) != 0) || ((year) % 400) == 0)return True;
     return False;
 }
-static boolean checkDate(Date* date){
-    int day = date->day;
-    int month = date->month;
-    int year = date->year;
-    if(day >31){
+boolean checkDate(int year, int month, int day){
+    
+    if(day >31 || day <= 0){
         if(isDebugMode())errorMsg("invalid date",__FILE__,__LINE__);
         return False;
     }
-    if(date->month==2){
-        if(isLeapYear(date)){
-            if(date->day >29){
+    if(month==2){
+        if(isLeapYear(year)){
+            if(day >29){
                 if(isDebugMode())errorMsg("invalid date",__FILE__,__LINE__);
                 return False;
             }
         }else{
-            if(date->day>28){
+            if(day>28){
                 if(isDebugMode())errorMsg("invalid date",__FILE__,__LINE__);
                 return False;
             }
         }
     }else{
-        if(date->month %2==0 && date->day >30){
+        if(month %2==0 && day >30){
             if(isDebugMode())errorMsg("invalid date",__FILE__,__LINE__);
             return False;
-        }else if(date->day >31){
+        }else if(day >31){
             if(isDebugMode())errorMsg("invalid date",__FILE__,__LINE__);
             return False;
         }
@@ -46,7 +42,7 @@ Date* newDate(int year, int month, int day){
     date->day = day;
     date->month = month;
     date->year = year;
-    if(checkDate(date) == False)return NULL;
+    if(checkDate(date->year,date->month,date->day) == False)return NULL;
     return date;
 }
 

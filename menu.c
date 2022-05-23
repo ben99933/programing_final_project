@@ -262,6 +262,12 @@ static void addRecord(){
         }
 
         split = strtok(NULL," ");
+        if(checkDate(year,month,day) == False){
+            printf("Invalid input.\n");
+            system("pause");
+            continue;
+        }
+
         if(split == NULL)recordSpend(year,month,day,category,cost,"none",currentAccount.name);
         else recordSpend(year,month,day,category,cost,split,currentAccount.name);
     }
