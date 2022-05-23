@@ -259,7 +259,7 @@ int findOccurTail(Occurence *occurenceList, int dayEnd){
 
 keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Category keyCategory, short dayBegin, short dayEnd){
     //illegal input handling.
-    if((int)keyCategory < -1 ||(int)keyCategory > 5 || dayBegin > dayEnd || dayBegin < 0 || dayBegin < 0
+    if((int)keyCategory < -1 ||(int)keyCategory > 6 || dayBegin > dayEnd || dayBegin < 0 || dayBegin < 0
        ||(dayBegin < 1 && keyCategory == -1) || (dayEnd < 0 && keyCategory == -1)
        ||dayBegin > 31 ||dayEnd > 31||(dayBegin==0 && dayEnd != 0) || (dayBegin!= 0 && dayEnd == 0)
        ||((int)keyCategory == -1 && (dayBegin == 0 || dayEnd == 0))){
@@ -485,7 +485,7 @@ struct LLNode *deleteAction(struct LLNode *sortedList, Occurence *occurenceList)
         int keyCategory;
         scanf("%d",&keyCategory);
         //illegal input handling
-        if (keyCategory < 0 || keyCategory > 5){
+        if (keyCategory < 0 || keyCategory > 6){
             printf("Invalid input, please retry\n");
             return sortedList;
         }
@@ -559,7 +559,7 @@ struct LLNode *deleteAction(struct LLNode *sortedList, Occurence *occurenceList)
         int keyCategory;
         scanf("%d",&keyCategory);
         //illegal input handling
-        if (keyCategory < 0 || keyCategory > 5){
+        if (keyCategory < 0 || keyCategory > 6){
             printf("Invalid input, please retry\n");
             return sortedList;
         }
