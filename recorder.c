@@ -34,7 +34,7 @@ Tree* getAllRecordName(const char* accountName){
     return tree;
 }
 
-Tree* getgetSpendRecordTree(const char* accountName,int year, int month){
+static Tree* getgetSpendRecordTree(const char* accountName,int year, int month){
     FILE* file = getSpendFile(year,month,accountName,appendMode);
     if(file == NULL){
         errorMsg("file not found.",__FILE__,__LINE__);
