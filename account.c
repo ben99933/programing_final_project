@@ -72,10 +72,8 @@ boolean login(){
                 }
                 fgets(password,1024,accountFile);
                 
-                MD5Digest* digest = md5(passwordInput);
                 char hash[17] = {'\0'};
-                getDigestString(hash,digest);
-                free(digest);
+                getDigestString(hash,passwordInput);
 
                 if(isDebugMode())printf("input = %s,len=%d\n",passwordInput,(int)strlen(passwordInput));
                 if(isDebugMode())printf("input hash = %s,len=%d\n",hash,(int)strlen(hash));
@@ -147,10 +145,8 @@ void signUp(){
             errorMsg("File Created failed.",__FILE__,__LINE__);
         }
         //密碼雜湊
-        MD5Digest* digest = md5(password);
         char hash[17] = {'\0'};
-        getDigestString(hash,digest);
-        free(digest);
+        getDigestString(hash,password);
 
         fprintf(accountFile,"%s",hash);
         closeFile(accountFile);

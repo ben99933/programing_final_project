@@ -3,15 +3,16 @@
 
 #ifndef MD5_H
     #define MD5_H
-    typedef struct MD5Digest MD5Digest;
-    MD5Digest* md5(char *string);
-    void getDigestString(char* string,MD5Digest* digest);
+
+    /**
+     * 把string 變成一個16字元的字串放到hash
+     */
+    void getDigestString(char* hash,char*string);
     /**
      * 使用範例
-     * char *string = "fuck you";
-     * MD5Digest* digest = md5((uint8_t*)string,strlen(string));
-     * char output[17] = {'\0'};
-     * getDigestString(output,digest);
-     * printf("digest = %s\n",output);
+     * char *string = "never gonna give you up";
+     * char hash[17] = {'\0'};
+     * getDigestString(hash,string);
+     * printf("digest = %s\n",hash);
      */
 #endif

@@ -4,26 +4,19 @@
 #include<stdlib.h>
 #include"word.h"
 
-#define F(x,y,z) ((x & y) | (~x & z))
-#define G(x,y,z) ((x & z) | (y & ~z))
-#define H(x,y,z) (x^y^z)
-#define I(x,y,z) (y ^ (x | ~z))
 
 //把第32~n個bit放到開頭 但順序沒有顛倒
 #define ROTATE_LEFT(x,n) ((x << n) | ( (x&0xFFFFFFFF) >> (32-n) ) )
 
-#define FF(a,b,c,d,x,s,t) (a = b + ROTATE_LEFT((a + F(b,c,d) + x + t), s))
-#define GG(a,b,c,d,x,s,t) (a = b + ROTATE_LEFT((a + G(b,c,d) + x + t), s))
-#define HH(a,b,c,d,x,s,t) (a = b + ROTATE_LEFT((a + H(b,c,d) + x + t), s))
-#define II(a,b,c,d,x,s,t) (a = b + ROTATE_LEFT((a + I(b,c,d) + x + t), s))
 
-typedef uint8_t byte;
+typedef uint8_t byte;//8bit的bit field
 
+//md5摘要
 typedef struct MD5Digest{
     uint32_t h[4];
 }MD5Digest;
 
-MD5Digest* newMD5Digest(){
+static MD5Digest* newMD5Digest(){
     MD5Digest* digest = malloc(sizeof(MD5Digest));
     digest->h[0] = 0x67452301;
     digest->h[1] = 0xefcdab89;
@@ -32,7 +25,7 @@ MD5Digest* newMD5Digest(){
     return digest;
 }
 
-const char salt[65] = "nevergonnagiveyouupnevergonnaletyoudownnevergonnarunaroundanddes\0";
+static const char salt[65] = "nevergonnagiveyouupnevergonnaletyoudownnevergonnarunaroundanddes\0";
 
 /**
  * 在雜湊之前先加點"鹽"
@@ -53,10 +46,9 @@ static void addSalt(byte* string, int len){
  * 步驟 3：以每 512 bits 為單位，將訊息分割為L個區塊 {P0, P1, .., Pq, …, PL-1}。
  * 步驟 4：將第一區塊（P0）與起始向量（Initial Vector, IV，128 bits）輸入到 MD5 演算法中，
  *  輸出為 CV1（128 bits）；CV1 則作為下一個區塊P1的輸入向量，依此類推。
- * 步驟 5：最後區塊（PL-1）與前一個 CVL-1 經由 MD5 演算後的輸出值，即為該訊息的訊息摘要（或稱雜湊值，128 bits）。
+ * 步驟 5：最後區塊（PL-1）與前一個 CVL-1 經由 MD5 演算後的輸出值，即為該訊息的訊息摘要digest（或稱雜湊值，128 bits）。
  */
-
-MD5Digest* md5(char *string) {
+static MD5Digest* md5(char *string) {
     int len = strlen(string);
     size_t initial_len = strlen(string);
     byte initial_msg[len];
@@ -64,10 +56,11 @@ MD5Digest* md5(char *string) {
         initial_msg[i] = (byte)string[i];
     }
     addSalt(initial_msg,initial_len);//加鹽
+    
     // Message (to prepare)
     byte *msg = NULL;
-    // Note: All variables are unsigned 32 bit and wrap modulo 2^32 when calculating
-    // r specifies the per-round shift amounts
+
+    //第index回合要從第幾個位置去做ROTATE_LEFT
     uint32_t r[] = {
         7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
         5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20,
@@ -106,20 +99,19 @@ MD5Digest* md5(char *string) {
     //append "0" bit until message length in bit ≡ 448 (mod 512)
     //append length mod (2 pow 64) to message
  
-    int new_len = ((((initial_len + 8) / 64) + 1) * 64) - 8;
+    int newLen = ((((initial_len + 8) / 64) + 1) * 64) - 8; //補滿(64的倍數再減8)
  
-    msg = calloc(new_len + 64, 1); // also appends "0" bits 
-                                   // (we alloc also 64 extra bytes...)
+    msg = calloc(newLen + 64, 1); //(newLen + 64)個"0"bits
     memcpy(msg, initial_msg, initial_len);
     msg[initial_len] = 128; // write the "1" bit
  
     uint32_t bits_len = 8*initial_len; // note, we append the len
-    memcpy(msg + new_len, &bits_len, 4);           // in bits at the end of the buffer
+    memcpy(msg + newLen, &bits_len, 4);//在第newLen*8個bit的下一個bit的位置 用4byte紀錄bits_len的值
  
-    // Process the message in successive 512-bit chunks:
-    //for each 512-bit chunk of message:
+
+    //以512bit(64byte)為單位把訊息切割成P1 P2... 依次做計算
     int offset;
-    for(offset=0; offset<new_len; offset += (512/8)) {
+    for(offset=0; offset<newLen; offset += (512/8)) {
  
         // break chunk into sixteen 32-bit words w[j], 0 ≤ j ≤ 15
         uint32_t *w = (uint32_t *) (msg + offset);
@@ -154,24 +146,34 @@ MD5Digest* md5(char *string) {
             a = temp;
         }
  
-        //把結果放到digest裡面
+        //把結果放到digest裡面 然後再跑回圈
+        //第N次的輸出作為第N+1次的輸入
         digest->h[0] += a;
         digest->h[1] += b;
         digest->h[2] += c;
         digest->h[3] += d;
     }
-    // cleanup
+    
     free(msg);
     return digest;
 }
-void getDigestString(char* string,MD5Digest* digest){
+
+ void getDigestString(char* hash,char*input){
+    char string[513] = {'\0'};
+    int len = strlen(input);
+    if(len >= 512)len = 512;
+    for(int i = 0;i<len;i++){
+        string[i] = input[i];
+    }
+    MD5Digest* digest = md5(string);
     for(int i = 0;i<16;i++){
         uint32_t b1 = digest->h[i/4];
         short times = 3-(i%4);//bit陣列中從"右邊"開始第幾個
         uint32_t b2 = b1 >> (times*8);
         b2  = b2 & (0x000f);//musk
-        string[i] = toHexChar(b2);
+        hash[i] = toHexChar(b2);
     }
-    string[16] = '\0';
+    hash[16] = '\0';
+    free(digest);
 }
 
