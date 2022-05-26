@@ -71,14 +71,14 @@ void loginOrSingUp(){
 /**計算該月份的總花費和總共幾筆資料
  * 不會返回值 而是存在intBuffer中
  */
-static void traverse_totalSpendCost(DataType type,void* value){
+deprecated static void traverse_totalSpendCost(DataType type,void* value){
     if(type != SpendType)return;
     Spend* spend = (Spend*)value;
     intBuffer[0] += 1;//共有幾筆紀錄
     intBuffer[1] += spend->cost;//總花費
 }
 //印出 <year> <month> 只是他是在list或tree在進行遍歷的時候被自動呼叫
-static void traverse_printYearMonth(DataType type,void* value){
+deprecated static void traverse_printYearMonth(DataType type,void* value){
     if(type != Int)return;
     int name = *(int*)value;
     int year = name/100;
@@ -89,7 +89,7 @@ static void traverse_printYearMonth(DataType type,void* value){
 /**
  * 印出該筆花費的詳細資料 僅在list或tree在進行遍歷的時候被自動呼叫
  */
-static void traverse_printSpendDetail(DataType type,void* value){
+deprecated static void traverse_printSpendDetail(DataType type,void* value){
     if(type!=SpendType)return;
     Spend* spend = (Spend*)value;
     Date* d = &spend->date;
