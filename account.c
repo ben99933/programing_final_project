@@ -4,7 +4,7 @@
 #include"dataType.h"
 #include"debug.h"
 #include"word.h"
-
+#include"md5.h"
 
 
 static boolean checkID(char*string){
@@ -71,12 +71,19 @@ boolean login(){
                     continue;
                 }
                 fgets(password,1024,accountFile);
-                if(isDebugMode())printf("input=%s,len=%d\n",passwordInput,(int)strlen(passwordInput));
-                if(isDebugMode())printf("password=%s,len=%d\n",password,(int)strlen(password));
                 
-                if(strcmp(password,passwordInput) == 0){
+                MD5Digest* digest = md5(passwordInput);
+                char hash[17] = {'\0'};
+                getDigestString(hash,digest);
+                free(digest);
+
+                if(isDebugMode())printf("input = %s,len=%d\n",passwordInput,(int)strlen(passwordInput));
+                if(isDebugMode())printf("input hash = %s,len=%d\n",hash,(int)strlen(hash));
+                if(isDebugMode())printf("password = %s,len=%d\n",password,(int)strlen(password));
+
+                if(strcmp(hash,password) == 0){
                     closeFile(accountFile);
-                    changeAccount(inputID,password);
+                    changeAccount(inputID,hash);
                     return True;
                 }else{
                     chance--;
@@ -139,8 +146,13 @@ void signUp(){
         if(accountFile == NULL){
             errorMsg("File Created failed.",__FILE__,__LINE__);
         }
+        //密碼雜湊
+        MD5Digest* digest = md5(password);
+        char hash[17] = {'\0'};
+        getDigestString(hash,digest);
+        free(digest);
 
-        fprintf(accountFile,"%s",password);
+        fprintf(accountFile,"%s",hash);
         closeFile(accountFile);
         printf("Your account created.\nPlease login again.\n");
         canContinue = True;

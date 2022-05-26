@@ -53,3 +53,14 @@ int toIntValue(const char* string){
 char* intToString(char* string,int value){
     return _itoa(value,string,10);
 }
+
+char toHexChar(int num){
+    if(0<=num && num <= 9){
+        return (char)((int)'0' + num);
+    }else if(10<=num && num <=15){
+        return (char)((int)'A' + num);
+    }else {
+        errorMsg("num out of limit",__FILE__,__LINE__);
+        return 0;
+    }
+}

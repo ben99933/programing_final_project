@@ -13,4 +13,5 @@
     void trimString(char* string);
     int toIntValue(const char* string);
     char* intToString(char* string,int value);
+    char toHexChar(int num);
 #endif
