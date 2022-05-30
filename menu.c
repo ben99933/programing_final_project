@@ -119,13 +119,14 @@ static void printAllAvailableRecords(){
  * 印出這個月的各項消費之概要
  * 未完待續
  */
+/***
 static void printMonthSummary(int year,int month, boolean hasBudget, int budget){
     LLNode* list = getSpendList(currentAccount.name,year,month);
     clearIntBuffer();
     int amount = 0;
     int total = 0;
     //未完待續
-}
+}***/
 
 /**
  * 印出該月份的詳細花費

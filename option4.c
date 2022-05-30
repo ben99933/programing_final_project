@@ -18,7 +18,7 @@ int check_budget(struct budget userbudget){
     else return 0;
 }
 /*show error message*/
-void error(){
+static void error(){
     printf("Invalid input!\n");
     system("pause");
     system("CLS");

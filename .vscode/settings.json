@@ -38,7 +38,8 @@
         "dirent.h": "c",
         "string.h": "c",
         "io.h": "c",
-        "md5.h": "c"
+        "md5.h": "c",
+        "option2.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

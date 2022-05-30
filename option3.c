@@ -6,7 +6,7 @@
 #include"spend.h"
 #include"option3.h"
 
-void error(){
+static void error(){
     printf("Invalid input!\nPlease use the correct input format");
     system("pause");
 }
