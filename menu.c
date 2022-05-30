@@ -24,9 +24,8 @@ void loginOrSingUp(){
         printf("(You can input \"exit\" to close the program.)\n");
         char input[1024];
         fgets(input,1024,stdin);
+        trimString(input);
         int len = strlen(input);
-        input[len-1] = '\0';
-        len = strlen(input);
         if(isDebugMode())printf("input=%s,len=%d\n",input,len);
         //對比輸入之文字
         if(len == 0 || strcmp(input,"Y")==0 || strcmp(input,"y")==0){
@@ -42,11 +41,10 @@ void loginOrSingUp(){
             printf("Do you want to sign up an account?[Y/n]\n");
             char input2[1024];
             fgets(input2,1024,stdin);
+            trimString(input2);
             int len2 = strlen(input2);
-            input2[len2-1] = '\0';
-            len = strlen(input2);
-            if(len==0 || strcmp(input,"Y")==0 || strcmp(input,"y")==0)signUp();
-            else if(strcmp(input,"N")==0 || strcmp(input,"n")==0)continue;
+            if(len==0 || strcmp(input2,"Y")==0 || strcmp(input2,"y")==0)signUp();
+            else if(strcmp(input2,"N")==0 || strcmp(input2,"n")==0)continue;
             else {
                 printf("Invaild input!\n");
                 continue;
@@ -71,14 +69,14 @@ void loginOrSingUp(){
 /**計算該月份的總花費和總共幾筆資料
  * 不會返回值 而是存在intBuffer中
  */ 
-deprecated static void traverse_totalSpendCost(DataType type,void* value){
+static void traverse_totalSpendCost(DataType type,void* value){
     if(type != SpendType)return;
     Spend* spend = (Spend*)value;
     intBuffer[0] += 1;//共有幾筆紀錄
     intBuffer[1] += spend->cost;//總花費
 }
 //印出 <year> <month> 只是他是在list或tree在進行遍歷的時候被自動呼叫 
-deprecated static void traverse_printYearMonth(DataType type,void* value){
+static void traverse_printYearMonth(DataType type,void* value){
     if(type != Int)return;
     int name = *(int*)value;
     int year = name/100;
@@ -89,7 +87,7 @@ deprecated static void traverse_printYearMonth(DataType type,void* value){
 /**
  * 印出該筆花費的詳細資料 僅在list或tree在進行遍歷的時候被自動呼叫
  */ 
-deprecated static void traverse_printSpendDetail(DataType type,void* value){
+static void traverse_printSpendDetail(DataType type,void* value){
     if(type!=SpendType)return;
     Spend* spend = (Spend*)value;
     Date* d = &spend->date;
