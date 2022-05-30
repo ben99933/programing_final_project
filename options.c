@@ -467,9 +467,9 @@ void func4_1(struct total usertotal,struct maxima usermaxima)
     food_proportion = (int)((float)usertotal.totalfood / usertotal.totalexpense * 100 * 10 + 0.5) / 10.0;
     clothing_proportion = (int)((float)usertotal.totalclothing / usertotal.totalexpense * 100 * 10 + 0.5) / 10.0;
     transportation_proportion = (int)((float)usertotal.totaltransportation / usertotal.totalexpense * 100 * 10 + 0.5) / 10.0;
-    entertainment_proportion = (int)((float)usertotal.totalentertainment / usertotal.totalexpense * 100 * 100 + 0.5) / 10.0;
-    utility_proportion = (int)((float)usertotal.totalutility / usertotal.totalexpense * 100 * 100 + 0.5) / 10.0;
-    other_proportion = (int)((float)usertotal.totalother / usertotal.totalexpense * 100 * 100 + 0.5) / 10.0;
+    entertainment_proportion = (int)((float)usertotal.totalentertainment / usertotal.totalexpense * 100 * 10 + 0.5) / 10.0;
+    utility_proportion = (int)((float)usertotal.totalutility / usertotal.totalexpense * 100 * 10 + 0.5) / 10.0;
+    other_proportion = (int)((float)usertotal.totalother / usertotal.totalexpense * 100 * 10 + 0.5) / 10.0;
 
     system("CLS");
     printf("Proportion:\n");
