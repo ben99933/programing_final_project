@@ -8,6 +8,9 @@
 #include"word.h"
 #include"spend.h"
 #include"recorder.h"
+#include"option2.h"
+#include"option3.h"
+#include"option4.h"
 
 
 /**
@@ -68,14 +71,14 @@ void loginOrSingUp(){
 //=============================在Tree或list走訪的時候要用到的================================
 /**計算該月份的總花費和總共幾筆資料
  * 不會返回值 而是存在intBuffer中
- */ 
+ */
 static void traverse_totalSpendCost(DataType type,void* value){
     if(type != SpendType)return;
     Spend* spend = (Spend*)value;
     intBuffer[0] += 1;//共有幾筆紀錄
     intBuffer[1] += spend->cost;//總花費
 }
-//印出 <year> <month> 只是他是在list或tree在進行遍歷的時候被自動呼叫 
+//印出 <year> <month> 只是他是在list或tree在進行遍歷的時候被自動呼叫
 static void traverse_printYearMonth(DataType type,void* value){
     if(type != Int)return;
     int name = *(int*)value;
@@ -86,7 +89,7 @@ static void traverse_printYearMonth(DataType type,void* value){
 }
 /**
  * 印出該筆花費的詳細資料 僅在list或tree在進行遍歷的時候被自動呼叫
- */ 
+ */
 static void traverse_printSpendDetail(DataType type,void* value){
     if(type!=SpendType)return;
     Spend* spend = (Spend*)value;
@@ -96,7 +99,7 @@ static void traverse_printSpendDetail(DataType type,void* value){
 
     printf("%d\t%d\t%d\t%-12s\t%d\t%s\n",date->year,date->month,date->day,toCategoryString(spend->category),spend->cost,spend->note);
     free(date);
-}
+} 
 //=============================================================================================
 
 //====================================一些action會用到的func==================================
@@ -205,7 +208,7 @@ static void addRecord(){
         printf("================================Record================================\n");
         printf("Please your consumption record.\n");
         printf("(You can input \"back\" to exit previous step.)\n");
-        printf("Category id: [0]food [1]traffic [2]entertainment [3]shopping\n\n");
+        printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n\n");
         printf("Format : <year> <month> <day> <category id> <cost amount> <notes>\n");
         printf("======================================================================\n");
         char input[1024] = {'\0'};
@@ -244,7 +247,8 @@ static void addRecord(){
         }
 
         split = strtok(NULL," ");
-        if(split != NULL && isNumberString(split))category = toCategory(toIntValue(split));
+        if(split != NULL && isNumberString(split))
+            category = toCategory(toIntValue(split));
         else{
             printf("Invalid input.\n");
             system("pause");
@@ -287,10 +291,12 @@ static void removeRecord(){
     while(True){
         
         if(printfMonthSpendDetail(month/100,month%100) == False)return;
+        printf("================================Remove================================\n");
         printf("Which record do you want to delete?\n");
         printf("(You can input \"back\" to exit previous step.)\n");
-        printf("Category id: [0]food [1]traffic [2]entertainment [3]shopping\n\n");
+        printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n\n");
         printf("Format : <year> <month> <day> <category id> <cost amount>\n");
+        printf("======================================================================\n");
         char input[1024] = {'\0'};
         fgets(input,1024,stdin);
         trimString(input);
@@ -354,11 +360,14 @@ static void removeRecord(){
 
 
 
+
+
 /**主選單
  * 問使用者要進行哪一個動作 然後呼叫相對應的action
  */
 void onMenu(){
     while(True){
+
         system("CLS");
         printf("Wellcome, %s.\n",currentAccount.name);
         printf("What do you want to do?\n");
@@ -381,16 +390,35 @@ void onMenu(){
         }
         if(strlen(inputString) == 0)continue;
         int action = toIntValue(inputString);
+
         if(action == 0){
             addRecord();
         }else if(action == 1){
             removeRecord();
         }else if(action == 2){
-
+            
+            int year_month=chooseSpend();
+            short year=year_month/100,month=year_month%100;
+            LLNode *sortedList= getSpendList(currentAccount.name, year, month);
+            Occurence *occurenceList=findOccurence(sortedList);
+            option2(sortedList,occurenceList,year,month);  
+  
         }else if(action == 3){
 
+            int year_month=chooseSpend();
+            short year=year_month/100,month=year_month%100;
+            LLNode *sortedList= getSpendList(currentAccount.name, year, month);
+            Occurence *occurenceList=findOccurence(sortedList);
+            option3(sortedList, occurenceList, year, month);
         }else if(action == 4){
-            
+
+            int year_month=chooseSpend();
+            short year=year_month/100,month=year_month%100;
+            LLNode *sortedList= getSpendList(currentAccount.name, year, month);
+            Occurence *occurenceList=findOccurence(sortedList);
+            keyDataList *keyList= getKeyData(sortedList,occurenceList, -1, 0, 0);
+            option4(keyList);
+
         }else if(action == 5){
             exit(0);
         }else if(action == 6){
