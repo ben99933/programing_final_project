@@ -1,6 +1,6 @@
 #ifndef option4_content_h
     #define option4_content_h
-    #include "wng.h"
+    #include "option4.h"
     #include "spendList.h"
     #include "word.h"
 
