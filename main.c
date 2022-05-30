@@ -31,6 +31,5 @@ int main(){
         loginOrSingUp();
         onMenu();
     }
-    
     return 0;
 }
