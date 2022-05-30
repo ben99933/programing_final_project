@@ -1,11 +1,26 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "option4_content.h"
-#include "option4.h"
+#include"menu.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include"word.h"
+#include"spend.h"
 #include "spendList.h"
-#include "word.h"
+#include"options.h"
 
+struct budget{
+    int food_budget, clothing_budget, transportation_budget, entertainment_budget, utility_budget, other_budget, total_budget;
+};
+struct total{
+    int totalwage,totalexpense,totalfood, totalclothing, totaltransportation, totalentertainment, totalutility, totalother;
+};
+struct maxima{
+    struct LLNode *food_max, *clothing_max, *transportation_max, *entertainment_max, *utility_max, *other_max;
+};
+
+void errormsg_for_option23(){
+    printf("Invalid input!\nPlease use the correct input format");
+    system("pause");
+}
 
 //free_LL: free the linked list in type LLNode
 void free_LL(struct LLNode *p)
@@ -17,7 +32,6 @@ void free_LL(struct LLNode *p)
         free(h);
     }
 }
-
 
 //print_maxima: print the information of the maxima
 //we may have multiple maxima, so use LLNode *p to point at the linked list of maxima
@@ -132,8 +146,6 @@ void print_budget(int target_budget)
         printf("%d\n", target_budget);
     }
 }
-
-
 
 //askbudget: Let user to enter the amount of budget
 void askbudget(struct budget *userbudget)
@@ -327,7 +339,7 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("Enter your utility budget.\n");
+                printf("Enter your entertainment utility budget.\n");
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
 
@@ -540,6 +552,235 @@ void func4_2(struct total usertotal,struct budget userbudget){
     printf("utility         |%12d       |%12d       \n",userbudget.utility_budget,userbudget.utility_budget+u);
     if(userbudget.other_budget!=-1)
     printf("other           |%12d       |%12d       \n",userbudget.other_budget,userbudget.other_budget+o);
+    system("pause");
 }
 
+/* to check whether user chooses to set a budget plan,but he didn't set*/
+int check_budget2(struct budget userbudget){
+    if(userbudget.total_budget==-1&&
+        userbudget.food_budget==-1&&
+        userbudget.clothing_budget==-1&&
+        userbudget.transportation_budget==-1&&
+        userbudget.entertainment_budget==-1&&
+        userbudget.utility_budget==-1&&
+        userbudget.other_budget==-1)
+        return 1;
+    else return 0;
+}
 
+/*show error message*/
+void errormsg_for_option4(){
+    printf("Invalid input!\n");
+    system("pause");
+    system("CLS");
+    printf("Please choose again :\n");
+
+}
+
+void option2(LLNode *sortedList,Occurence *occurenceList,short year,short month){
+    if(sortedList==NULL){
+        printf("There is no data in given date, please retry\n");
+        return;
+    }
+
+    short dayBegin = 0, dayEnd = 0;
+    while (1){
+        system("CLS");
+        dayBegin = 0, dayEnd = 0;
+        printf("================================Search================================\n");
+        printf("Please enter the date interval you want to view?\n");
+        printf("You can input \"back\" to back to previous step.\n");
+        printf("Format : <day begin> <day end>\n");
+        printf("======================================================================\n");
+
+        char input[100];
+        fgets(input, 100, stdin);
+        trimString(input);
+
+        /*==========if user enter "back",system will back to menu==========*/
+        if (strcmp(input, "back") == 0){
+            return;
+        }/*================================================================*/
+
+
+        /*==========split the string to get dayBegin and dayEnd==========*/
+        char *split = strtok(input, " ");
+        if (split == NULL || !isNumberString(split)) {
+            printf("Invalid input.\n");
+            system("pause");
+            continue;
+        }
+        else dayBegin = toIntValue(split);
+
+        split = strtok(NULL, " ");
+        if (split == NULL || !isNumberString(split)){
+            errormsg_for_option23();
+            continue;
+        }
+        else dayEnd = toIntValue(split);
+        /*================================================================*/
+
+
+        /*===========================to check if the dates are reasonable===========================*/
+        if (checkDate(year, month, dayBegin) == False || checkDate(year, month, dayEnd) == False){
+            errormsg_for_option23();
+            continue;
+        }
+        else
+            break;
+        /*==========================================================================================*/
+    }   
+
+    keyDataList *keyList= getKeyData(sortedList,occurenceList, -1, dayBegin, dayEnd);   //get data
+    if(keyList!=NULL)
+        printKeyList(keyList);   //print data
+    else
+        printf("NO data found.\n");
+}
+
+void option3(LLNode *sortedList,Occurence *occurenceList,short year,short month){
+    if(sortedList==NULL){
+        printf("There is no data in given date, please retry\n");
+        return;
+    }
+
+    int category_id;
+    while(1){
+        system("CLS");
+        printf("=============================================Search=============================================\n");
+        printf("Please enter category you want to view?\n");
+        printf("You can input \"back\" to back to previous step.\n");
+        printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n\n");
+        printf("Format : <category>\n");
+        printf("=================================================================================================\n");
+
+        char input[100];
+        fgets(input, 100, stdin);
+        trimString(input);
+
+        /*==========if user enter "back",system will back to menu==========*/
+        if (strcmp(input, "back") == 0)
+            return;
+        /*=================================================================*/
+
+      
+        /*=====if the input contains char(s) which is not numbers, system will print error message=====*/
+        if(!isNumberString(input)){
+            errormsg_for_option23();
+            continue;
+        }/*============================================================================================*/
+
+        /*======check whether the input number >=0 && <=6 ======*/
+        category_id = toIntValue(input);
+        if(category_id>=0&&category_id<=6)
+            break;
+        else{
+            errormsg_for_option23();
+            continue;
+        } 
+        /*=====================================================*/
+    }
+
+    keyDataList *keyList= getKeyData(sortedList,occurenceList, category_id, 0, 0);   //get data
+    if(keyList!=NULL)
+        printKeyList(keyList);   //print data
+    else
+        printf("NO data found.\n");
+}
+
+void option4(keyDataList *keyList){
+
+    int res=0;/*if res==0 means user didn't have a budget plan.  if res==1, user have a budget plan*/
+    struct budget userbudget;
+    system("CLS");
+    while(1){
+        printf("Do you want your analysis to consider budget?(Y/N)\n");
+        printf("You can input \"back\" to back to previous step.\n");
+
+        char input[100];
+        fgets(input,100,stdin);
+        int len = strlen(input);
+        input[len-1] = '\0';
+        len = strlen(input);
+
+        /*========== user chooses to set a budget plan ==========*/
+        if(strcmp(input,"Y")==0 || strcmp(input,"y")==0){
+            res=1;
+            askbudget(&userbudget);
+            
+            if(check_budget2(userbudget)){   /*=deal with the situation user chooses to set a budget plan,but he didn't set=*/
+                printf("You didn't set any budget plan!\n");
+                system("pause");
+                system("CLS");
+                printf("Please choose again :\n");
+                continue;
+            }
+            else break;
+        }/*=====================================================*/
+
+
+        /*========== user doesn't want to set a budget plan ==========*/
+        else if(strcmp(input,"N")==0 || strcmp(input,"n")==0)
+            break;
+        /*============================================================*/
+
+
+        /*==========if user enter "back",system will back to menu==========*/
+        else if(strcmp(input,"back")==0)
+            return ; 
+        /*=================================================================*/
+
+
+        /*==========if user input neither "back" nor "y/n" print error message==========*/
+        else{
+            errormsg_for_option4();
+            continue;
+        }/*============================================================================*/
+    }
+
+    struct total usertotal;
+    struct maxima usermaxima;
+    
+    while(1){      
+        month_summary(&usertotal,keyList,&usermaxima);  //print month summary
+        printf("============================================analysis============================================\n");
+        printf("[1] Expense analysis (on category)\n");
+        if(res==1){
+            printf("[2] Get suggestions of budget about next month\n");
+        }
+        printf("You can input \"back\" to back to previous step.\n");
+        printf("================================================================================================\n");
+
+        char input[100];
+        fgets(input,100,stdin);
+        trimString(input);
+
+        /*==================if user enter "back",system will back to menu=================*/
+        if(strcmp(input,"back")==0){
+            return;
+        }/*================================================================================*/
+
+
+        else{
+            /*=====if the input contains char(s) which is not numbers, system will print error message=====*/
+            if(!isNumberString(input)){
+                errormsg_for_option4();
+                continue;
+            }/*============================================================================================*/
+            
+            int action = toIntValue(input);     
+            if(action==1){
+                func4_1(usertotal,usermaxima);
+                continue;
+            }
+            else if(action==2&&res==1){
+                func4_2(usertotal,userbudget);
+                continue;
+            }
+            else{
+                errormsg_for_option4();
+                continue;
+            }
+        }
+    }
+}

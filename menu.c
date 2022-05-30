@@ -8,9 +8,7 @@
 #include"word.h"
 #include"spend.h"
 #include"recorder.h"
-#include"option2.h"
-#include"option3.h"
-#include"option4.h"
+#include"options.h"
 
 
 /**
@@ -416,10 +414,16 @@ void onMenu(){
             int year_month=chooseSpend();
             short year=year_month/100,month=year_month%100;
             LLNode *sortedList= getSpendList(currentAccount.name, year, month);
+            if(sortedList==NULL){
+                printf("There is no data in given date, please retry\n");
+                continue;
+            }
             Occurence *occurenceList=findOccurence(sortedList);
             keyDataList *keyList= getKeyData(sortedList,occurenceList, -1, 0, 0);
-            option4(keyList);
-
+            if(keyList!=NULL)
+                option4(keyList);
+            else 
+                printf("NO data found.\n");
         }else if(action == 5){
             exit(0);
         }else if(action == 6){
@@ -432,3 +436,5 @@ void onMenu(){
         }
     }
 }
+
+
