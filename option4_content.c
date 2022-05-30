@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "option4_content.h"
-#include "wng.h"
+#include "option4.h"
 #include "spendList.h"
 #include "word.h"
 
