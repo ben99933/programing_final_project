@@ -52,16 +52,15 @@ static void addSalt(byte* string, int len){
  * 步驟 5：最後區塊（PL-1）與前一個 CVL-1 經由 MD5 演算後的輸出值，即為該訊息的訊息摘要digest
  */
 static MD5Digest* md5(char *string) {
-    int len = strlen(string);
-    size_t initial_len = strlen(string);
-    byte initial_msg[len];
-    for(int i = 0;i<len;i++){
+    int stringLen = strlen(string);
+    size_t len = strlen(string);
+    byte initial_msg[stringLen];
+    for(int i = 0;i<stringLen;i++){
         initial_msg[i] = (byte)string[i];
     }
-    addSalt(initial_msg,initial_len);//加鹽
+    addSalt(initial_msg,len);//加鹽
     
-    // Message (to prepare)
-    byte *msg = NULL;
+    byte *msg = NULL;//等一下要雜湊的"訊息"
 
     //第index回合要從第幾個位置去做ROTATE_LEFT
     byte4 r[] = {
@@ -94,18 +93,16 @@ static MD5Digest* md5(char *string) {
     
     MD5Digest* digest = newMD5Digest();
  
-    int newLen = ((((initial_len + 8) / 64) + 1) * 64) - 8; //補滿(64的倍數再減8)
- 
+    int newLen = ((((len + 8) / 64) + 1) * 64) - 8; //補滿64的倍數再減8
     msg = calloc(newLen + 64, 1); //(newLen + 64)個"0"bits
-    memcpy(msg, initial_msg, initial_len);
-    msg[initial_len] = 128; // write the "1" bit
- 
-    byte4 bits_len = 8*initial_len; // note, we append the len
-    memcpy(msg + newLen, &bits_len, 4);//在第newLen*8個bit的下一個bit的位置 用4byte紀錄bits_len的值
+    memcpy(msg, initial_msg, len);
+    msg[len] = 128; // 原本的字串的結尾加上一個"1"
+    byte4 bitLen = 8*len;
+    memcpy(msg + newLen, &bitLen, 4);//在第newLen*8個bit的下一個bit的位置 用4byte紀錄bitLen的value
  
 
     //以512bit(64byte)為單位把訊息切割成P1 P2... 依次做計算
-    int offset;
+    int offset;//第幾個P
     for(offset=0; offset<newLen; offset += (512/8)) {
  
         // break chunk into sixteen 32-bit words w[j], 0 ≤ j ≤ 15
