@@ -307,11 +307,11 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("Enter your entertainment transportation budget.\n");
+                printf("Enter your entertainment budget.\n");
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
 
-                if(check_budget(&(userbudget->total_budget), &(userbudget->transportation_budget), &sum))
+                if(check_budget(&(userbudget->total_budget), &(userbudget->entertainment_budget), &sum))
                 {
                     continue;
                 }
@@ -327,7 +327,7 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("Enter your entertainment utility budget.\n");
+                printf("Enter your utility budget.\n");
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
 
@@ -347,7 +347,7 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("Enter your entertainment other budget.\n");
+                printf("Enter your other budget.\n");
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
 
