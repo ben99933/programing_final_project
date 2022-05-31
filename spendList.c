@@ -182,11 +182,9 @@ struct LLNode *deleteNode(struct LLNode *list, Spend keyData){
 
     if(key == NULL){
         printf("No such node, please retry.\n");
-        printf("Can not fine record.\n");
         return list;
     }
     else{
-        printf("Delete successful.\n");
         if(key == prev){                //key is the first element in the list.
             prev = prev->next;
             free(key);
@@ -263,9 +261,9 @@ int findOccurTail(Occurence *occurenceList, int dayEnd){
 keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Category keyCategory, short dayBegin, short dayEnd){
     //illegal input handling.
     if((int)keyCategory < -1 ||(int)keyCategory > 6 || dayBegin > dayEnd || dayBegin < 0 || dayBegin < 0
-       ||(dayBegin < 1 && keyCategory == -1) || (dayEnd < 0 && keyCategory == -1)
-       ||dayBegin > 31 ||dayEnd > 31||(dayBegin==0 && dayEnd != 0) || (dayBegin!= 0 && dayEnd == 0)
-       ||((int)keyCategory == -1 && (dayBegin == 0 || dayEnd == 0))){
+       ||((keyCategory == -1 && dayBegin < 1) && (keyCategory == -1 && dayBegin != 0)) 
+       ||((keyCategory == -1 && dayEnd < 1 )) && (keyCategory == -1 && dayEnd != 0)
+       ||dayBegin > 31 ||dayEnd > 31||(dayBegin==0 && dayEnd != 0) || (dayBegin!= 0 && dayEnd == 0)){
         printf("Invalid Input, please check your input!\n");
         return NULL;
     }
@@ -311,8 +309,13 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
                 return NULL;
             }
             else{
-                while (occurenceList[dayBegin - 1].Count == 0)
+                while (occurenceList[dayBegin - 1].Count == 0){
+                    if(dayBegin == dayEnd){ // if dayBegin ==dayEnd and Count is still zero.
+                        printf("No such data in designated range. Please retry.\n");
+                        return NULL;
+                    }
                     dayBegin++;
+                }
             }
         }
             
@@ -352,8 +355,13 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
                 return NULL;
             }
             else{
-                while (occurenceList[dayBegin - 1].Count == 0)
+                while (occurenceList[dayBegin - 1].Count == 0){
+                    if(dayBegin == dayEnd){ // if dayBegin == dayEnd and Count is still zero.
+                        printf("No such data in designated range. Please retry.\n");
+                        return NULL;
+                    }
                     dayBegin++;
+                }
             }
         }
         
@@ -390,6 +398,48 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
             keyList->listLength = (short) i;
             return keyList;
         }   
+    }
+    // DEFAULT CASE:
+    else if((int)keyCategory == -1 && dayBegin == 0 && dayEnd == 0){
+        dayBegin = 1;
+        dayEnd = 31;
+        while (dayBegin <= dayEnd && occurenceList[dayBegin - 1].Count == 0){
+            if(dayBegin == dayEnd && occurenceList[dayBegin - 1].Count == 0){
+                printf("No such data in designated range. Please retry.\n");
+                return NULL;
+            }
+            else{
+                while (occurenceList[dayBegin - 1].Count == 0)
+                    dayBegin++;
+            }
+        }
+            
+        int startPos = occurenceList[dayBegin - 1].initPos;
+        int endPos = occurenceList[dayEnd - 1].initPos + occurenceList[dayEnd - 1].Count;
+        if((endPos <= startPos) && (dayBegin != dayEnd))
+            endPos = findOccurTail(occurenceList, dayEnd);
+        int dataLength = endPos - startPos;
+        
+        if(dataLength == 0){
+            printf("No such data in designated range. Please retry.\n");
+            return NULL;
+        }
+        
+        Spend *dataList = calloc(dataLength, sizeof(Spend));
+        keyDataList *keyList = malloc(sizeof(keyDataList));
+        keyList->dataList = dataList;
+        keyList->keyCategory = -1; //Category not specified.
+        keyList->dayBegin = dayBegin;
+        keyList->dayEnd = dayEnd;
+        keyList->listLength = (short) dataLength;
+        keyList->extractionType = 1;
+
+        struct LLNode *curr = sortedList;
+        for (int i = 0 ; i < startPos   ; i++, curr = curr->next);
+        for (int j = 0 ; j < dataLength ; j++, curr = curr->next)
+            dataList[j] = curr->spend;
+
+        return keyList;
     }
 }
 

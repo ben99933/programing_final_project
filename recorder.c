@@ -116,7 +116,7 @@ void removeSpend(int year,int month, int day, int category, int cost, char note[
         focus = focus->next;
     }
     closeFile(file);
-    
+    printf("Delete complete.\n");
     destorySpendList(listHead);
     system("pause");
 
