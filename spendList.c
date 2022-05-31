@@ -304,14 +304,14 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
     //Day Interval Only
     else if ((int)keyCategory == -1 && dayBegin != 0){
         int actualDayBegin = dayBegin;
-        while (dayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
-            if(dayBegin == dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
+        while (actualDayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
+            if(actualDayBegin == dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
                 printf("No such data in designated range. Please retry.\n");
                 return NULL;
             }
             else{
                 while (occurenceList[actualDayBegin - 1].Count == 0){
-                    if(dayBegin == dayEnd){ // if dayBegin ==dayEnd and Count is still zero.
+                    if(actualDayBegin == dayEnd){ // if dayBegin ==dayEnd and Count is still zero.
                         printf("No such data in designated range. Please retry.\n");
                         return NULL;
                     }
@@ -331,7 +331,6 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
             printf("No such data in designated range. Please retry.\n");
             return NULL;
         }
-
         
         Spend *dataList = calloc(dataLength, sizeof(Spend));
         keyDataList *keyList = malloc(sizeof(keyDataList));
@@ -352,14 +351,14 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
     // BOTH Day Interval and keyCategory.
     else if ((int)keyCategory != -1 && dayBegin != 0){
         int actualDayBegin = dayBegin;
-        while (dayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
-            if(dayBegin == dayEnd){
+        while (actualDayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
+            if(actualDayBegin == dayEnd){
                 printf("No such data in designated range. Please retry.\n");
                 return NULL;
             }
             else{
                 while (occurenceList[actualDayBegin - 1].Count == 0){
-                    if(dayBegin == dayEnd){ // if dayBegin == dayEnd and Count is still zero.
+                    if(actualDayBegin == dayEnd){ // if dayBegin == dayEnd and Count is still zero.
                         printf("No such data in designated range. Please retry.\n");
                         return NULL;
                     }
@@ -406,14 +405,20 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
     else if((int)keyCategory == -1 && dayBegin == 0 && dayEnd == 0){
         dayBegin = 1;
         dayEnd = 31;
-        while (dayBegin <= dayEnd && occurenceList[dayBegin - 1].Count == 0){
-            if(dayBegin == dayEnd && occurenceList[dayBegin - 1].Count == 0){
+        int actualDayBegin = dayBegin;
+        while (actualDayBegin <= dayEnd && occurenceList[dayBegin - 1].Count == 0){
+            if(actualDayBegin == dayEnd && occurenceList[dayBegin - 1].Count == 0){
                 printf("No such data in designated range. Please retry.\n");
                 return NULL;
             }
             else{
-                while (occurenceList[dayBegin - 1].Count == 0)
-                    dayBegin++;
+                while (occurenceList[actualDayBegin - 1].Count == 0){
+                    if(actualDayBegin == dayEnd){ // if dayBegin == dayEnd and Count is still zero.
+                        printf("No such data in designated range. Please retry.\n");
+                        return NULL;
+                    }
+                    actualDayBegin++;
+                }
             }
         }
             
