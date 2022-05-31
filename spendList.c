@@ -182,9 +182,11 @@ struct LLNode *deleteNode(struct LLNode *list, Spend keyData){
 
     if(key == NULL){
         printf("No such node, please retry.\n");
+        printf("Can not fine record.\n");
         return list;
     }
     else{
+        printf("Delete successful.\n");
         if(key == prev){                //key is the first element in the list.
             prev = prev->next;
             free(key);

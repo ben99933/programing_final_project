@@ -102,20 +102,21 @@ void removeSpend(int year,int month, int day, int category, int cost, char note[
     Occurence *occurList = findOccurence(listHead);
     Date date = {.year = year, .month = month, .day = day};
     Spend* spend = newSpend(cost, category, date, note);
-    boolean success;
-    listHead = LLNode_removeNode(listHead, *spend, &success);
-    
-    if(success == False){
-        printf("Can not fine record.\n");
-    }
+    listHead = deleteNode(listHead,*spend);
     
 
     clearFileBuffer();
     FILE* file = getSpendFile(year,month,accountName,coverMode);
     fileBuffer[0] = file;
-    
+    LLNode* focus = listHead;
+    while(focus){
+        Spend spend2 = focus->spend;
+        Date date2 = spend2.date;
+        fprintf(file,"%d,%d,%d,%d,%d,%s\n",date2.year,date2.month,date2.day,spend2.category,spend2.cost,spend2.note);
+        focus = focus->next;
+    }
     closeFile(file);
-    printf("Delete successful.\n");
+    
     destorySpendList(listHead);
     system("pause");
 

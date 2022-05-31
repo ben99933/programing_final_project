@@ -35,6 +35,8 @@ const char* toCategoryString(Category category){
     //food, clothing, transportation, entertainment, utility, other, wage
     if(category == food){
         return FOOD;
+    }else if(category == clothing){
+        return CLOTHING;
     }else if(category == transportation){
         return TRANSPORTATION;
     }else if(category == entertainment){
