@@ -204,12 +204,12 @@ static void addRecord(){
     
     while(True){
         system("CLS");
-        printf("================================Record================================\n");
+        printf("============================================Record==============================================\n");
         printf("Please your consumption record.\n");
         printf("(You can input \"back\" to exit previous step.)\n");
         printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n\n");
         printf("Format : <year> <month> <day> <category id> <cost amount> <notes>\n");
-        printf("======================================================================\n");
+        printf("================================================================================================\n");
         char input[1024] = {'\0'};
         short year = 0;
         short month = 0;
@@ -395,35 +395,48 @@ void onMenu(){
         }else if(action == 1){
             removeRecord();
         }else if(action == 2){
-            
-            int year_month=chooseSpend();
-            short year=year_month/100,month=year_month%100;
-            LLNode *sortedList= getSpendList(currentAccount.name, year, month);
-            Occurence *occurenceList=findOccurence(sortedList);
-            option2(sortedList,occurenceList,year,month);  
-  
-        }else if(action == 3){
-
-            int year_month=chooseSpend();
-            short year=year_month/100,month=year_month%100;
-            LLNode *sortedList= getSpendList(currentAccount.name, year, month);
-            Occurence *occurenceList=findOccurence(sortedList);
-            option3(sortedList, occurenceList, year, month);
-        }else if(action == 4){
-
+            system("CLS");
             int year_month=chooseSpend();
             short year=year_month/100,month=year_month%100;
             LLNode *sortedList= getSpendList(currentAccount.name, year, month);
             if(sortedList==NULL){
                 printf("There is no data in given date, please retry\n");
+                system("pause");
+                continue;
+            }
+            Occurence *occurenceList=findOccurence(sortedList);
+            option2(sortedList,occurenceList,year,month);  
+  
+        }else if(action == 3){
+            system("CLS");
+            int year_month = chooseSpend();
+            short year=year_month/100,month=year_month%100;
+            LLNode *sortedList= getSpendList(currentAccount.name, year, month);
+            if(sortedList==NULL){
+                printf("There is no data in given date, please retry\n");
+                system("pause");
+                continue;
+            }
+            Occurence *occurenceList=findOccurence(sortedList);
+            option3(sortedList, occurenceList, year, month);
+        }else if(action == 4){
+            system("CLS");
+            int year_month=chooseSpend();
+            short year=year_month/100,month=year_month%100;
+            LLNode *sortedList= getSpendList(currentAccount.name, year, month);
+            if(sortedList==NULL){
+                printf("There is no data in given date, please retry\n");
+                system("pause");
                 continue;
             }
             Occurence *occurenceList=findOccurence(sortedList);
             keyDataList *keyList= getKeyData(sortedList,occurenceList, -1, 0, 0);
             if(keyList!=NULL)
                 option4(keyList);
-            else 
+            else{
                 printf("NO data found.\n");
+                system("pause");
+            }
         }else if(action == 5){
             exit(0);
         }else if(action == 6){
@@ -436,5 +449,4 @@ void onMenu(){
         }
     }
 }
-
 
