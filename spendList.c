@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "spendList.h"
+#include "debug.h"
 
 struct LLNode *createList(Spend data){
     struct LLNode *head = malloc(sizeof(struct LLNode));
@@ -260,9 +261,9 @@ int findOccurTail(Occurence *occurenceList, int dayEnd){
 keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Category keyCategory, short dayBegin, short dayEnd){
     //illegal input handling.
     if((int)keyCategory < -1 ||(int)keyCategory > 6 || dayBegin > dayEnd || dayBegin < 0 || dayBegin < 0
-       ||(dayBegin < 1 && keyCategory == -1) || (dayEnd < 0 && keyCategory == -1)
-       ||dayBegin > 31 ||dayEnd > 31||(dayBegin==0 && dayEnd != 0) || (dayBegin!= 0 && dayEnd == 0)
-       ||((int)keyCategory == -1 && (dayBegin == 0 || dayEnd == 0))){
+       ||((keyCategory == -1 && dayBegin < 1) && (keyCategory == -1 && dayBegin != 0)) 
+       ||((keyCategory == -1 && dayEnd < 1 )) && (keyCategory == -1 && dayEnd != 0)
+       ||dayBegin > 31 ||dayEnd > 31||(dayBegin==0 && dayEnd != 0) || (dayBegin!= 0 && dayEnd == 0)){
         printf("Invalid Input, please check your input!\n");
         return NULL;
     }
@@ -278,7 +279,7 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         keyList->keyCategory = (short int) keyCategory;
         keyList->extractionType = 0;
 
-        for (int i = 0 ; curr!=NULL, i < EXTRACT_UPPER_LIMIT ; curr = curr->next){
+        for (int i = 0 ; curr !=NULL, i < EXTRACT_UPPER_LIMIT ; curr = curr->next){
             if (curr == NULL)
                 break;
             if (curr->spend.category == keyCategory){
@@ -308,8 +309,13 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
                 return NULL;
             }
             else{
-                while (occurenceList[dayBegin - 1].Count == 0)
+                while (occurenceList[dayBegin - 1].Count == 0){
+                    if(dayBegin == dayEnd){ // if dayBegin ==dayEnd and Count is still zero.
+                        printf("No such data in designated range. Please retry.\n");
+                        return NULL;
+                    }
                     dayBegin++;
+                }
             }
         }
             
@@ -318,6 +324,11 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         if((endPos <= startPos) && (dayBegin != dayEnd))
             endPos = findOccurTail(occurenceList, dayEnd);
         int dataLength = endPos - startPos;
+        
+        if(dataLength == 0){
+            printf("No such data in designated range. Please retry.\n");
+            return NULL;
+        }
 
         
         Spend *dataList = calloc(dataLength, sizeof(Spend));
@@ -344,8 +355,13 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
                 return NULL;
             }
             else{
-                while (occurenceList[dayBegin - 1].Count == 0)
+                while (occurenceList[dayBegin - 1].Count == 0){
+                    if(dayBegin == dayEnd){ // if dayBegin == dayEnd and Count is still zero.
+                        printf("No such data in designated range. Please retry.\n");
+                        return NULL;
+                    }
                     dayBegin++;
+                }
             }
         }
         
@@ -382,6 +398,48 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
             keyList->listLength = (short) i;
             return keyList;
         }   
+    }
+    // DEFAULT CASE:
+    else if((int)keyCategory == -1 && dayBegin == 0 && dayEnd == 0){
+        dayBegin = 1;
+        dayEnd = 31;
+        while (dayBegin <= dayEnd && occurenceList[dayBegin - 1].Count == 0){
+            if(dayBegin == dayEnd && occurenceList[dayBegin - 1].Count == 0){
+                printf("No such data in designated range. Please retry.\n");
+                return NULL;
+            }
+            else{
+                while (occurenceList[dayBegin - 1].Count == 0)
+                    dayBegin++;
+            }
+        }
+            
+        int startPos = occurenceList[dayBegin - 1].initPos;
+        int endPos = occurenceList[dayEnd - 1].initPos + occurenceList[dayEnd - 1].Count;
+        if((endPos <= startPos) && (dayBegin != dayEnd))
+            endPos = findOccurTail(occurenceList, dayEnd);
+        int dataLength = endPos - startPos;
+        
+        if(dataLength == 0){
+            printf("No such data in designated range. Please retry.\n");
+            return NULL;
+        }
+        
+        Spend *dataList = calloc(dataLength, sizeof(Spend));
+        keyDataList *keyList = malloc(sizeof(keyDataList));
+        keyList->dataList = dataList;
+        keyList->keyCategory = -1; //Category not specified.
+        keyList->dayBegin = dayBegin;
+        keyList->dayEnd = dayEnd;
+        keyList->listLength = (short) dataLength;
+        keyList->extractionType = 1;
+
+        struct LLNode *curr = sortedList;
+        for (int i = 0 ; i < startPos   ; i++, curr = curr->next);
+        for (int j = 0 ; j < dataLength ; j++, curr = curr->next)
+            dataList[j] = curr->spend;
+
+        return keyList;
     }
 }
 
@@ -611,7 +669,64 @@ struct LLNode *deleteAction(struct LLNode *sortedList, Occurence *occurenceList)
     
 }
 
+/**
+ * 把list釋放掉
+ */
+void destorySpendList(LLNode* head){
+    if(head == NULL)return;
+    if(head->next != NULL)destorySpendList(head->next);
+    free(head);
+}
+
+static LLNode* getNode(LLNode* head, Spend spend){
+    LLNode* focus = head;
+    while(focus){
+        if(isEqualValue(SpendType,&focus->spend,&spend)){
+            return focus;
+        }else focus = focus->next;
+    }
+    errorMsg("Node not found.",__FILE__,__LINE__);
+    return NULL;
+}
+/**
+ * 回傳移除某資料後的list的head
+ */
+LLNode* LLNode_removeNode(LLNode* head,Spend spend,boolean* boo){
+    LLNode* node = getNode(head, spend);
+    if(node==NULL){
+        *boo = False;
+        return head;
+    }
+    *boo = True;
+    if(node == head){
+        if(node->next == NULL){
+            free(node);
+            return NULL;
+        }else{
+            LLNode* nextHead = node->next;
+            nextHead->prev = NULL;
+            free(node);
+            return nextHead;
+        }
+    }else{
+        //tail
+        if(node->next == NULL){
+            node->prev->next = NULL;
+            free(node);
+            return head;
+        }else{
+            node->prev->next = node->next;
+            node->next->prev = node->prev;
+            free(node);
+            return head;
+        }
+    }
+}
+
+
+
 //my test main
+/***
 int main (){
     int num = 22;
     struct LLNode *head = malloc(sizeof(struct LLNode));
@@ -671,4 +786,4 @@ int main (){
 
     system("PAUSE");
     return 0;
-}
+}***/
