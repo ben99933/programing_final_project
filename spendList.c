@@ -251,11 +251,11 @@ void printOccurence(Occurence *occurenceList,int size){
 }
 
 int findOccurTail(Occurence *occurenceList, int dayEnd){
-    int tailIndex = dayEnd;
-    while (occurenceList[tailIndex - 1].Count == 0)
-        tailIndex--;
-    tailIndex = occurenceList[tailIndex - 1].initPos + occurenceList[tailIndex - 1].Count - 1;
-    return tailIndex;
+    int actualdayEnd = dayEnd;
+    while (occurenceList[actualdayEnd - 1].Count == 0)
+        actualdayEnd--;
+    actualdayEnd = occurenceList[actualdayEnd - 1].initPos + occurenceList[actualdayEnd - 1].Count;
+    return actualdayEnd;
 }
 
 keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Category keyCategory, short dayBegin, short dayEnd){
@@ -303,26 +303,28 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
     }
     //Day Interval Only
     else if ((int)keyCategory == -1 && dayBegin != 0){
-        while (dayBegin <= dayEnd && occurenceList[dayBegin - 1].Count == 0){
-            if(dayBegin == dayEnd && occurenceList[dayBegin - 1].Count == 0){
+        int actualDayBegin = dayBegin;
+        while (dayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
+            if(dayBegin == dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
                 printf("No such data in designated range. Please retry.\n");
                 return NULL;
             }
             else{
-                while (occurenceList[dayBegin - 1].Count == 0){
+                while (occurenceList[actualDayBegin - 1].Count == 0){
                     if(dayBegin == dayEnd){ // if dayBegin ==dayEnd and Count is still zero.
                         printf("No such data in designated range. Please retry.\n");
                         return NULL;
                     }
-                    dayBegin++;
+                    actualDayBegin++;
                 }
             }
         }
             
-        int startPos = occurenceList[dayBegin - 1].initPos;
+        int startPos = occurenceList[actualDayBegin - 1].initPos;
         int endPos = occurenceList[dayEnd - 1].initPos + occurenceList[dayEnd - 1].Count;
-        if((endPos <= startPos) && (dayBegin != dayEnd))
+        if((endPos <= startPos) && (dayBegin != dayEnd)){
             endPos = findOccurTail(occurenceList, dayEnd);
+        }
         int dataLength = endPos - startPos;
         
         if(dataLength == 0){
@@ -349,23 +351,24 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
     }
     // BOTH Day Interval and keyCategory.
     else if ((int)keyCategory != -1 && dayBegin != 0){
-        while (dayBegin <= dayEnd && occurenceList[dayBegin - 1].Count == 0){
+        int actualDayBegin = dayBegin;
+        while (dayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
             if(dayBegin == dayEnd){
                 printf("No such data in designated range. Please retry.\n");
                 return NULL;
             }
             else{
-                while (occurenceList[dayBegin - 1].Count == 0){
+                while (occurenceList[actualDayBegin - 1].Count == 0){
                     if(dayBegin == dayEnd){ // if dayBegin == dayEnd and Count is still zero.
                         printf("No such data in designated range. Please retry.\n");
                         return NULL;
                     }
-                    dayBegin++;
+                    actualDayBegin++;
                 }
             }
         }
         
-        int startPos = occurenceList[dayBegin - 1].initPos;
+        int startPos = occurenceList[actualDayBegin - 1].initPos;
         int endPos = occurenceList[dayEnd - 1].initPos + occurenceList[dayEnd - 1].Count;
         if((endPos <= startPos) && (dayBegin != dayEnd))
             endPos = findOccurTail(occurenceList, dayEnd);
@@ -460,7 +463,7 @@ void printKeyList(keyDataList *keyList){
     else if (keyList->extractionType == 1){
         short yearBegin = keyList->dataList[0].date.year;
         short monthBegin = keyList->dataList[0].date.month;
-        short dayBegin = keyList->dataList[0].date.day;
+        short dayBegin = keyList->dayBegin;
         short yearEnd  = keyList->dataList[keyList->listLength - 1].date.year;
         short monthEnd = keyList->dataList[keyList->listLength - 1].date.month;
         short dayEnd   = keyList->dayEnd;
@@ -481,7 +484,7 @@ void printKeyList(keyDataList *keyList){
     else{
         short yearBegin = keyList->dataList[0].date.year;
         short monthBegin = keyList->dataList[0].date.month;
-        short dayBegin = keyList->dataList[0].date.day;
+        short dayBegin = keyList->dayBegin;
         short yearEnd  = keyList->dataList[keyList->listLength - 1].date.year;
         short monthEnd = keyList->dataList[keyList->listLength - 1].date.month;
         short dayEnd   = keyList->dayEnd;
