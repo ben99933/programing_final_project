@@ -11,6 +11,12 @@
 #include"options.h"
 #include"color.h"
 
+void InvalidInput_menu(){
+    setTextColor(ColorRed);
+    printf("Invalid input!\n");
+    system("pause");
+    resetTextColor();
+}
 
 /**
  * 詢問你要登入或註冊帳號
@@ -107,7 +113,7 @@ static void traverse_printSpendDetail(DataType type,void* value){
 static void printAllAvailableRecords(){
     system("CLS");
     Tree* tree = getAllRecordName(currentAccount.name);
-    printf("========================All Available Records=========================\n");
+    printf("========================ALL AVAILABLE RECORDS=========================\n");
     printf("Year\tMonth\n");
     tree_inOrder(tree,traverse_printYearMonth);
     tree_destory(tree);
@@ -136,12 +142,14 @@ static boolean printfMonthSpendDetail(int year,int month){
     debugMsg("test",__FILE__,__LINE__);
     system("CLS");
     if(listHead==NULL){
+        setTextColor(ColorYellow);
         printf("Data not found.\n");
         system("pause");
+        resetTextColor();
         return False;
     }
     LLNode* focus = listHead;
-    printf("================================Detail================================\n");
+    printf("===========================================DETAIL================================================\n");
     printf("Year\tMonth\tDay\tCategory  \tCost\tNote\n");
     while(focus){
         Spend spend = focus->spend;
@@ -150,7 +158,7 @@ static boolean printfMonthSpendDetail(int year,int month){
         printf("%d\t%d\t%d\t%-12s\t%d\t%s\n",date.year,date.month,date.day,toCategoryString(spend.category),spend.cost,spend.note);
         focus = focus->next;
     }
-    printf("======================================================================\n");
+    printf("=================================================================================================\n\n");
     destorySpendList(listHead);
     return True;
 }
@@ -164,7 +172,7 @@ static boolean printfMonthSpendDetail(int year,int month){
 static int chooseSpend(){
     while(True){
         system("CLS");            
-        printf("=====================choose======================\n");
+        printf("=====================CHOOSE======================\n");
         printf(ColorGreen"Which month do you want to choose?\n"ColorReset);
         printf("You can input \"back\" to back to previous step.\n");
         printf("Format : <year> <month>\n");
@@ -180,21 +188,19 @@ static int chooseSpend(){
         int year = 0;
         int month = 0;
         if(split == NULL || !isNumberString(split)){
-            printf("Invalid input.\n");
-            system("pause");
-            continue;;
+            InvalidInput_menu();
+            continue;
+            ;
         }else year = toIntValue(split);
 
         split = strtok(NULL, " ");
         if(split == NULL || !isNumberString(split)){
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }else month = toIntValue(split);
 
         if (month < 1 || month > 12){
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
@@ -215,10 +221,10 @@ static void addRecord(){
     
     while(True){
         system("CLS");
-        printf("============================================Record==============================================\n");
-        printf("Please your consumption record.\n");
-        printf("(You can input \"back\" to exit previous step.)\n");
-        printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n\n");
+        printf("============================================RECORD==============================================\n");
+        printf("Please "ColorGreen"record your consumption.\n"ColorReset);
+        printf("You can input \"back\" to exit previous step.\n\n");
+        printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n");
         printf("Format : <year> <month> <day> <category id> <cost amount> <notes>\n");
         printf("================================================================================================\n");
         char input[1024] = {'\0'};
@@ -227,32 +233,32 @@ static void addRecord(){
         short day = 0;
         Category category = 0;
         int cost = 0;
+
         fgets(input,1024,stdin);
         trimString(input);
+
         if(isDebugMode())printf("string=%s\n",input);
         if(strcmp(input,"back") == 0)return;
+
         char* split;
         split = strtok(input," ");
         if(split != NULL && isNumberString(split))year = toIntValue(split);
         else{
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
         split = strtok(NULL," ");
         if(split != NULL && isNumberString(split))month = toIntValue(split);
         else{
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
         split = strtok(NULL," ");
         if(split != NULL && isNumberString(split))day = toIntValue(split);
         else{
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
@@ -260,23 +266,20 @@ static void addRecord(){
         if(split != NULL && isNumberString(split))
             category = toCategory(toIntValue(split));
         else{
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
         split = strtok(NULL," ");
         if(split != NULL && isNumberString(split))cost = toIntValue(split);
         else{
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
         split = strtok(NULL," ");
         if(checkDate(year,month,day) == False){
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
@@ -301,9 +304,9 @@ static void removeRecord(){
     while(True){
         
         if(printfMonthSpendDetail(month/100,month%100) == False)return;
-        printf("===========================================Remove================================================\n");
-        printf("Which record do you want to delete?\n");
-        printf("(You can input \"back\" to exit previous step.)\n");
+        printf("===========================================REMOVE================================================\n");
+        printf("Which record do you want to "ColorGreen"delete"ColorReset"?\n");
+        printf("You can input \"back\" to exit previous step.\n\n");
         printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n");
         printf("Format : <year> <month> <day> <category id> <cost amount>\n");
         printf("=================================================================================================\n");
@@ -322,40 +325,35 @@ static void removeRecord(){
         split = strtok(input," ");
         if(split != NULL && isNumberString(split))year = toIntValue(split);
         else{
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
         split = strtok(NULL," ");
         if(split != NULL && isNumberString(split))month = toIntValue(split);
         else{
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
         split = strtok(NULL," ");
         if(split != NULL && isNumberString(split))day = toIntValue(split);
         else{
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
         split = strtok(NULL," ");
         if(split != NULL && isNumberString(split))category = toCategory(toIntValue(split));
         else{
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
         split = strtok(NULL," ");
         if(split != NULL && isNumberString(split))cost = toIntValue(split);
         else{
-            printf("Invalid input.\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
 
@@ -379,9 +377,10 @@ void onMenu(){
     while(True){
 
         system("CLS");
-        printf("Wellcome, %s.\n",currentAccount.name);
+        printf("======================MENU=============================\n");
+        printf(ColorGreen"Wellcome, %s.\n"ColorReset, currentAccount.name);
         printf("What do you want to do?\n");
-        printf("Plase input the coordinating number.\n");
+        printf("Plase input the coordinating number.\n\n");
         printf("[0] Adding consumption record.\n");
         printf("[1] Remove consumption record.\n");
         printf("[2] Search certain record according to date.\n");
@@ -389,18 +388,20 @@ void onMenu(){
         printf("[4] Consumption analysis.\n");
         printf("[5] exit.\n");
         printf("[6] log out.\n");
+        printf("=======================================================\n");
 
         char inputString[1024];
         fgets(inputString,1024,stdin);
         trimString(inputString);
+
         if(!isNumberString(inputString)){
-            printf("Invalid input!\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
-        if(strlen(inputString) == 0)continue;
-        int action = toIntValue(inputString);
 
+        if(strlen(inputString) == 0)continue;
+        
+        int action = toIntValue(inputString);
         if(action == 0){
             addRecord();
         }else if(action == 1){
@@ -416,8 +417,10 @@ void onMenu(){
                 short year=year_month/100,month=year_month%100;
                 LLNode *sortedList= getSpendList(currentAccount.name, year, month);
                 if(sortedList==NULL){
+                    setTextColor(ColorYellow);
                     printf("There is no data in %d/%d, please retry\n",year,month);
                     system("pause");
+                    resetTextColor();
                     continue;
                 }
                 Occurence *occurenceList=findOccurence(sortedList);
@@ -435,8 +438,10 @@ void onMenu(){
                 short year=year_month/100,month=year_month%100;
                 LLNode *sortedList= getSpendList(currentAccount.name, year, month);
                 if(sortedList==NULL){
+                    setTextColor(ColorYellow);
                     printf("There is no data in %d/%d, please retry\n",year,month);         //要改成沒有這個年月分的資料
                     system("pause");
+                    resetTextColor();
                     continue;
                 }
                 Occurence *occurenceList=findOccurence(sortedList);
@@ -454,8 +459,10 @@ void onMenu(){
                 short year = year_month / 100, month = year_month % 100;
                 LLNode *sortedList= getSpendList(currentAccount.name, year, month);
                 if (sortedList == NULL){
+                    setTextColor(ColorYellow);
                     printf("There is no data in %d/%d, please retry\n",year,month);
                     system("pause");
+                    resetTextColor();
                     continue;
                 }
                 Occurence *occurenceList = findOccurence(sortedList);
@@ -471,8 +478,7 @@ void onMenu(){
             system("CLS");
             return;
         }else{
-            printf("Invalid input!\n");
-            system("pause");
+            InvalidInput_menu();
             continue;
         }
     }

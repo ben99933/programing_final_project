@@ -3,6 +3,7 @@
 #include <string.h>
 #include "spendList.h"
 #include "debug.h"
+#include "color.h"
 
 struct LLNode *createList(Spend data){
     struct LLNode *head = malloc(sizeof(struct LLNode));
@@ -264,8 +265,10 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
        ||((keyCategory == -1 && dayBegin < 1) && (keyCategory == -1 && dayBegin != 0)) 
        ||((keyCategory == -1 && dayEnd < 1 ) && (keyCategory == -1 && dayEnd != 0))
        ||dayBegin > 31 ||dayEnd > 31||(dayBegin==0 && dayEnd != 0) || (dayBegin!= 0 && dayEnd == 0)){
+        setTextColor(ColorRed);
         printf("Invalid Input, please check your input!\n");
         system("pause");
+        resetTextColor();
         return NULL;
     }
     
@@ -294,8 +297,10 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
             i++;
 
         if(i == 0){
+            setTextColor(ColorYellow);
             printf("No such data in designated range. Please retry.\n");
             system("pause");
+            resetTextColor();
             return NULL;
         }
         else{
@@ -308,15 +313,19 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         int actualDayBegin = dayBegin;
         while (actualDayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
             if(actualDayBegin == dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
+                setTextColor(ColorYellow);
                 printf("No such data in designated range. Please retry.\n");
                 system("pause");
+                resetTextColor();
                 return NULL;
             }
             else{
                 while (occurenceList[actualDayBegin - 1].Count == 0){
                     if(actualDayBegin == dayEnd){ // if dayBegin ==dayEnd and Count is still zero.
+                        setTextColor(ColorYellow);
                         printf("No such data in designated range. Please retry.\n");
                         system("pause");
+                        resetTextColor();
                         return NULL;
                     }
                     actualDayBegin++;
@@ -332,8 +341,10 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         int dataLength = endPos - startPos;
         
         if(dataLength == 0){
+            setTextColor(ColorYellow);
             printf("No such data in designated range. Please retry.\n");
             system("pause");
+            resetTextColor();
             return NULL;
         }
         
@@ -358,15 +369,19 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         int actualDayBegin = dayBegin;
         while (actualDayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
             if(actualDayBegin == dayEnd){
+                setTextColor(ColorYellow);
                 printf("No such data in designated range. Please retry.\n");
                 system("pause");
+                resetTextColor();
                 return NULL;
             }
             else{
                 while (occurenceList[actualDayBegin - 1].Count == 0){
                     if(actualDayBegin == dayEnd){ // if dayBegin == dayEnd and Count is still zero.
+                        setTextColor(ColorYellow);
                         printf("No such data in designated range. Please retry.\n");
                         system("pause");
+                        resetTextColor();
                         return NULL;
                     }
                     actualDayBegin++;
@@ -400,8 +415,10 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
             i++;
 
         if(i == 0){
+            setTextColor(ColorYellow);
             printf("No such data in designated range. Please retry.\n");
             system("pause");
+            resetTextColor();
             return NULL;
         }
         else{
@@ -416,15 +433,19 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         int actualDayBegin = dayBegin;
         while (actualDayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
             if(actualDayBegin == dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
+                setTextColor(ColorYellow);
                 printf("No such data in designated range. Please retry.\n");
                 system("pause");
+                resetTextColor();
                 return NULL;
             }
             else{
                 while (occurenceList[actualDayBegin - 1].Count == 0){
                     if(actualDayBegin == dayEnd){ // if dayBegin == dayEnd and Count is still zero.
+                        setTextColor(ColorYellow);
                         printf("No such data in designated range. Please retry.\n");
                         system("pause");
+                        resetTextColor();
                         return NULL;
                     }
                     actualDayBegin++;
@@ -439,8 +460,10 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         int dataLength = endPos - startPos;
         
         if(dataLength == 0){
+            setTextColor(ColorYellow);
             printf("No such data in designated range. Please retry.\n");
             system("pause");
+            resetTextColor();
             return NULL;
         }
         Spend *dataList = calloc(dataLength, sizeof(Spend));

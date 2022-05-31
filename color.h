@@ -9,7 +9,7 @@
      */
     #define ColorRed "\x1B[31m"
     #define ColorGreen "\x1B[32m"
-    #define ColorYelow "\x1B[33m"
+    #define ColorYellow "\x1B[33m"
     #define ColorBlue "\x1B[34m"
     //洋紅色
     #define ColorMagenta "\x1B[35m"

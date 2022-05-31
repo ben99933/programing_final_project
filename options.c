@@ -19,8 +19,10 @@ struct maxima{
 };
 
 void errormsg_for_option23(){
+    setTextColor(ColorRed);
     printf("Invalid input!\nPlease use the correct input format\n");
     system("pause");
+    resetTextColor();
 }
 
 //free_LL: free the linked list in type LLNode
@@ -73,8 +75,10 @@ int check_budget(int *total_budget, int *target_budget, int *sum)
 
     if(!isNumberString(amount))                 //if the input includes non-numerical character, ouput the warning
     {
+        setTextColor(ColorRed);
         printf("Invalid input!\n");
         system("pause");
+        resetTextColor();
         return 1;
     }
     if(strlen(amount) == 0)                     //for only enter "\n"
@@ -87,10 +91,11 @@ int check_budget(int *total_budget, int *target_budget, int *sum)
     if(*total_budget != -1)                     //*total_budget != -1 means user have considered total budget
     {                                           //*sum: the sum of all budeget except total budget
         if(*total_budget < (*sum) + toIntValue(amount))         //if *total_budget < (*sum) + toIntValue(amount), it's ineligible
-        {                                                       //print warning
+        {   setTextColor(ColorYellow);                                                    //print warning
             printf("The total budget is less than the sum of all the other types of budget.");
             printf("Please enter the budget again.\n");
             system("pause");
+            resetTextColor();
             return 1;
         }
     }
@@ -166,12 +171,11 @@ void askbudget(struct budget *userbudget)
     while(1)
     {
         system("CLS");
-        printf("=========================================ask_budget================================================================\n");
-        printf("Above show the menu of budgets you can enter and the amount they are now.\n");
-        printf("If you consider the total budget, then total budget most be larger than the sum of all the other types of budgets.\n");
+        printf("=========================================ASK BUDGET================================================================\n");
+        printf("Below shows the menu of budgets you can enter and the amount they are now.\n");
         printf("Please "ColorGreen"input the coordinating number of the budget"ColorReset" you want to set.\n");
-        printf("Enter \"back\" when you are done.\n");
-        printf("===================================================================================================================\n");
+        printf("If you consider the total budget, then total budget most be larger than the sum of all the other types of budgets.\n");
+        printf("Enter \"back\" when you are done.\n\n");
         printf("[0] Total budget: ");
         print_budget(userbudget->total_budget);
         printf("[1] Food budget: ");
@@ -186,6 +190,7 @@ void askbudget(struct budget *userbudget)
         print_budget(userbudget->utility_budget);
         printf("[6] Other budget: ");
         print_budget(userbudget->other_budget);
+        printf("===================================================================================================================\n");
 
 
         char input[1024];
@@ -198,8 +203,10 @@ void askbudget(struct budget *userbudget)
         }
         if(!isNumberString(input))                  //if the input includes non-numerical character, ouput the warning
         {
+            setTextColor(ColorRed);
             printf("Invalid input!\n");
             system("pause");
+            resetTextColor();
             continue;
         }
         if(strlen(input) == 0)                      //for only enter '\n'
@@ -214,7 +221,7 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("===================enter budget====================\n");
+                printf("===================ENTER BUDGET====================\n");
                 printf("Enter your "ColorGreen"total budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
@@ -236,8 +243,10 @@ void askbudget(struct budget *userbudget)
 
                 if(!isNumberString(amount))
                 {
+                    setTextColor(ColorRed);
                     printf("Invalid input!\n");
                     system("pause");
+                    resetTextColor();
                     continue;
                 }
                 if(strlen(amount) == 0)
@@ -246,9 +255,11 @@ void askbudget(struct budget *userbudget)
                 }
                 if(toIntValue(amount) < sum)        //if toIntValue(amount) < sum, it's ineligble by the condition we show in menu
                 {
+                    setTextColor(ColorYellow);
                     printf("The total budget is less than the sum of all the other types of budget.");
                     printf("Please enter the budget again.\n");
                     system("pause");
+                    resetTextColor();
                     continue;
                 }
                 
@@ -262,7 +273,7 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("===================enter budget====================\n");
+                printf("===================ENTER BUDGET====================\n");
                 printf("Enter your "ColorGreen"food budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
@@ -284,7 +295,7 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("===================enter budget====================\n");
+                printf("===================ENTER BUDGET====================\n");
                 printf("Enter your "ColorGreen"clothing budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
@@ -306,7 +317,7 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("===================enter budget====================\n");
+                printf("===================ENTER BUDGET====================\n");
                 printf("Enter your "ColorGreen"transportation budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
@@ -328,7 +339,7 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("===================enter budget====================\n");
+                printf("===================ENTER BUDGET====================\n");
                 printf("Enter your "ColorGreen"entertainment budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
@@ -350,7 +361,7 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("===================enter budget====================\n");
+                printf("===================ENTER BUDGET====================\n");
                 printf("Enter your "ColorGreen"utility budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
@@ -372,7 +383,7 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("===================enter budget====================\n");
+                printf("===================ENTER BUDGET====================\n");
                 printf("Enter your "ColorGreen"other budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
@@ -391,8 +402,10 @@ void askbudget(struct budget *userbudget)
         }
         else
         {
+            setTextColor(ColorRed);
             printf("Invalid input!\n");
             system("pause");
+            resetTextColor();
             continue;
         }
 
@@ -460,6 +473,7 @@ void month_summary(struct total *usertotal, keyDataList *keyList, struct maxima 
     }
 
     system("CLS");
+    printf(ColorGreen"===========MONTH SUMMARY===========\n"ColorReset);
     printf("Food expense: %d\n", usertotal->totalfood);
     printf("Clothing expense: %d\n", usertotal->totalclothing);
     printf("Transportation expense: %d\n", usertotal->totaltransportation);
@@ -470,6 +484,7 @@ void month_summary(struct total *usertotal, keyDataList *keyList, struct maxima 
     printf("\nTotal revenue: %d\n", usertotal->totalwage);
     printf("Total expense: %d\n", usertotal->totalexpense);
     printf("Balance: %d\n", usertotal->totalwage - usertotal->totalexpense);
+    printf(ColorGreen"===================================\n\n"ColorReset);
 }
 
 //func4_1: Calculate proportion and output it.
@@ -486,21 +501,24 @@ void func4_1(struct total usertotal,struct maxima usermaxima)
     other_proportion = (int)((float)usertotal.totalother / usertotal.totalexpense * 100 * 10 + 0.5) / 10.0;
 
     system("CLS");
-    printf("Proportion:\n");
+    printf(ColorGreen"=======================PROPORTION OF EACH CATEGORY==========================\n"ColorReset);
     printf("food: %.1f%%\n", food_proportion);
     printf("clothing: %.1f%%\n", clothing_proportion);
     printf("transportation: %.1f%%\n", transportation_proportion);
     printf("entertainment: %.1f%%\n", entertainment_proportion);
     printf("utility: %.1f%%\n", utility_proportion);
     printf("other: %.1f%%\n", other_proportion);
+    printf(ColorGreen"============================================================================\n\n"ColorReset);  
 
-    printf("\nHighest cost    |       date        |       cost        |       note        \n");
+    printf(ColorGreen"=====================HIGHEST COST OF EACH CATEGORY==========================\n"ColorReset);
+    printf("Highest cost    |       date        |       cost        |       note        \n");
     print_maxima("food:", usermaxima.food_max);
     print_maxima("clothing:", usermaxima.clothing_max);
     print_maxima("transportation:", usermaxima.transportation_max);
     print_maxima("entertainment:", usermaxima.entertainment_max);
     print_maxima("utility:", usermaxima.utility_max);
     print_maxima("other:", usermaxima.other_max);
+    printf(ColorGreen"============================================================================\n"ColorReset);  
     system("pause");
 }
 
@@ -510,7 +528,7 @@ void func4_2(struct total usertotal,struct budget userbudget){
     short t=0,f=0,c=0,tr=0,e=0,u=0,o=0;
 
     /*========== General report of actual cost and budget==========*/
-    printf("General report of actual cost and budget :\n");    
+    printf(ColorGreen"==================GENERAL REPORT OF ACTUAL COST AND BUDGET==================\n"ColorReset);    
     printf("                |    actual cost    |      budget       |      balance      \n");
     if(userbudget.total_budget!=-1){
         t=userbudget.total_budget-usertotal.totalexpense;
@@ -547,6 +565,7 @@ void func4_2(struct total usertotal,struct budget userbudget){
         printf("other           |%12d       |%12d       |%12hd       \n\n\n",usertotal.totalother,userbudget.other_budget,o);
         o=(o*6)/100*10;
     }
+    printf(ColorGreen"============================================================================\n\n"ColorReset);
 
     
     /*==========Suggestion of budget adjustment==========*/
@@ -554,7 +573,7 @@ void func4_2(struct total usertotal,struct budget userbudget){
         t = (t * 0.9) / 100 * 10;
     else
         t = f + c + tr + e + u + o;
-    printf("Suggestion of budget adjustment :\n");
+    printf(ColorGreen"======================SUGGESTION OF BUDGET ADJUSTMENT=======================\n"ColorReset);
     printf("                |        now        |  after adjustment  \n");
     if(userbudget.total_budget!=-1)
     printf("total           |%12d       |%12d       \n",userbudget.total_budget,userbudget.total_budget-t);
@@ -570,6 +589,7 @@ void func4_2(struct total usertotal,struct budget userbudget){
     printf("utility         |%12d       |%12d       \n",userbudget.utility_budget,userbudget.utility_budget-u);
     if(userbudget.other_budget!=-1)
     printf("other           |%12d       |%12d       \n",userbudget.other_budget,userbudget.other_budget-o);
+    printf(ColorGreen"============================================================================\n"ColorReset);
     system("pause");
 }
 
@@ -588,24 +608,20 @@ int check_budget2(struct budget userbudget){
 
 /*show error message*/
 void errormsg_for_option4(){
+    setTextColor(ColorRed);
     printf("Invalid input!\n");
     system("pause");
+    resetTextColor();
     system("CLS");
-    printf("Please choose again :\n");
-
 }
 
 void option2(LLNode *sortedList,Occurence *occurenceList,short year,short month){
-    if(sortedList==NULL){
-        printf("There is no data in given date, please retry\n");
-        return;
-    }
 
     short dayBegin = 0, dayEnd = 0;
     while (1){
         system("CLS");
         dayBegin = 0, dayEnd = 0;
-        printf("================================Search================================\n");
+        printf("================================SEARCH================================\n");
         printf("Please enter the "ColorGreen"date interval"ColorReset" you want to view?\n");
         printf("You can input \"back\" to back to previous step.\n");
         printf("Format : <day begin> <day end>\n");
@@ -624,8 +640,10 @@ void option2(LLNode *sortedList,Occurence *occurenceList,short year,short month)
         /*==========split the string to get dayBegin and dayEnd==========*/
         char *split = strtok(input, " ");
         if (split == NULL || !isNumberString(split)) {
+            setTextColor(ColorRed);
             printf("Invalid input.\n");
             system("pause");
+            resetTextColor();
             continue;
         }
         else dayBegin = toIntValue(split);
@@ -659,18 +677,13 @@ void option2(LLNode *sortedList,Occurence *occurenceList,short year,short month)
 }
 
 void option3(LLNode *sortedList,Occurence *occurenceList,short year,short month){
-    if(sortedList==NULL){
-        printf("There is no data in given date, please retry\n");
-        system("pause");
-        return;
-    }
 
     int category_id;
     while(1){
         system("CLS");
-        printf("=============================================Search=============================================\n");
+        printf("=============================================SEARCH=============================================\n");
         printf("Please enter "ColorGreen"category"ColorReset" you want to view?\n");
-        printf("You can input \"back\" to back to previous step.\n");
+        printf("You can input \"back\" to back to previous step.\n\n");
         printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n");
         printf("Format : <category>\n");
         printf("=================================================================================================\n");
@@ -714,11 +727,13 @@ void option3(LLNode *sortedList,Occurence *occurenceList,short year,short month)
 
 void option4(keyDataList *keyList){
 
-    int res=0;/*if res==0 means user didn't have a budget plan.  if res==1, user have a budget plan*/
     struct budget userbudget;
+    int res=0;/*if res==0 means user didn't have a budget plan.  if res==1, user have a budget plan*/
+
     system("CLS");
     while(1){
-        printf("=====================budget========================\n");
+        res = 0;
+        printf("=====================BUDGET========================\n");
         printf("Do you want your analysis to "ColorGreen"consider budget"ColorReset"?(Y/N)\n");
         printf("You can input \"back\" to back to previous step.\n");
         printf("===================================================\n");
@@ -735,10 +750,11 @@ void option4(keyDataList *keyList){
             askbudget(&userbudget);
             
             if(check_budget2(userbudget)){   /*=deal with the situation user chooses to set a budget plan,but he didn't set=*/
+                setTextColor(ColorYellow);
                 printf("You didn't set any budget plan!\n");
                 system("pause");
+                resetTextColor();
                 system("CLS");
-                printf("Please choose again :\n");
                 continue;
             }
             else break;
@@ -769,7 +785,7 @@ void option4(keyDataList *keyList){
     
     while(1){      
         month_summary(&usertotal,keyList,&usermaxima);  //print month summary
-        printf("============================================analysis============================================\n");
+        printf("============================================ANALYSIS============================================\n");
         printf("[1] Expense analysis (on category)\n");
         if(res==1){
             printf("[2] Get suggestions of budget about next month\n");
