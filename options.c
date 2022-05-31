@@ -6,6 +6,7 @@
 #include"spend.h"
 #include "spendList.h"
 #include"options.h"
+#include"color.h"
 
 struct budget{
     int food_budget, clothing_budget, transportation_budget, entertainment_budget, utility_budget, other_budget, total_budget;
@@ -18,7 +19,7 @@ struct maxima{
 };
 
 void errormsg_for_option23(){
-    printf("Invalid input!\nPlease use the correct input format");
+    printf("Invalid input!\nPlease use the correct input format\n");
     system("pause");
 }
 
@@ -165,12 +166,12 @@ void askbudget(struct budget *userbudget)
     while(1)
     {
         system("CLS");
-        printf("=============================Input_budget=============================\n");
+        printf("=========================================ask_budget================================================================\n");
         printf("Above show the menu of budgets you can enter and the amount they are now.\n");
         printf("If you consider the total budget, then total budget most be larger than the sum of all the other types of budgets.\n");
-        printf("Please input the coordinating number of the budget you want to set.\n");
+        printf("Please "ColorGreen"input the coordinating number of the budget"ColorReset" you want to set.\n");
         printf("Enter \"back\" when you are done.\n");
-        printf("======================================================================\n");
+        printf("===================================================================================================================\n");
         printf("[0] Total budget: ");
         print_budget(userbudget->total_budget);
         printf("[1] Food budget: ");
@@ -213,9 +214,11 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("Enter your total budget.\n");
+                printf("===================enter budget====================\n");
+                printf("Enter your "ColorGreen"total budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
+                printf("===================================================\n");
 
                 char amount[1024];
                 fgets(amount,1024,stdin);
@@ -259,9 +262,11 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("Enter your food budget.\n");
+                printf("===================enter budget====================\n");
+                printf("Enter your "ColorGreen"food budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
+                printf("===================================================\n");
 
                 if(check_budget(&(userbudget->total_budget), &(userbudget->food_budget), &sum))
                 {
@@ -279,9 +284,11 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("Enter your clothing budget.\n");
+                printf("===================enter budget====================\n");
+                printf("Enter your "ColorGreen"clothing budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
+                printf("===================================================\n");
 
                 if(check_budget(&(userbudget->total_budget), &(userbudget->clothing_budget), &sum))
                 {
@@ -299,9 +306,11 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("Enter your transportation budget.\n");
+                printf("===================enter budget====================\n");
+                printf("Enter your "ColorGreen"transportation budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
+                printf("===================================================\n");
 
                 if(check_budget(&(userbudget->total_budget), &(userbudget->transportation_budget), &sum))
                 {
@@ -319,9 +328,11 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("Enter your entertainment budget.\n");
+                printf("===================enter budget====================\n");
+                printf("Enter your "ColorGreen"entertainment budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
+                printf("===================================================\n");
 
                 if(check_budget(&(userbudget->total_budget), &(userbudget->entertainment_budget), &sum))
                 {
@@ -339,9 +350,11 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("Enter your entertainment utility budget.\n");
+                printf("===================enter budget====================\n");
+                printf("Enter your "ColorGreen"utility budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
+                printf("===================================================\n");
 
                 if(check_budget(&(userbudget->total_budget), &(userbudget->utility_budget), &sum))
                 {
@@ -359,9 +372,11 @@ void askbudget(struct budget *userbudget)
             while(1)
             {
                 system("CLS");
-                printf("Enter your other budget.\n");
+                printf("===================enter budget====================\n");
+                printf("Enter your "ColorGreen"other budget.\n"ColorReset);
                 printf("Enter -1 for not consider this budget.\n");
                 printf("You can input \"back\" to back to previous step.\n");
+                printf("===================================================\n");
 
                 if(check_budget(&(userbudget->total_budget), &(userbudget->other_budget), &sum))
                 {
@@ -437,7 +452,7 @@ void month_summary(struct total *usertotal, keyDataList *keyList, struct maxima 
             {
                 deal_consumption(&(usertotal->totalutility), list[i], &(usermaxima->utility_max));
             }
-            else if(list->category == other)
+            else if(list[i].category == other)
             {
                 deal_consumption(&(usertotal->totalother), list[i], &(usermaxima->other_max));
             }
@@ -455,7 +470,6 @@ void month_summary(struct total *usertotal, keyDataList *keyList, struct maxima 
     printf("\nTotal revenue: %d\n", usertotal->totalwage);
     printf("Total expense: %d\n", usertotal->totalexpense);
     printf("Balance: %d\n", usertotal->totalwage - usertotal->totalexpense);
-    system("pause");
 }
 
 //func4_1: Calculate proportion and output it.
@@ -483,7 +497,7 @@ void func4_1(struct total usertotal,struct maxima usermaxima)
     printf("\nHighest cost    |       date        |       cost        |       note        \n");
     print_maxima("food:", usermaxima.food_max);
     print_maxima("clothing:", usermaxima.clothing_max);
-    print_maxima("transportation:\n", usermaxima.transportation_max);
+    print_maxima("transportation:", usermaxima.transportation_max);
     print_maxima("entertainment:", usermaxima.entertainment_max);
     print_maxima("utility:", usermaxima.utility_max);
     print_maxima("other:", usermaxima.other_max);
@@ -501,6 +515,7 @@ void func4_2(struct total usertotal,struct budget userbudget){
     if(userbudget.total_budget!=-1){
         t=userbudget.total_budget-usertotal.totalexpense;
         printf("total           |%12d       |%12d       |%12hd       \n",usertotal.totalexpense,userbudget.total_budget,t);
+
     }
     if(userbudget.food_budget!=-1){
         f=userbudget.food_budget-usertotal.totalfood;
@@ -535,23 +550,26 @@ void func4_2(struct total usertotal,struct budget userbudget){
 
     
     /*==========Suggestion of budget adjustment==========*/
-    t=f+c+tr+e+u+o;
+    if(f+c+tr+e+u+o==0)
+        t = (t * 0.9) / 100 * 10;
+    else
+        t = f + c + tr + e + u + o;
     printf("Suggestion of budget adjustment :\n");
     printf("                |        now        |  after adjustment  \n");
     if(userbudget.total_budget!=-1)
-    printf("total           |%12d       |%12d       \n",userbudget.total_budget,userbudget.total_budget+t);
+    printf("total           |%12d       |%12d       \n",userbudget.total_budget,userbudget.total_budget-t);
     if(userbudget.food_budget!=-1)
-    printf("food            |%12d       |%12d       \n",userbudget.food_budget,userbudget.food_budget+f);
+    printf("food            |%12d       |%12d       \n",userbudget.food_budget,userbudget.food_budget-f);
     if(userbudget.clothing_budget!=-1)
-    printf("clothing        |%12d       |%12d       \n",userbudget.clothing_budget,userbudget.clothing_budget+c);
+    printf("clothing        |%12d       |%12d       \n",userbudget.clothing_budget,userbudget.clothing_budget-c);
     if(userbudget.transportation_budget!=-1)
-    printf("transportation  |%12d       |%12d       \n",userbudget.transportation_budget,userbudget.transportation_budget+tr);
+    printf("transportation  |%12d       |%12d       \n",userbudget.transportation_budget,userbudget.transportation_budget-tr);
     if(userbudget.entertainment_budget!=-1)
-    printf("entertainment   |%12d       |%12d       \n",userbudget.entertainment_budget,userbudget.entertainment_budget+e);
+    printf("entertainment   |%12d       |%12d       \n",userbudget.entertainment_budget,userbudget.entertainment_budget-e);
     if(userbudget.utility_budget!=-1)
-    printf("utility         |%12d       |%12d       \n",userbudget.utility_budget,userbudget.utility_budget+u);
+    printf("utility         |%12d       |%12d       \n",userbudget.utility_budget,userbudget.utility_budget-u);
     if(userbudget.other_budget!=-1)
-    printf("other           |%12d       |%12d       \n",userbudget.other_budget,userbudget.other_budget+o);
+    printf("other           |%12d       |%12d       \n",userbudget.other_budget,userbudget.other_budget-o);
     system("pause");
 }
 
@@ -588,7 +606,7 @@ void option2(LLNode *sortedList,Occurence *occurenceList,short year,short month)
         system("CLS");
         dayBegin = 0, dayEnd = 0;
         printf("================================Search================================\n");
-        printf("Please enter the date interval you want to view?\n");
+        printf("Please enter the "ColorGreen"date interval"ColorReset" you want to view?\n");
         printf("You can input \"back\" to back to previous step.\n");
         printf("Format : <day begin> <day end>\n");
         printf("======================================================================\n");
@@ -629,18 +647,21 @@ void option2(LLNode *sortedList,Occurence *occurenceList,short year,short month)
         else
             break;
         /*==========================================================================================*/
-    }   
+    }
 
     keyDataList *keyList= getKeyData(sortedList,occurenceList, -1, dayBegin, dayEnd);   //get data
-    if(keyList!=NULL)
+    if(keyList!=NULL){
         printKeyList(keyList);   //print data
+        system("pause");
+    }
     else
-        printf("NO data found.\n");
+        option2(sortedList,occurenceList,year,month); 
 }
 
 void option3(LLNode *sortedList,Occurence *occurenceList,short year,short month){
     if(sortedList==NULL){
         printf("There is no data in given date, please retry\n");
+        system("pause");
         return;
     }
 
@@ -648,15 +669,16 @@ void option3(LLNode *sortedList,Occurence *occurenceList,short year,short month)
     while(1){
         system("CLS");
         printf("=============================================Search=============================================\n");
-        printf("Please enter category you want to view?\n");
+        printf("Please enter "ColorGreen"category"ColorReset" you want to view?\n");
         printf("You can input \"back\" to back to previous step.\n");
-        printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n\n");
+        printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n");
         printf("Format : <category>\n");
         printf("=================================================================================================\n");
 
         char input[100];
         fgets(input, 100, stdin);
         trimString(input);
+        int len = strlen(input);
 
         /*==========if user enter "back",system will back to menu==========*/
         if (strcmp(input, "back") == 0)
@@ -665,7 +687,7 @@ void option3(LLNode *sortedList,Occurence *occurenceList,short year,short month)
 
       
         /*=====if the input contains char(s) which is not numbers, system will print error message=====*/
-        if(!isNumberString(input)){
+        if(!isNumberString(input)||len==0){
             errormsg_for_option23();
             continue;
         }/*============================================================================================*/
@@ -682,10 +704,12 @@ void option3(LLNode *sortedList,Occurence *occurenceList,short year,short month)
     }
 
     keyDataList *keyList= getKeyData(sortedList,occurenceList, category_id, 0, 0);   //get data
-    if(keyList!=NULL)
+    if(keyList!=NULL){
         printKeyList(keyList);   //print data
+        system("pause");
+    }
     else
-        printf("NO data found.\n");
+        option3(sortedList,occurenceList,year,month); 
 }
 
 void option4(keyDataList *keyList){
@@ -694,8 +718,10 @@ void option4(keyDataList *keyList){
     struct budget userbudget;
     system("CLS");
     while(1){
-        printf("Do you want your analysis to consider budget?(Y/N)\n");
+        printf("=====================budget========================\n");
+        printf("Do you want your analysis to "ColorGreen"consider budget"ColorReset"?(Y/N)\n");
         printf("You can input \"back\" to back to previous step.\n");
+        printf("===================================================\n");
 
         char input[100];
         fgets(input,100,stdin);
