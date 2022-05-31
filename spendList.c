@@ -406,8 +406,8 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         dayBegin = 1;
         dayEnd = 31;
         int actualDayBegin = dayBegin;
-        while (actualDayBegin <= dayEnd && occurenceList[dayBegin - 1].Count == 0){
-            if(actualDayBegin == dayEnd && occurenceList[dayBegin - 1].Count == 0){
+        while (actualDayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
+            if(actualDayBegin == dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
                 printf("No such data in designated range. Please retry.\n");
                 return NULL;
             }
