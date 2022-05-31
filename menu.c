@@ -468,6 +468,7 @@ void onMenu(){
             exit(0);
         }else if(action == 6){
             logout();
+            system("CLS");
             return;
         }else{
             printf("Invalid input!\n");
