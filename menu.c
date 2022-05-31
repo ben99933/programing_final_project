@@ -9,6 +9,7 @@
 #include"spend.h"
 #include"recorder.h"
 #include"options.h"
+#include"color.h"
 
 
 /**
@@ -162,9 +163,13 @@ static boolean printfMonthSpendDetail(int year,int month){
  */
 static int chooseSpend(){
     while(True){
-        printf("Which month do you want to choose?\n");
+        system("CLS");            
+        printf("=====================choose======================\n");
+        printf(ColorGreen"Which month do you want to choose?\n"ColorReset);
         printf("You can input \"back\" to back to previous step.\n");
         printf("Format : <year> <month>\n");
+        printf("=================================================\n");
+
 
         char input[1024];
         fgets(input,1024,stdin);
@@ -187,7 +192,13 @@ static int chooseSpend(){
             continue;
         }else month = toIntValue(split);
 
-        return year*100 + month;
+        if (month < 1 || month > 12){
+            printf("Invalid input.\n");
+            system("pause");
+            continue;
+        }
+
+        return year * 100 + month;
     }
     return 0;
 }
@@ -290,12 +301,12 @@ static void removeRecord(){
     while(True){
         
         if(printfMonthSpendDetail(month/100,month%100) == False)return;
-        printf("================================Remove================================\n");
+        printf("===========================================Remove================================================\n");
         printf("Which record do you want to delete?\n");
         printf("(You can input \"back\" to exit previous step.)\n");
-        printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n\n");
+        printf("Category id: [0]food [1]clothing [2]transportation [3]entertainment [4]utility [5]other [6]wage\n");
         printf("Format : <year> <month> <day> <category id> <cost amount>\n");
-        printf("======================================================================\n");
+        printf("=================================================================================================\n");
         char input[1024] = {'\0'};
         fgets(input,1024,stdin);
         trimString(input);
@@ -395,47 +406,63 @@ void onMenu(){
         }else if(action == 1){
             removeRecord();
         }else if(action == 2){
-            system("CLS");
-            int year_month=chooseSpend();
-            short year=year_month/100,month=year_month%100;
-            LLNode *sortedList= getSpendList(currentAccount.name, year, month);
-            if(sortedList==NULL){
-                printf("There is no data in given date, please retry\n");
-                system("pause");
-                continue;
+            while(1){
+                system("CLS");
+                int year_month=chooseSpend();
+                if(year_month==0){
+                    onMenu();
+                    break;
+                }
+                short year=year_month/100,month=year_month%100;
+                LLNode *sortedList= getSpendList(currentAccount.name, year, month);
+                if(sortedList==NULL){
+                    printf("There is no data in %d/%d, please retry\n",year,month);
+                    system("pause");
+                    continue;
+                }
+                Occurence *occurenceList=findOccurence(sortedList);
+                option2(sortedList,occurenceList,year,month);
+                break;
             }
-            Occurence *occurenceList=findOccurence(sortedList);
-            option2(sortedList,occurenceList,year,month);  
-  
         }else if(action == 3){
-            system("CLS");
-            int year_month = chooseSpend();
-            short year=year_month/100,month=year_month%100;
-            LLNode *sortedList= getSpendList(currentAccount.name, year, month);
-            if(sortedList==NULL){
-                printf("There is no data in given date, please retry\n");
-                system("pause");
-                continue;
+            while(1){
+                system("CLS");
+                int year_month = chooseSpend();
+                if(year_month==0){
+                    onMenu();
+                    break;
+                }
+                short year=year_month/100,month=year_month%100;
+                LLNode *sortedList= getSpendList(currentAccount.name, year, month);
+                if(sortedList==NULL){
+                    printf("There is no data in %d/%d, please retry\n",year,month);         //要改成沒有這個年月分的資料
+                    system("pause");
+                    continue;
+                }
+                Occurence *occurenceList=findOccurence(sortedList);
+                option3(sortedList, occurenceList, year, month);
+                break;
             }
-            Occurence *occurenceList=findOccurence(sortedList);
-            option3(sortedList, occurenceList, year, month);
         }else if(action == 4){
-            system("CLS");
-            int year_month=chooseSpend();
-            short year=year_month/100,month=year_month%100;
-            LLNode *sortedList= getSpendList(currentAccount.name, year, month);
-            if(sortedList==NULL){
-                printf("There is no data in given date, please retry\n");
-                system("pause");
-                continue;
-            }
-            Occurence *occurenceList=findOccurence(sortedList);
-            keyDataList *keyList= getKeyData(sortedList,occurenceList, -1, 0, 0);
-            if(keyList!=NULL)
-                option4(keyList);
-            else{
-                printf("NO data found.\n");
-                system("pause");
+            while(1){
+                system("CLS");
+                int year_month=chooseSpend();
+                if (year_month == 0){
+                    onMenu();
+                    break;
+                }
+                short year = year_month / 100, month = year_month % 100;
+                LLNode *sortedList= getSpendList(currentAccount.name, year, month);
+                if (sortedList == NULL){
+                    printf("There is no data in %d/%d, please retry\n",year,month);
+                    system("pause");
+                    continue;
+                }
+                Occurence *occurenceList = findOccurence(sortedList);
+                keyDataList *keyList = getKeyData(sortedList, occurenceList, -1, 0, 0);
+                if(keyList!=NULL)
+                    option4(keyList);
+                break;
             }
         }else if(action == 5){
             exit(0);
@@ -449,4 +476,5 @@ void onMenu(){
         }
     }
 }
+
 
