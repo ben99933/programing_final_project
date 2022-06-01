@@ -786,9 +786,9 @@ void option4(keyDataList *keyList){
     while(1){      
         month_summary(&usertotal,keyList,&usermaxima);  //print month summary
         printf("============================================ANALYSIS============================================\n");
-        printf("[1] Expense analysis (on category)\n");
+        printf("[1] Expense "ColorGreen"analysis"ColorReset" on category\n");
         if(res==1){
-            printf("[2] Get suggestions of budget about next month\n");
+            printf("[2] Get "ColorGreen"suggestions"ColorReset" of budget about next month\n\n");
         }
         printf("You can input \"back\" to back to previous step.\n");
         printf("================================================================================================\n");

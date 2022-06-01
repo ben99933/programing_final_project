@@ -5,6 +5,7 @@
 #include"debug.h"
 #include"word.h"
 #include"md5.h"
+#include"color.h"
 
 
 static boolean checkID(char*string){
@@ -44,7 +45,9 @@ boolean login(){
     FILE* accountFile = NULL;
     while(accountFile == NULL){
         system("CLS");
-        printf("Please input your account id:\n(You can input \"back\" to back to previous step.)\n");
+        printf("=============================ACCOUNT ID=====================================\n");
+        printf("Please input your "ColorCyan"account id"ColorReset":\n(You can input \"back\" to back to previous step.)\n");
+        printf("============================================================================\n");
         char inputID[1024];
         fgets(inputID,1024,stdin);
         trimString(inputID);
@@ -53,13 +56,17 @@ boolean login(){
         }
         accountFile = findAccountFile(inputID);
         if(accountFile == NULL){
+            setTextColor(ColorYellow);
             printf("The account dose not exist.\n");
             closeFile(accountFile);
             system("pause");
+            setTextColor(ColorReset);
         }else{
             int chance = 3;
-            printf("Please input your password.(You have %d chances.)\n",chance);
+            printf("\n=============================PASSWORD=======================================\n");
+            printf("Please input your " ColorCyan "password" ColorReset ".(You have %d chances.)\n", chance);
             printf("(You can input \"back\" to back to previous step.)\n");
+            printf("============================================================================\n");
             while(chance > 0){
                 char password[1024];
                 char passwordInput[1024];
@@ -85,13 +92,17 @@ boolean login(){
                     return True;
                 }else{
                     chance--;
+                    setTextColor(ColorRed);
                     printf("Wrong password!\n");
                     system("pause");
+                    resetTextColor();
                     continue;
                 }
             }
+            setTextColor(ColorYellow);
             printf("You input worng password too many times, please login again.\n");
             system("pause");
+            resetTextColor();
         }
     }
     return False;
@@ -100,11 +111,13 @@ void signUp(){
     boolean canContinue = False;
     while(!canContinue){
         system("CLS");
-        printf("Please input your account id.\n");
-        printf("1.Your id have to less than 32 character.\n");
-        printf("2.Your id have to begin with english alphabet.\n");
-        printf("3.Your id contains only number or english alphabet.\n");
+        printf("======================SET ACCOUNT ID===================================\n");
+        printf("Please input your " ColorCyan "account id" ColorReset ".\n\n");
+        printf("1.Your id have to " ColorBlue "less than 32 character" ColorReset ".\n");
+        printf("2.Your id have to " ColorBlue "begin with english alphabet" ColorReset ".\n");
+        printf("3.Your id contains " ColorBlue "only number or english alphabet" ColorReset ".\n");
         printf("(You can input \"back\" to back to previous step.)\n");
+        printf("=======================================================================\n");
         char id[1024];
         fgets(id,1024,stdin);
         trimString(id);
@@ -112,23 +125,29 @@ void signUp(){
         if(isDebugMode())printf("id=%s,len=%d\n", id,lenID);
         if(strcmp(id,"back")==0)return;
         if(checkID(id) == False){
+            setTextColor(ColorRed);
             printf("Invalid format!\n");
             system("pause");
+            setTextColor(ColorReset);
             continue;
         }else{
             FILE* accountFile = findAccountFile(id);
             if(accountFile != NULL){
+                setTextColor(ColorYellow);
                 printf("The Account has existed!\n");
                 closeFile(accountFile);
                 system("pause");
+                setTextColor(ColorReset);
                 continue;
             }else closeFile(accountFile);
         }
         system("CLS");
-        printf("Please input your password.\n");
-        printf("1.Your password have to less than 32 character.\n");
-        printf("2.Your password contains only number or english alphabet.\n");
+        printf("======================SET PASSWORD=============================\n");
+        printf("Please input your " ColorCyan "password" ColorReset ".\n\n");
+        printf("1.Your password have to " ColorBlue "less than 32 character" ColorReset ".\n");
+        printf("2.Your password contains " ColorBlue "only number or english alphabet" ColorReset ".\n");
         printf("(You can input \"back\" to reinput your id.)\n");
+        printf("=================================================================\n");
         char password[1024];
         fgets(password,1024,stdin);
         trimString(password);
@@ -136,8 +155,10 @@ void signUp(){
         if(isDebugMode())printf("password=%s,len=%d\n",password,lenPassword);
         if(strcmp(password,"back")==0)continue;
         if(checkPassword(password) == False){
+            setTextColor(ColorRed);
             printf("Invalid format!\n");
             system("pause");
+            setTextColor(ColorReset);
             continue;
         }
         FILE* accountFile = creatAccountFile(id);
