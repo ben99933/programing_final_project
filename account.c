@@ -65,10 +65,12 @@ boolean login(){
                 char passwordInput[1024];
                 fgets(passwordInput,1024,stdin);
                 trimString(passwordInput);
+                if(isDebugMode())printf("input=%s,len=%d\n",passwordInput,strlen(passwordInput));
+                if(isDebugMode())printf("strcmp=%d\n",strcmp(passwordInput,"back"));
                 if(strcmp(passwordInput,"back")==0){
                     closeFile(accountFile);
                     accountFile = NULL;
-                    continue;
+                    return False;
                 }
                 fgets(password,1024,accountFile);
                 
