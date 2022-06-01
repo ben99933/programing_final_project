@@ -171,7 +171,7 @@ void askbudget(struct budget *userbudget)
     while(1)
     {
         system("CLS");
-        printf("=========================================ASK BUDGET================================================================\n");
+        printf("=========================================SET BUDGET================================================================\n");
         printf("Below shows the menu of budgets you can enter and the amount they are now.\n");
         printf("Please "ColorGreen"input the coordinating number of the budget"ColorReset" you want to set.\n");
         printf("If you consider the total budget, then total budget most be larger than the sum of all the other types of budgets.\n");
@@ -512,14 +512,22 @@ void func4_1(struct total usertotal,struct maxima usermaxima)
 
     printf(ColorGreen"=====================HIGHEST COST OF EACH CATEGORY==========================\n"ColorReset);
     printf("Highest cost    |       date        |       cost        |       note        \n");
-    print_maxima("food:", usermaxima.food_max);
-    print_maxima("clothing:", usermaxima.clothing_max);
-    print_maxima("transportation:", usermaxima.transportation_max);
-    print_maxima("entertainment:", usermaxima.entertainment_max);
-    print_maxima("utility:", usermaxima.utility_max);
-    print_maxima("other:", usermaxima.other_max);
+    print_maxima("food", usermaxima.food_max);
+    print_maxima("clothing", usermaxima.clothing_max);
+    print_maxima("transportation", usermaxima.transportation_max);
+    print_maxima("entertainment", usermaxima.entertainment_max);
+    print_maxima("utility", usermaxima.utility_max);
+    print_maxima("other", usermaxima.other_max);
     printf(ColorGreen"============================================================================\n"ColorReset);  
     system("pause");
+}
+
+short budget_adjust(short bal){
+    if(abs(bal)<100){
+        return 0;
+    }
+    bal = (bal * 6) / 100 * 10;
+    return bal;
 }
 
 //func4_2: Ouput the the balance out actual cost and budget. Also give the user suggestion of budget adjustment.
@@ -533,46 +541,44 @@ void func4_2(struct total usertotal,struct budget userbudget){
     if(userbudget.total_budget!=-1){
         t=userbudget.total_budget-usertotal.totalexpense;
         printf("total           |%12d       |%12d       |%12hd       \n",usertotal.totalexpense,userbudget.total_budget,t);
-
+        t = budget_adjust(t);
     }
     if(userbudget.food_budget!=-1){
         f=userbudget.food_budget-usertotal.totalfood;
         printf("food            |%12d       |%12d       |%12hd       \n",usertotal.totalfood,userbudget.food_budget,f);
-        f=(f*7)/100*10;
+        f = budget_adjust(f);
     }
     if(userbudget.clothing_budget!=-1){
         c=userbudget.clothing_budget-usertotal.totalclothing;
         printf("clothing        |%12d       |%12d       |%12hd       \n",usertotal.totalclothing,userbudget.clothing_budget,c);
-        c=(c*5)/100*10;
+        c = budget_adjust(c);
     }  
     if(userbudget.transportation_budget!=-1){
         tr=userbudget.transportation_budget-usertotal.totaltransportation;
         printf("transportation  |%12d       |%12d       |%12hd       \n",usertotal.totaltransportation,userbudget.transportation_budget,tr);
-        tr=(tr*8)/100*10;
+        tr = budget_adjust(tr);
     }   
     if(userbudget.entertainment_budget!=-1){
         e=userbudget.entertainment_budget-usertotal.totalentertainment;
         printf("entertainment   |%12d       |%12d       |%12hd       \n",usertotal.totalentertainment,userbudget.entertainment_budget,e);
-        e=(e*5)/100*10;
+        e = budget_adjust(e);
     }   
     if(userbudget.utility_budget!=-1){
         u=userbudget.utility_budget-usertotal.totalutility;
         printf("utility         |%12d       |%12d       |%12hd       \n",usertotal.totalutility,userbudget.utility_budget,u);
-        u=(u*8)/100*10;
+        u = budget_adjust(u);
     }
     if(userbudget.other_budget!=-1){
         o=userbudget.other_budget-usertotal.totalother;
         printf("other           |%12d       |%12d       |%12hd       \n\n\n",usertotal.totalother,userbudget.other_budget,o);
-        o=(o*6)/100*10;
+        o = budget_adjust(o);
     }
     printf(ColorGreen"============================================================================\n\n"ColorReset);
 
     
     /*==========Suggestion of budget adjustment==========*/
-    if(f+c+tr+e+u+o==0)
-        t = (t * 0.9) / 100 * 10;
-    else
-        t = f + c + tr + e + u + o;
+    if (f + c + tr + e + u + o != 0)
+        t = t + ((f + c + tr + e + u + o) * 4 / 100 * 10);
     printf(ColorGreen"======================SUGGESTION OF BUDGET ADJUSTMENT=======================\n"ColorReset);
     printf("                |        now        |  after adjustment  \n");
     if(userbudget.total_budget!=-1)
