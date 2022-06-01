@@ -2,10 +2,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include"word.h"
-#include"spend.h"
+#include "word.h"
+#include "spend.h"
 #include "spendList.h"
-#include"options.h"
+#include "options.h"
+
 
 struct budget{
     int food_budget, clothing_budget, transportation_budget, entertainment_budget, utility_budget, other_budget, total_budget;
@@ -479,6 +480,26 @@ void func4_1(struct total usertotal,struct maxima usermaxima)
     printf("entertainment: %.1f%%\n", entertainment_proportion);
     printf("utility: %.1f%%\n", utility_proportion);
     printf("other: %.1f%%\n", other_proportion);
+
+    float *expesneRatioData = malloc (sizeof(float) * CATEGORY_COUNT_NO_WAGE);
+    expesneRatioData[0] = food_proportion;
+    expesneRatioData[1] = clothing_proportion;
+    expesneRatioData[2] = transportation_proportion;
+    expesneRatioData[3] = entertainment_proportion;
+    expesneRatioData[4] = utility_proportion;
+    expesneRatioData[5] = other_proportion;
+    double *graphData = getExpenseRatio(expesneRatioData);
+
+    //account_name maxLEN = 32, date LEN = 7 .png = 4 total = 43 + 1 = 44
+    char *filePostfixBuffer = malloc(sizeof(char) * 44); 
+    int currentYear = (int)usermaxima.food_max->spend.date.year;
+    int currentMonth = (int)usermaxima.food_max->spend.date.month;
+    sprintf(filePostfixBuffer, "%s_%d%02d.png",currentAccount.name , currentYear, currentMonth);
+    //draw the plot with settings from above.
+    drawExpenseRatioBarPlot(CATEGORY_COUNT_NO_WAGE, graphData, filePostfixBuffer);
+
+    printf("The image for expense ratio analysis has been saved in the program directory!\n");
+    printf("Filename: ExpenseRatio_%s\n",filePostfixBuffer);
 
     printf("\nHighest cost    |       date        |       cost        |       note        \n");
     print_maxima("food:", usermaxima.food_max);
