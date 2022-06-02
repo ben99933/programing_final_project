@@ -533,7 +533,7 @@ else{
         short monthEnd = keyList->dataList[keyList->listLength - 1].date.month;
         short dayEnd   = keyList->dayEnd;
 
-        printf(ColorGreen"\n===========List of expenses with category %s and from date %04hi/%02hi/%02hi to %04hi/%02hi/%02hi===========\n"ColorReset
+        printf(ColorGreen"\n==============LIST OF EXPENSES WITH CATEGORY %s AND FROM DATE %04hi/%02hi/%02hi TO %04hi/%02hi/%02hi==============\n"ColorReset
                 ,toCategoryString(keyList->keyCategory), yearBegin, monthBegin, dayBegin, yearEnd, monthEnd, dayEnd);
         printf(underscore"       DATE        |     CATEGORY      |       COST        |       NOTE        \n"underscoreReset);
         for (int i = 0; i < keyList->listLength; i++){
@@ -546,6 +546,7 @@ else{
             strcpy(note,keyList->dataList[i].note);
             printf("    %04hi/%02hi/%02hi     |  %-17s|%12d       |       %s\n", year, month, day, toCategoryString(category), cost, note);
         }
+        printf(ColorGreen"===============================================================================\n"ColorReset);
     }
 }
 
