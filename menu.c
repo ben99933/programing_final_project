@@ -102,7 +102,7 @@ static void traverse_printSpendDetail(DataType type,void* value){
     Date* date = newDate(d->year,d->month,d->day);
     //"Year\tMonth\tDay\tCategory\tCost\tNote"
 
-    printf("%d\t%d\t%d\t%-12s\t%d\t%s\n",date->year,date->month,date->day,toCategoryString(spend->category),spend->cost,spend->note);
+    printf("    %04d/%02d/%02d     |  %-17s|%12d       |       %s\n",date->year,date->month,date->day,toCategoryString(spend->category),spend->cost,spend->note);
     free(date);
 } 
 //=============================================================================================
@@ -149,16 +149,16 @@ static boolean printfMonthSpendDetail(int year,int month){
         return False;
     }
     LLNode* focus = listHead;
-    printf("===========================================DETAIL================================================\n");
-    printf("Year\tMonth\tDay\tCategory  \tCost\tNote\n");
+    printf(ColorGreen"===========================================DETAIL================================================\n"ColorReset);
+    printf(underscore"       DATE        |     CATEGORY      |       COST        |       NOTE        \n"underscoreReset);
     while(focus){
         Spend spend = focus->spend;
         Date date = spend.date;
         //"Year\tMonth\tDay\tCategory\tCost\tNote"
-        printf("%d\t%d\t%d\t%-12s\t%d\t%s\n",date.year,date.month,date.day,toCategoryString(spend.category),spend.cost,spend.note);
+        printf("    %04d/%02d/%02d     |  %-17s|%12d       |       %s\n",date.year,date.month,date.day,toCategoryString(spend.category),spend.cost,spend.note);
         focus = focus->next;
     }
-    printf("=================================================================================================\n\n");
+    printf(ColorGreen"=================================================================================================\n\n"ColorReset);
     destorySpendList(listHead);
     return True;
 }
@@ -285,6 +285,8 @@ static void addRecord(){
 
         if(split == NULL)recordSpend(year,month,day,category,cost,"none",currentAccount.name);
         else recordSpend(year,month,day,category,cost,split,currentAccount.name);
+        printf("record is added!\n");
+        system("pause");
     }
     
 

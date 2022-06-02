@@ -502,22 +502,22 @@ void func4_1(struct total usertotal,struct maxima usermaxima)
 
     system("CLS");
     printf(ColorGreen"=======================PROPORTION OF EACH CATEGORY==========================\n"ColorReset);
-    printf("food: %.1f%%\n", food_proportion);
-    printf("clothing: %.1f%%\n", clothing_proportion);
-    printf("transportation: %.1f%%\n", transportation_proportion);
-    printf("entertainment: %.1f%%\n", entertainment_proportion);
-    printf("utility: %.1f%%\n", utility_proportion);
-    printf("other: %.1f%%\n", other_proportion);
+    printf("FOOD: %.1f%%\n", food_proportion);
+    printf("CLOTHING: %.1f%%\n", clothing_proportion);
+    printf("TRANSPORTATION: %.1f%%\n", transportation_proportion);
+    printf("ENTERTAINMENT: %.1f%%\n", entertainment_proportion);
+    printf("UTILITY: %.1f%%\n", utility_proportion);
+    printf("OTHER: %.1f%%\n", other_proportion);
     printf(ColorGreen"============================================================================\n\n"ColorReset);  
 
     printf(ColorGreen"=====================HIGHEST COST OF EACH CATEGORY==========================\n"ColorReset);
-    printf("Highest cost    |       date        |       cost        |       note        \n");
-    print_maxima("food", usermaxima.food_max);
-    print_maxima("clothing", usermaxima.clothing_max);
-    print_maxima("transportation", usermaxima.transportation_max);
-    print_maxima("entertainment", usermaxima.entertainment_max);
-    print_maxima("utility", usermaxima.utility_max);
-    print_maxima("other", usermaxima.other_max);
+    printf(underscore"HIGHEST COST    |       DATE        |       COST        |       NOTE        \n"underscoreReset);
+    print_maxima("FOOD", usermaxima.food_max);
+    print_maxima("CLOTHING", usermaxima.clothing_max);
+    print_maxima("TRANSPORTATION", usermaxima.transportation_max);
+    print_maxima("ENTERTAINMENT", usermaxima.entertainment_max);
+    print_maxima("UTILITY", usermaxima.utility_max);
+    print_maxima("OTHER", usermaxima.other_max);
     printf(ColorGreen"============================================================================\n"ColorReset);  
     system("pause");
 }
@@ -537,40 +537,40 @@ void func4_2(struct total usertotal,struct budget userbudget){
 
     /*========== General report of actual cost and budget==========*/
     printf(ColorGreen"==================GENERAL REPORT OF ACTUAL COST AND BUDGET==================\n"ColorReset);    
-    printf("                |    actual cost    |      budget       |      balance      \n");
+    printf(underscore"                |    ACTUAL COST    |      BUDGET       |      BALANCE      \n"underscoreReset);
     if(userbudget.total_budget!=-1){
         t=userbudget.total_budget-usertotal.totalexpense;
-        printf("total           |%12d       |%12d       |%12hd       \n",usertotal.totalexpense,userbudget.total_budget,t);
+        printf("TOTAL           |%12d       |%12d       |%12hd       \n",usertotal.totalexpense,userbudget.total_budget,t);
         t = budget_adjust(t);
     }
     if(userbudget.food_budget!=-1){
         f=userbudget.food_budget-usertotal.totalfood;
-        printf("food            |%12d       |%12d       |%12hd       \n",usertotal.totalfood,userbudget.food_budget,f);
+        printf("FOOD            |%12d       |%12d       |%12hd       \n",usertotal.totalfood,userbudget.food_budget,f);
         f = budget_adjust(f);
     }
     if(userbudget.clothing_budget!=-1){
         c=userbudget.clothing_budget-usertotal.totalclothing;
-        printf("clothing        |%12d       |%12d       |%12hd       \n",usertotal.totalclothing,userbudget.clothing_budget,c);
+        printf("CLOTHING        |%12d       |%12d       |%12hd       \n",usertotal.totalclothing,userbudget.clothing_budget,c);
         c = budget_adjust(c);
     }  
     if(userbudget.transportation_budget!=-1){
         tr=userbudget.transportation_budget-usertotal.totaltransportation;
-        printf("transportation  |%12d       |%12d       |%12hd       \n",usertotal.totaltransportation,userbudget.transportation_budget,tr);
+        printf("TRANSPORTATION  |%12d       |%12d       |%12hd       \n",usertotal.totaltransportation,userbudget.transportation_budget,tr);
         tr = budget_adjust(tr);
     }   
     if(userbudget.entertainment_budget!=-1){
         e=userbudget.entertainment_budget-usertotal.totalentertainment;
-        printf("entertainment   |%12d       |%12d       |%12hd       \n",usertotal.totalentertainment,userbudget.entertainment_budget,e);
+        printf("ENTERTAINMENT   |%12d       |%12d       |%12hd       \n",usertotal.totalentertainment,userbudget.entertainment_budget,e);
         e = budget_adjust(e);
     }   
     if(userbudget.utility_budget!=-1){
         u=userbudget.utility_budget-usertotal.totalutility;
-        printf("utility         |%12d       |%12d       |%12hd       \n",usertotal.totalutility,userbudget.utility_budget,u);
+        printf("UTILITY         |%12d       |%12d       |%12hd       \n",usertotal.totalutility,userbudget.utility_budget,u);
         u = budget_adjust(u);
     }
     if(userbudget.other_budget!=-1){
         o=userbudget.other_budget-usertotal.totalother;
-        printf("other           |%12d       |%12d       |%12hd       \n\n\n",usertotal.totalother,userbudget.other_budget,o);
+        printf("OTHER           |%12d       |%12d       |%12hd       \n\n\n",usertotal.totalother,userbudget.other_budget,o);
         o = budget_adjust(o);
     }
     printf(ColorGreen"============================================================================\n\n"ColorReset);
@@ -580,21 +580,21 @@ void func4_2(struct total usertotal,struct budget userbudget){
     if (f + c + tr + e + u + o != 0)
         t = t + ((f + c + tr + e + u + o) * 4 / 100 * 10);
     printf(ColorGreen"======================SUGGESTION OF BUDGET ADJUSTMENT=======================\n"ColorReset);
-    printf("                |        now        |  after adjustment  \n");
+    printf(underscore"                |        NOW        |  AFTER ADJUSTMENT  \n"underscoreReset);
     if(userbudget.total_budget!=-1)
-    printf("total           |%12d       |%12d       \n",userbudget.total_budget,userbudget.total_budget-t);
+    printf("TOTAL           |%12d       |%12d       \n",userbudget.total_budget,userbudget.total_budget-t);
     if(userbudget.food_budget!=-1)
-    printf("food            |%12d       |%12d       \n",userbudget.food_budget,userbudget.food_budget-f);
+    printf("FOOD            |%12d       |%12d       \n",userbudget.food_budget,userbudget.food_budget-f);
     if(userbudget.clothing_budget!=-1)
-    printf("clothing        |%12d       |%12d       \n",userbudget.clothing_budget,userbudget.clothing_budget-c);
+    printf("CLOTHING        |%12d       |%12d       \n",userbudget.clothing_budget,userbudget.clothing_budget-c);
     if(userbudget.transportation_budget!=-1)
-    printf("transportation  |%12d       |%12d       \n",userbudget.transportation_budget,userbudget.transportation_budget-tr);
+    printf("TRANSPORTATION  |%12d       |%12d       \n",userbudget.transportation_budget,userbudget.transportation_budget-tr);
     if(userbudget.entertainment_budget!=-1)
-    printf("entertainment   |%12d       |%12d       \n",userbudget.entertainment_budget,userbudget.entertainment_budget-e);
+    printf("ENTERTAINMENT   |%12d       |%12d       \n",userbudget.entertainment_budget,userbudget.entertainment_budget-e);
     if(userbudget.utility_budget!=-1)
-    printf("utility         |%12d       |%12d       \n",userbudget.utility_budget,userbudget.utility_budget-u);
+    printf("UTILITY         |%12d       |%12d       \n",userbudget.utility_budget,userbudget.utility_budget-u);
     if(userbudget.other_budget!=-1)
-    printf("other           |%12d       |%12d       \n",userbudget.other_budget,userbudget.other_budget-o);
+    printf("OTHER           |%12d       |%12d       \n",userbudget.other_budget,userbudget.other_budget-o);
     printf(ColorGreen"============================================================================\n"ColorReset);
     system("pause");
 }

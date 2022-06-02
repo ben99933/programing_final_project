@@ -148,10 +148,12 @@ void sortedInsert(struct LLNode *curr,struct LLNode *prev, struct LLNode *key, i
     }
 }
 
+
 void printLL(struct LLNode *head){
     struct LLNode *curr = head;
     printf("Sorted Linked List:\n");
-    printf("Date\tCategory\tCost\tNote\n");
+
+    printf("       date        |     Category      |       cost        |       note        \n");
     for (int i = 0;curr != NULL; curr = curr->next, i++){
         short int year = curr->spend.date.year;
         short int month = curr->spend.date.month;
@@ -160,7 +162,7 @@ void printLL(struct LLNode *head){
         int cost = curr->spend.cost;
         char note[16];
         strcpy(note, curr->spend.note);
-        printf("[%d] %hi/%hi/%hi\t%d\t%d\t%s\n", i, year, month, day, category, cost, note);
+        printf("    %04hi/%02hi/%02hi     |  %-17s|%12d       |       %s\n", year, month, day, toCategoryString(category), cost, note);
     }
 }
 
@@ -486,19 +488,21 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
 
 void printKeyList(keyDataList *keyList){
     if(keyList->extractionType == 0){
-        printf("List of expenses with Category %hi\n",keyList->keyCategory);
-        printf("The list is ordered in date.(ascending)\n");
-        printf("Date\tCategory\tCost\n");
+        printf(ColorGreen"\n=====================LIST OF EXPENSES WITH CATEGORY %hi==========================\n"ColorReset,keyList->keyCategory);
+        printf(underscore"       DATE        |     CATEGORY      |       COST        |       NOTE        \n"underscoreReset);
         for (int i = 0; i < keyList->listLength; i++){
             short year = keyList->dataList[i].date.year;
             short month = keyList->dataList[i].date.month;
             short day = keyList->dataList[i].date.day;
             short category = (short)keyList->dataList[i].category;
             int cost = keyList->dataList[i].cost;
-            printf("[%d] %hi/%hi/%hi\t%hi\t%d\n", i, year, month, day, category, cost);
+            char note[16];
+            strcpy(note,keyList->dataList[i].note);
+            printf("    %04hi/%02hi/%02hi     |  %-17s|%12d       |       %s\n", year, month, day, toCategoryString(category), cost, note);
         }
+        printf(ColorGreen"===============================================================================\n"ColorReset);
     }
-    else if (keyList->extractionType == 1){
+else if (keyList->extractionType == 1){
         short yearBegin = keyList->dataList[0].date.year;
         short monthBegin = keyList->dataList[0].date.month;
         short dayBegin = keyList->dayBegin;
@@ -506,20 +510,22 @@ void printKeyList(keyDataList *keyList){
         short monthEnd = keyList->dataList[keyList->listLength - 1].date.month;
         short dayEnd   = keyList->dayEnd;
 
-        printf("List of expenses from date %hi/%hi/%hi to %hi/%hi/%hi\n"
+        printf(ColorGreen"\n==============LIST OF EXPENSES FROM DATE %04hi/%02hi/%02hi TO %04hi/%02hi/%02hi==============\n"ColorReset
                 , yearBegin, monthBegin, dayBegin, yearEnd, monthEnd, dayEnd);
-        printf("The list is ordered in date.(ascending)\n");
-        printf("Date\tCategory\tCost\n");
+        printf(underscore"       DATE        |     CATEGORY      |       COST        |       NOTE        \n"underscoreReset);
         for (int i = 0; i < keyList->listLength; i++){
             short year = keyList->dataList[i].date.year;
             short month = keyList->dataList[i].date.month;
             short day = keyList->dataList[i].date.day;
             short category = (short)keyList->dataList[i].category;
             int cost = keyList->dataList[i].cost;
-            printf("[%d] %hi/%hi/%hi\t%hi\t%d\n", i, year, month, day, category, cost);
+            char note[16];
+            strcpy(note,keyList->dataList[i].note);
+            printf("    %04hi/%02hi/%02hi     |  %-17s|%12d       |       %s\n", year, month, day, toCategoryString(category), cost, note);
         }
+        printf(ColorGreen"===============================================================================\n"ColorReset);
     }
-    else{
+else{
         short yearBegin = keyList->dataList[0].date.year;
         short monthBegin = keyList->dataList[0].date.month;
         short dayBegin = keyList->dayBegin;
@@ -527,17 +533,18 @@ void printKeyList(keyDataList *keyList){
         short monthEnd = keyList->dataList[keyList->listLength - 1].date.month;
         short dayEnd   = keyList->dayEnd;
 
-        printf("List of expenses with category %hi and from date %hi/%hi/%hi to %hi/%hi/%hi\n"
-                ,keyList->keyCategory, yearBegin, monthBegin, dayBegin, yearEnd, monthEnd, dayEnd);
-        printf("The list is ordered in date.(ascending)\n");
-        printf("Date\tCategory\tCost\n");
+        printf(ColorGreen"\n===========List of expenses with category %s and from date %04hi/%02hi/%02hi to %04hi/%02hi/%02hi===========\n"ColorReset
+                ,toCategoryString(keyList->keyCategory), yearBegin, monthBegin, dayBegin, yearEnd, monthEnd, dayEnd);
+        printf(underscore"       DATE        |     CATEGORY      |       COST        |       NOTE        \n"underscoreReset);
         for (int i = 0; i < keyList->listLength; i++){
             short year = keyList->dataList[i].date.year;
             short month = keyList->dataList[i].date.month;
             short day = keyList->dataList[i].date.day;
             short category = (short)keyList->dataList[i].category;
             int cost = keyList->dataList[i].cost;
-            printf("[%d] %hi/%hi/%hi\t%hi\t%d\n", i, year, month, day, category, cost);
+            char note[16];
+            strcpy(note,keyList->dataList[i].note);
+            printf("    %04hi/%02hi/%02hi     |  %-17s|%12d       |       %s\n", year, month, day, toCategoryString(category), cost, note);
         }
     }
 }
