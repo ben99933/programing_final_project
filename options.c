@@ -6,6 +6,7 @@
 #include "spend.h"
 #include "spendList.h"
 #include "options.h"
+#include "bargraph.h"
 
 
 struct budget{
