@@ -7,6 +7,7 @@
 #include "spendList.h"
 #include"options.h"
 #include"color.h"
+#include "bargraph.h"
 
 struct budget{
     int food_budget, clothing_budget, transportation_budget, entertainment_budget, utility_budget, other_budget, total_budget;
@@ -509,6 +510,26 @@ void func4_1(struct total usertotal,struct maxima usermaxima)
     printf("UTILITY: %.1f%%\n", utility_proportion);
     printf("OTHER: %.1f%%\n", other_proportion);
     printf(ColorGreen"============================================================================\n\n"ColorReset);  
+
+    float *expesneRatioData = malloc (sizeof(float) * CATEGORY_COUNT_NO_WAGE);
+    expesneRatioData[0] = food_proportion;
+    expesneRatioData[1] = clothing_proportion;
+    expesneRatioData[2] = transportation_proportion;
+    expesneRatioData[3] = entertainment_proportion;
+    expesneRatioData[4] = utility_proportion;
+    expesneRatioData[5] = other_proportion;
+    double *graphData = getExpenseRatio(expesneRatioData);
+
+    //account_name maxLEN = 32, date LEN = 7 .png = 4 total = 43 + 1 = 44
+    char *filePostfixBuffer = malloc(sizeof(char) * 44); 
+    int currentYear = (int)usermaxima.food_max->spend.date.year;
+    int currentMonth = (int)usermaxima.food_max->spend.date.month;
+    sprintf(filePostfixBuffer, "%s_%d%02d.png",currentAccount.name , currentYear, currentMonth);
+    //draw the plot with settings from above.
+    drawExpenseRatioBarPlot(CATEGORY_COUNT_NO_WAGE, graphData, filePostfixBuffer);
+
+    printf("The image for expense ratio analysis has been saved in the program directory!\n");
+    printf("Filename: ExpenseRatio_%s\n\n",filePostfixBuffer);
 
     printf(ColorGreen"=====================HIGHEST COST OF EACH CATEGORY==========================\n"ColorReset);
     printf(underscore"HIGHEST COST    |       DATE        |       COST        |       NOTE        \n"underscoreReset);
