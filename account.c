@@ -81,7 +81,7 @@ boolean login(){
                 }
                 fgets(password,1024,accountFile);
                 
-                char hash[17] = {'\0'};
+                char hash[33] = {'\0'};
                 getDigestString(hash,passwordInput);
 
                 if(isDebugMode())printf("input = %s,len=%d\n",passwordInput,(int)strlen(passwordInput));
@@ -168,7 +168,7 @@ void signUp(){
             errorMsg("File Created failed.",__FILE__,__LINE__);
         }
         //密碼雜湊
-        char hash[17] = {'\0'};
+        char hash[33] = {'\0'};
         getDigestString(hash,password);
 
         fprintf(accountFile,"%s",hash);

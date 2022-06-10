@@ -2,7 +2,9 @@
 #include<string.h>
 #include<stdint.h>
 #include<stdlib.h>
+#include<stdio.h>
 #include"word.h"
+#include"debug.h"
 
 
 //把第32~n個bit放到開頭 但順序沒有顛倒
@@ -14,15 +16,15 @@ typedef uint32_t byte4;
 
 //md5摘要
 typedef struct MD5Digest{
-    byte4 h[4];
+    byte4 part[4];
 }MD5Digest;
 
 static MD5Digest* newMD5Digest(){
     MD5Digest* digest = malloc(sizeof(MD5Digest));
-    digest->h[0] = 0x67452301;
-    digest->h[1] = 0xefcdab89;
-    digest->h[2] = 0x98badcfe;
-    digest->h[3] = 0x10325476;
+    digest->part[0] = 0x67452301;
+    digest->part[1] = 0xefcdab89;
+    digest->part[2] = 0x98badcfe;
+    digest->part[3] = 0x10325476;
     return digest;
 }
 
@@ -108,10 +110,10 @@ static MD5Digest* md5(char *string) {
         // break chunk into sixteen 32-bit words w[j], 0 ≤ j ≤ 15
         byte4 *w = (byte4 *) (msg + offset);
         // Initialize hash value for this chunk:
-        byte4 a = digest->h[0];
-        byte4 b = digest->h[1];
-        byte4 c = digest->h[2];
-        byte4 d = digest->h[3];
+        byte4 a = digest->part[0];
+        byte4 b = digest->part[1];
+        byte4 c = digest->part[2];
+        byte4 d = digest->part[3];
  
         byte4 i;
         for(i = 0; i<64; i++) {
@@ -141,10 +143,10 @@ static MD5Digest* md5(char *string) {
  
         //把結果放到digest裡面 然後再跑迴圈
         //第N次的輸出將作為第N+1次的輸入
-        digest->h[0] += a;
-        digest->h[1] += b;
-        digest->h[2] += c;
-        digest->h[3] += d;
+        digest->part[0] += a;
+        digest->part[1] += b;
+        digest->part[2] += c;
+        digest->part[3] += d;
     }
     
     free(msg);
@@ -162,14 +164,18 @@ static MD5Digest* md5(char *string) {
         string[i] = input[i];
     }
     MD5Digest* digest = md5(string);
-    for(int i = 0;i<16;i++){
-        byte4 b1 = digest->h[i/4];
-        short times = 3-(i%4);//bit陣列中從"右邊"開始第幾個
-        byte4 b2 = b1 >> (times*8);
-        b2  = b2 & (0x000f);//musk
-        hash[i] = toHexChar(b2);
+    if(isDebugMode())printf("digest=%X%X%X%X\n",digest->part[0],digest->part[1],digest->part[2],digest->part[3]);
+    for(int i = 0;i<32;i++){
+        byte4 b1 = digest->part[i/8];
+        short times = 7-(i%8);//bit陣列中從"右邊"開始第幾個
+
+        byte4 b2 = b1 & (0x0000000F << (times*4));
+        //if(isDebugMode())printf("b2=%X\n",b2);
+        b2  = b2 >> (times*4);
+        //if(isDebugMode())printf("b2&16=%X\n",b2);
+        hash[i] = toHexChar((int)b2);
     }
-    hash[16] = '\0';
+    hash[32] = '\0';
     free(digest);
 }
 
