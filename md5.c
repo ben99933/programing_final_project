@@ -62,7 +62,7 @@ static MD5Digest* md5(char *string) {
     
     byte *msg = NULL;//等一下要雜湊的"訊息"
 
-    //第index回合要從第幾個位置去做ROTATE_LEFT
+    //第<index>個回合要從第幾個位置去做ROTATE_LEFT
     byte4 r[] = {
         7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
         5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20,
