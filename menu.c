@@ -18,6 +18,7 @@
 void loginOrSingUp(){
     boolean canContiune = False;
     printf("Hello,user.\n");
+    printf("Wellcome to use Accounting System By SSOR\n");
     system("pause");
     while(!canContiune){
         system("CLS");
