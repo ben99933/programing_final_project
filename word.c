@@ -58,9 +58,10 @@ char toHexChar(int num){
     if(0<=num && num <= 9){
         return (char)((int)'0' + num);
     }else if(10<=num && num <=15){
-        return (char)((int)'A' + num);
+        return (char)((int)'A' + num-10);
     }else {
         errorMsg("num out of limit",__FILE__,__LINE__);
+        //if(isDebugMode())printf("num=%d\n",num);
         return 0;
     }
 }

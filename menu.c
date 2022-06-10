@@ -44,7 +44,7 @@ void loginOrSingUp(){
             fgets(input2,1024,stdin);
             trimString(input2);
             int len2 = strlen(input2);
-            if(len==0 || strcmp(input2,"Y")==0 || strcmp(input2,"y")==0)signUp();
+            if(len2==0 || strcmp(input2,"Y")==0 || strcmp(input2,"y")==0)signUp();
             else if(strcmp(input2,"N")==0 || strcmp(input2,"n")==0)continue;
             else {
                 printf("Invaild input!\n");
