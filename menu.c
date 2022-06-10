@@ -388,8 +388,8 @@ void onMenu(){
         printf("[2] Search certain record according to date.\n");
         printf("[3] Search certain record according to category.\n");
         printf("[4] Consumption analysis.\n");
-        printf("[5] exit.\n");
-        printf("[6] log out.\n");
+        printf("[5] Exit.\n");
+        printf("[6] Log out.\n");
         printf("=======================================================\n");
 
         char inputString[1024];
