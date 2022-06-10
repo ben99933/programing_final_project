@@ -817,7 +817,7 @@ void option4(keyDataList *keyList){
         if(res==1){
             printf("[2] Get "ColorGreen"suggestions"ColorReset" of budget about next month\n\n");
         }
-        printf("You can input \"back\" to back to previous step.\n");
+        printf("You can input \"back\" to back to menu.\n");
         printf("================================================================================================\n");
 
         char input[100];
