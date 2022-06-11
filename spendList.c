@@ -3,6 +3,7 @@
 #include <string.h>
 #include "spendList.h"
 #include "debug.h"
+#include "color.h"
 
 struct LLNode *createList(Spend data){
     struct LLNode *head = malloc(sizeof(struct LLNode));
@@ -147,10 +148,12 @@ void sortedInsert(struct LLNode *curr,struct LLNode *prev, struct LLNode *key, i
     }
 }
 
+
 void printLL(struct LLNode *head){
     struct LLNode *curr = head;
     printf("Sorted Linked List:\n");
-    printf("Date\tCategory\tCost\tNote\n");
+
+    printf("       date        |     Category      |       cost        |       note        \n");
     for (int i = 0;curr != NULL; curr = curr->next, i++){
         short int year = curr->spend.date.year;
         short int month = curr->spend.date.month;
@@ -159,7 +162,7 @@ void printLL(struct LLNode *head){
         int cost = curr->spend.cost;
         char note[16];
         strcpy(note, curr->spend.note);
-        printf("[%d] %hi/%hi/%hi\t%d\t%d\t%s\n", i, year, month, day, category, cost, note);
+        printf("    %04hi/%02hi/%02hi     |  %-17s|%12d       |       %s\n", year, month, day, toCategoryString(category), cost, note);
     }
 }
 
@@ -262,9 +265,12 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
     //illegal input handling.
     if((int)keyCategory < -1 ||(int)keyCategory > 6 || dayBegin > dayEnd || dayBegin < 0 || dayBegin < 0
        ||((keyCategory == -1 && dayBegin < 1) && (keyCategory == -1 && dayBegin != 0)) 
-       ||((keyCategory == -1 && dayEnd < 1 )) && (keyCategory == -1 && dayEnd != 0)
+       ||((keyCategory == -1 && dayEnd < 1 ) && (keyCategory == -1 && dayEnd != 0))
        ||dayBegin > 31 ||dayEnd > 31||(dayBegin==0 && dayEnd != 0) || (dayBegin!= 0 && dayEnd == 0)){
+        setTextColor(ColorRed);
         printf("Invalid Input, please check your input!\n");
+        system("pause");
+        resetTextColor();
         return NULL;
     }
     
@@ -293,7 +299,10 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
             i++;
 
         if(i == 0){
+            setTextColor(ColorYellow);
             printf("No such data in designated range. Please retry.\n");
+            system("pause");
+            resetTextColor();
             return NULL;
         }
         else{
@@ -306,13 +315,19 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         int actualDayBegin = dayBegin;
         while (actualDayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
             if(actualDayBegin == dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
+                setTextColor(ColorYellow);
                 printf("No such data in designated range. Please retry.\n");
+                system("pause");
+                resetTextColor();
                 return NULL;
             }
             else{
                 while (occurenceList[actualDayBegin - 1].Count == 0){
                     if(actualDayBegin == dayEnd){ // if dayBegin ==dayEnd and Count is still zero.
+                        setTextColor(ColorYellow);
                         printf("No such data in designated range. Please retry.\n");
+                        system("pause");
+                        resetTextColor();
                         return NULL;
                     }
                     actualDayBegin++;
@@ -328,7 +343,10 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         int dataLength = endPos - startPos;
         
         if(dataLength == 0){
+            setTextColor(ColorYellow);
             printf("No such data in designated range. Please retry.\n");
+            system("pause");
+            resetTextColor();
             return NULL;
         }
         
@@ -353,13 +371,19 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         int actualDayBegin = dayBegin;
         while (actualDayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
             if(actualDayBegin == dayEnd){
+                setTextColor(ColorYellow);
                 printf("No such data in designated range. Please retry.\n");
+                system("pause");
+                resetTextColor();
                 return NULL;
             }
             else{
                 while (occurenceList[actualDayBegin - 1].Count == 0){
                     if(actualDayBegin == dayEnd){ // if dayBegin == dayEnd and Count is still zero.
+                        setTextColor(ColorYellow);
                         printf("No such data in designated range. Please retry.\n");
+                        system("pause");
+                        resetTextColor();
                         return NULL;
                     }
                     actualDayBegin++;
@@ -393,7 +417,10 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
             i++;
 
         if(i == 0){
+            setTextColor(ColorYellow);
             printf("No such data in designated range. Please retry.\n");
+            system("pause");
+            resetTextColor();
             return NULL;
         }
         else{
@@ -408,13 +435,19 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         int actualDayBegin = dayBegin;
         while (actualDayBegin <= dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
             if(actualDayBegin == dayEnd && occurenceList[actualDayBegin - 1].Count == 0){
+                setTextColor(ColorYellow);
                 printf("No such data in designated range. Please retry.\n");
+                system("pause");
+                resetTextColor();
                 return NULL;
             }
             else{
                 while (occurenceList[actualDayBegin - 1].Count == 0){
                     if(actualDayBegin == dayEnd){ // if dayBegin == dayEnd and Count is still zero.
+                        setTextColor(ColorYellow);
                         printf("No such data in designated range. Please retry.\n");
+                        system("pause");
+                        resetTextColor();
                         return NULL;
                     }
                     actualDayBegin++;
@@ -429,10 +462,12 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         int dataLength = endPos - startPos;
         
         if(dataLength == 0){
+            setTextColor(ColorYellow);
             printf("No such data in designated range. Please retry.\n");
+            system("pause");
+            resetTextColor();
             return NULL;
         }
-        
         Spend *dataList = calloc(dataLength, sizeof(Spend));
         keyDataList *keyList = malloc(sizeof(keyDataList));
         keyList->dataList = dataList;
@@ -441,7 +476,7 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
         keyList->dayEnd = dayEnd;
         keyList->listLength = (short) dataLength;
         keyList->extractionType = 1;
-
+       
         struct LLNode *curr = sortedList;
         for (int i = 0 ; i < startPos   ; i++, curr = curr->next);
         for (int j = 0 ; j < dataLength ; j++, curr = curr->next)
@@ -453,19 +488,21 @@ keyDataList *getKeyData(struct LLNode *sortedList,Occurence *occurenceList, Cate
 
 void printKeyList(keyDataList *keyList){
     if(keyList->extractionType == 0){
-        printf("List of expenses with Category %hi\n",keyList->keyCategory);
-        printf("The list is ordered in date.(ascending)\n");
-        printf("Date\tCategory\tCost\n");
+        printf(ColorGreen"\n=====================LIST OF EXPENSES WITH CATEGORY %hi==========================\n"ColorReset,keyList->keyCategory);
+        printf(underscore"       DATE        |     CATEGORY      |       COST        |       NOTE        \n"underscoreReset);
         for (int i = 0; i < keyList->listLength; i++){
             short year = keyList->dataList[i].date.year;
             short month = keyList->dataList[i].date.month;
             short day = keyList->dataList[i].date.day;
             short category = (short)keyList->dataList[i].category;
             int cost = keyList->dataList[i].cost;
-            printf("[%d] %hi/%hi/%hi\t%hi\t%d\n", i, year, month, day, category, cost);
+            char note[16];
+            strcpy(note,keyList->dataList[i].note);
+            printf("    %04hi/%02hi/%02hi     |  %-17s|%12d       |       %s\n", year, month, day, toCategoryString(category), cost, note);
         }
+        printf(ColorGreen"===============================================================================\n"ColorReset);
     }
-    else if (keyList->extractionType == 1){
+else if (keyList->extractionType == 1){
         short yearBegin = keyList->dataList[0].date.year;
         short monthBegin = keyList->dataList[0].date.month;
         short dayBegin = keyList->dayBegin;
@@ -473,20 +510,22 @@ void printKeyList(keyDataList *keyList){
         short monthEnd = keyList->dataList[keyList->listLength - 1].date.month;
         short dayEnd   = keyList->dayEnd;
 
-        printf("List of expenses from date %hi/%hi/%hi to %hi/%hi/%hi\n"
+        printf(ColorGreen"\n==============LIST OF EXPENSES FROM DATE %04hi/%02hi/%02hi TO %04hi/%02hi/%02hi==============\n"ColorReset
                 , yearBegin, monthBegin, dayBegin, yearEnd, monthEnd, dayEnd);
-        printf("The list is ordered in date.(ascending)\n");
-        printf("Date\tCategory\tCost\n");
+        printf(underscore"       DATE        |     CATEGORY      |       COST        |       NOTE        \n"underscoreReset);
         for (int i = 0; i < keyList->listLength; i++){
             short year = keyList->dataList[i].date.year;
             short month = keyList->dataList[i].date.month;
             short day = keyList->dataList[i].date.day;
             short category = (short)keyList->dataList[i].category;
             int cost = keyList->dataList[i].cost;
-            printf("[%d] %hi/%hi/%hi\t%hi\t%d\n", i, year, month, day, category, cost);
+            char note[16];
+            strcpy(note,keyList->dataList[i].note);
+            printf("    %04hi/%02hi/%02hi     |  %-17s|%12d       |       %s\n", year, month, day, toCategoryString(category), cost, note);
         }
+        printf(ColorGreen"===============================================================================\n"ColorReset);
     }
-    else{
+else{
         short yearBegin = keyList->dataList[0].date.year;
         short monthBegin = keyList->dataList[0].date.month;
         short dayBegin = keyList->dayBegin;
@@ -494,18 +533,20 @@ void printKeyList(keyDataList *keyList){
         short monthEnd = keyList->dataList[keyList->listLength - 1].date.month;
         short dayEnd   = keyList->dayEnd;
 
-        printf("List of expenses with category %hi and from date %hi/%hi/%hi to %hi/%hi/%hi\n"
-                ,keyList->keyCategory, yearBegin, monthBegin, dayBegin, yearEnd, monthEnd, dayEnd);
-        printf("The list is ordered in date.(ascending)\n");
-        printf("Date\tCategory\tCost\n");
+        printf(ColorGreen"\n==============LIST OF EXPENSES WITH CATEGORY %s AND FROM DATE %04hi/%02hi/%02hi TO %04hi/%02hi/%02hi==============\n"ColorReset
+                ,toCategoryString(keyList->keyCategory), yearBegin, monthBegin, dayBegin, yearEnd, monthEnd, dayEnd);
+        printf(underscore"       DATE        |     CATEGORY      |       COST        |       NOTE        \n"underscoreReset);
         for (int i = 0; i < keyList->listLength; i++){
             short year = keyList->dataList[i].date.year;
             short month = keyList->dataList[i].date.month;
             short day = keyList->dataList[i].date.day;
             short category = (short)keyList->dataList[i].category;
             int cost = keyList->dataList[i].cost;
-            printf("[%d] %hi/%hi/%hi\t%hi\t%d\n", i, year, month, day, category, cost);
+            char note[16];
+            strcpy(note,keyList->dataList[i].note);
+            printf("    %04hi/%02hi/%02hi     |  %-17s|%12d       |       %s\n", year, month, day, toCategoryString(category), cost, note);
         }
+        printf(ColorGreen"===============================================================================\n"ColorReset);
     }
 }
 
@@ -744,7 +785,6 @@ int main (){
         int category, cost;
         char note[16];
         scanf("%d/%2d/%2d %d %d %s",&year ,&month ,&day ,&category ,&cost ,note);
-
         Spend data;
         data.date.year = (short) year;
         data.date.month = (short) month;
@@ -752,11 +792,9 @@ int main (){
         data.category = category;
         data.cost = cost;
         strcpy(data.note, note);
-
         struct LLNode *key = malloc(sizeof(struct LLNode));
         key->spend = data;
         key->next = key->prev = NULL;
-
         if (i == 0)
             head = createList(data);    //first element in the list.
         else
@@ -764,10 +802,8 @@ int main (){
     }
     for(;head->prev != NULL; head = head->prev);
     printLL(head);
-
     Occurence *occurList = findOccurence(head);
     printOccurence(occurList, DAY_OF_MONTH);
-
     //testing delete function for 5 times
     for(int i = 0; i < 5 ; i++){
         head = deleteAction(head, occurList);
@@ -778,20 +814,16 @@ int main (){
     
     // keyDataList *keyList = getKeyData(head, occurList, food, 1, 15);
     // printKeyList(keyList);
-
     // keyDataList *keyList1 = getKeyData(head, occurList, transportation, 0, 0);
     // printKeyList(keyList1);
-
     // keyDataList *keyList2 = getKeyData(head, occurList, -1, 1, 25);
     // printKeyList(keyList2);
-
     // printf("illgal Input Example, Category Overflow :getKeyData(head, occurList, 6, 1, 25)\n");
     // keyDataList *keyList3 = getKeyData(head, occurList, 6, 1, 25);
     // printf("illgal Input Example, Incorrect Date :getKeyData(head, occurList, 1, 0, 25)\n");
     // keyDataList *keyList4 = getKeyData(head, occurList, 1, 0, 25);
     // printf("illgal Input Example, No specifier :getKeyData(head, occurList, -1, 0, 0)\n");
     // keyDataList *keyList5 = getKeyData(head, occurList, -1, 0, 0);
-
     system("PAUSE");
     return 0;
 }***/

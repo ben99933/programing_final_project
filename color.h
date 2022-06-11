@@ -19,6 +19,11 @@
     #define ColorReset "\x1B[0m"
 
     
+    #define underscore "\033[4m"
+    #define underscoreReset "\033[m"
+    
+
+    
 
     /**
      * 把接下來printf的字都變成該顏色
