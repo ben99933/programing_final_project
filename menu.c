@@ -75,15 +75,6 @@ void loginOrSingUp(){
 
 
 //=============================在Tree或list走訪的時候要用到的================================
-/**計算該月份的總花費和總共幾筆資料
- * 不會返回值 而是存在intBuffer中
- */
-static void traverse_totalSpendCost(DataType type,void* value){
-    if(type != SpendType)return;
-    Spend* spend = (Spend*)value;
-    intBuffer[0] += 1;//共有幾筆紀錄
-    intBuffer[1] += spend->cost;//總花費
-}
 //印出 <year> <month> 只是他是在list或tree在進行遍歷的時候被自動呼叫
 static void traverse_printYearMonth(DataType type,void* value){
     if(type != Int)return;
@@ -93,19 +84,6 @@ static void traverse_printYearMonth(DataType type,void* value){
     if(year <= 0 || month <= 0)return;
     printf("%d\t%3d\n",year,month);
 }
-/**
- * 印出該筆花費的詳細資料 僅在list或tree在進行遍歷的時候被自動呼叫
- */
-static void traverse_printSpendDetail(DataType type,void* value){
-    if(type!=SpendType)return;
-    Spend* spend = (Spend*)value;
-    Date* d = &spend->date;
-    Date* date = newDate(d->year,d->month,d->day);
-    //"Year\tMonth\tDay\tCategory\tCost\tNote"
-
-    printf("    %04d/%02d/%02d     |  %-17s|%12d       |       %s\n",date->year,date->month,date->day,toCategoryString(spend->category),spend->cost,spend->note);
-    free(date);
-} 
 //=============================================================================================
 
 //====================================一些action會用到的func==================================
@@ -114,11 +92,11 @@ static void traverse_printSpendDetail(DataType type,void* value){
 static void printAllAvailableRecords(){
     system("CLS");
     Tree* tree = getAllRecordName(currentAccount.name);
-    printf("========================ALL AVAILABLE RECORDS=========================\n");
+    printf("==============ALL AVAILABLE RECORDS==============\n");
     printf("Year\tMonth\n");
     tree_inOrder(tree,traverse_printYearMonth);
     tree_destory(tree);
-    printf("======================================================================\n");
+    printf("=================================================\n");
 }
 
 /**
@@ -172,7 +150,7 @@ static boolean printfMonthSpendDetail(int year,int month){
  */
 static int chooseSpend(){
     while(True){
-        system("CLS");            
+        //system("CLS");            
         printf("=====================CHOOSE======================\n");
         printf(ColorGreen"Which month do you want to choose?\n"ColorReset);
         printf("You can input \"back\" to back to previous step.\n");
@@ -412,6 +390,7 @@ void onMenu(){
         }else if(action == 2){
             while(1){
                 system("CLS");
+                printAllAvailableRecords();
                 int year_month=chooseSpend();
                 if(year_month==0){
                     onMenu();
@@ -433,6 +412,7 @@ void onMenu(){
         }else if(action == 3){
             while(1){
                 system("CLS");
+                printAllAvailableRecords();
                 int year_month = chooseSpend();
                 if(year_month==0){
                     onMenu();
@@ -454,6 +434,7 @@ void onMenu(){
         }else if(action == 4){
             while(1){
                 system("CLS");
+                printAllAvailableRecords();
                 int year_month=chooseSpend();
                 if (year_month == 0){
                     onMenu();

@@ -68,8 +68,6 @@
     int compSpend(Spend key, Spend target);
     //a function to delete a data with key Spend from the linked list.
     struct LLNode *deleteNode(struct LLNode *sortedList, Spend keyData);
-    //Prints sorted linked list with index in front.
-    void printLL(struct LLNode *head);
 
     /*OCCURENCE LIST OPERATION PART*/
 
@@ -77,8 +75,6 @@
     int isSameDate(Date date1, Date date2);
     //Create an array of Occurence based on sortedList.
     Occurence *findOccurence(struct LLNode *sortedList);
-    //Prints occurence list of sorted linked list(data).
-    void printOccurence(Occurence *occurenceList, int size);
     /*
     Function to find actual ending index of occurenceList.
     To avoid possible index overflow in function getKeyData.
@@ -101,24 +97,9 @@
     //prints keyList with designated type of data.
     void printKeyList(keyDataList *keyList);
 
-    /*DELETE DATA BASED ON EXTRACTED DATA*/
-
-    /*
-    This function calls delete node in linked list part to delete a certain data
-    The function first asks if user wants to view a data of a certain interval, EXACTLY LIKE getKeydata.
-    We use getKeyData to get the data of that certain range, and show it to the users, and ask them which one to delete.
-    This function returns the head of the list. (i.e. new sortedList).
-    NOTE : THIS FUNCTION MUST BE USED COUPLING WITH findOccurence as follows, please check testing main function.
-    //some delete section example:
-    sortedList  = deleteAction(sortedList, occurenceList);
-    occurenceList = findOccurence(sortedList);
-    ...(other actions)
-    */
-    struct LLNode *deleteAction(struct LLNode *sortedList, Occurence *occurenceList);
     /**
      * 把List給釋放掉
      */
     void destorySpendList(LLNode* head);
-    LLNode* LLNode_removeNode(LLNode* head,Spend spend, boolean* boo);
 
 #endif
