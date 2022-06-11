@@ -1,5 +1,5 @@
 # Expense Tracker
->Run the ***batch file*** to excute the program.
+>Run the ***batch file()*** to excute the program.
 ## **Instruction** 
 First of all, you need an account with the expense tracker system. If you don't have an account, you need to create it. After you have the account, you can login and start using the function we provided in the system.  
 ***
